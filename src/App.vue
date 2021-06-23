@@ -1,34 +1,33 @@
 <template>
-    <div id="nav">
-        <router-link to="/">
+    <!--div id="nav">
+        <RouterLink to="/">
             Home
-        </router-link> |
-        <router-link to="/about">
+        </RouterLink> |
+        <RouterLink to="/about">
             About
-        </router-link>
-    </div>
-    <router-view />
+        </RouterLink>
+    </div-->
+    <RouterView />
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  @import "@/assets/scss/main";
 
-#nav {
-  padding: 30px;
+  #app
+  {
+    height: 100%;
+  }
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  #nav {
+    padding: 30px;
 
-    &.router-link-exact-active {
-      color: #42b983;
+    a {
+      font-weight: bold;
+      color: #2c3e50;
+
+      &.router-link-exact-active {
+        color: #42b983;
+      }
     }
   }
-}
 </style>
