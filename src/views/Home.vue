@@ -1,7 +1,9 @@
 <template>
     <main id="home-page">
         <Card />
-        <h1>Do you dare?</h1>
+        <h1 class="title">
+            Do you dare?
+        </h1>
     </main>
 </template>
 
@@ -19,15 +21,16 @@
 <style lang="scss" scoped>
     @keyframes fade-in
     {
-        0% { opacity: 0; }
+        0% { margin-bottom: -211px; opacity: 0; }
+        50% { margin-bottom: -211px; }
         75% { opacity: 0; }
-        100% { opacity: 1; }
+        100% { margin-bottom: 0px; opacity: 1; }
     }
     @keyframes slide-down
     {
-        0% { margin-top: -164px; }
-        50% { margin-top: -164px; }
-        100% { margin-top: 419px; }
+        0% { margin-top: -211px; }
+        50% { margin-top: -211px; }
+        100% { margin-top: 0.5em; }
     }
 
     #home-page
@@ -39,17 +42,17 @@
         height: 100%;
         overflow: hidden;
 
-        & > h1
+        & > .title
         {
-            // animation: slide-down 2000ms ease-in-out;
+            animation: slide-down 2000ms ease-in-out;
             font-size: 6.666em;
             font-weight: 100;
-            margin: 0px;
+            margin: 0.5em;
         }
 
         & > .card
         {
-            // animation: fade-in 2000ms ease-in-out;
+            animation: fade-in 2000ms ease-in-out;
         }
     }
 </style>
