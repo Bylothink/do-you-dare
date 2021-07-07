@@ -1,6 +1,6 @@
 <template>
     <main id="home-page">
-        <Card />
+        <Deck />
         <h1 class="title">
             Do you dare?
         </h1>
@@ -10,11 +10,11 @@
 <script lang="ts">
     import { defineComponent } from "vue";
 
-    import Card from "@/components/Card.vue";
+    import Deck from "@/components/Deck.vue";
 
     export default defineComponent({
-        name: "Home",
-        components: { Card }
+        name: "HomePage",
+        components: { Deck }
     });
 </script>
 
@@ -42,17 +42,17 @@
         height: 100%;
         overflow: hidden;
 
+        & > .deck
+        {
+            animation: fade-in 2000ms ease-in-out;
+        }
         & > .title
         {
             animation: slide-down 2000ms ease-in-out;
             font-size: 6.666em;
             font-weight: 100;
-            margin: 0.5em;
-        }
-
-        & > .card
-        {
-            animation: fade-in 2000ms ease-in-out;
+            margin: 0px;
+            margin-top: 0.5em;
         }
     }
 </style>

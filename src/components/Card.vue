@@ -1,62 +1,90 @@
 <template>
-    <div class="card">
+    <div ref="element"
+         class="card"
+         :class="classes">
         <div class="spacer"></div>
         <div class="content">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.
-            </p>
+            <slot></slot>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from "vue";
+    import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
 
     export default defineComponent({
         name: "Card",
+        props: {
+            disabled: {
+                default: false,
+                type: Boolean
+            },
+            selected: {
+                default: false,
+                type: Boolean
+            }
+        },
 
-        setup: () =>
+        setup: (props) =>
         {
+            const element = ref<HTMLDivElement>();
+
             const isClicked = ref(false);
             const initialCoords = ref({ x: 0, y: 0 });
 
-            return { isClicked, initialCoords };
-        },
-        mounted: function(): void
-        {
-            this.$el.addEventListener("mousedown", (evt: MouseEvent) =>
+            const classes = computed((): Record<string, boolean> => ({ "active": props.selected }));
+
+            if (!props.disabled)
             {
-                if (evt.button === 0)
+                const onMouseDown = (evt: MouseEvent) =>
                 {
-                    this.isClicked = true;
-                    this.initialCoords = { x: evt.clientX, y: evt.clientY };
-                }
-            });
-
-            window.addEventListener("mousemove", (evt: MouseEvent) =>
-            {
-                if (this.isClicked)
+                    if (evt.button === 0)
+                    {
+                        isClicked.value = true;
+                        initialCoords.value = { x: evt.clientX, y: evt.clientY };
+                    }
+                };
+                const onMouseMove = (evt: MouseEvent) =>
                 {
-                    const x = evt.clientX - this.initialCoords.x;
-                    const y = evt.clientY - this.initialCoords.y;
+                    // if (isClicked.value)
+                    // {
+                    //     const x = evt.clientX - initialCoords.value.x;
+                    //     const y = evt.clientY - initialCoords.value.y;
 
-                    // this.style!.transform!.rotate.set({ x: y / 25, y: x / 25, z: x / 50 });
-                    this.$el.style.transform =
-                        `translateX(${x}px) translateY(${y}px)` +
-                        `rotateX(${y / 25}deg) rotateY(${x / 25}deg) rotateZ(${x / 50}deg)`;
-                }
-            });
-
-            window.addEventListener("mouseup", (evt: MouseEvent) =>
-            {
-                if (evt.button === 0)
+                    //     element.value!.style.transform =
+                    //         `translateX(${x}px) translateY(${y}px)` +
+                    //         `rotateX(${y / 25}deg) rotateY(${x / 25}deg) rotateZ(${x / 50}deg)`;
+                    // }
+                };
+                const onMouseUp = (evt: MouseEvent) =>
                 {
-                    this.isClicked = false;
+                    if (evt.button === 0)
+                    {
+                        isClicked.value = false;
 
-                    this.$el.style.transform = `translateX(0px) translateY(0px)`;
-                }
-            });
+                        // element.value!.style.transform = `translateX(0px) translateY(0px)`;
+                    }
+                };
+
+                onMounted(() =>
+                {
+                    element.value!.addEventListener("mousedown", onMouseDown, { passive: true });
+
+                    window.addEventListener("mousemove", onMouseMove, { passive: true });
+                    window.addEventListener("mouseup", onMouseUp, { passive: true });
+                });
+                onUnmounted(() =>
+                {
+                    window.removeEventListener("mouseup", onMouseUp);
+                    window.removeEventListener("mousemove", onMouseMove);
+
+                    // eslint-disable-next-line no-unused-expressions
+                    element.value?.removeEventListener("mousedown", onMouseDown);
+                });
+            }
+
+            return { classes, element, isClicked, initialCoords };
         }
     });
 </script>
@@ -97,9 +125,15 @@
             }
         }
 
-        &:active
+        &.active
         {
             box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
+            transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
+        }
+
+        &:active
+        {
+            // box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
             cursor: grabbing;
             transition: box-shadow 200ms ease-in-out;
         }
