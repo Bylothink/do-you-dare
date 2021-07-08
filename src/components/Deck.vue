@@ -3,6 +3,7 @@
         <Card disabled />
         <Card ref="firstCard"
               class="interactive"
+              :active="isCardActive"
               :selected="isCardSelected"
               @click.stop="onClickInside">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
@@ -21,10 +22,35 @@
 
         setup: () =>
         {
+            const isCardActive = ref(false);
             const isCardSelected = ref(false);
 
-            const onClickInside = (evt: MouseEvent) => { isCardSelected.value = true; };
-            const onClickOutside = (evt: MouseEvent) => { isCardSelected.value = false; };
+            // SMELLS: 'sta cosa, probabilmente, dovrebbe essere gestita direttamente all'interno
+            //          del componente Card...
+            //         Da capire se lasciarla qui o spostarla al suo interno.
+            //
+            const onClickInside = (evt: MouseEvent) =>
+            {
+                if (!isCardSelected.value)
+                {
+                    isCardSelected.value = true;
+                }
+                else
+                {
+                    isCardActive.value = true;
+                }
+            };
+            const onClickOutside = (evt: MouseEvent) =>
+            {
+                if (!isCardActive.value)
+                {
+                    isCardSelected.value = false;
+                }
+                else
+                {
+                    isCardActive.value = false;
+                }
+            };
 
             onMounted(() =>
             {
@@ -35,7 +61,7 @@
                 window.removeEventListener("click", onClickOutside);
             });
 
-            return { isCardSelected, onClickInside };
+            return { isCardActive, isCardSelected, onClickInside };
         }
     });
 </script>

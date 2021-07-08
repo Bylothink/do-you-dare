@@ -3,8 +3,10 @@
          class="card"
          :class="classes">
         <div class="spacer"></div>
-        <div class="content">
+        <div class="back content">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
+        </div>
+        <div class="front content">
             <slot></slot>
         </div>
     </div>
@@ -16,6 +18,10 @@
     export default defineComponent({
         name: "Card",
         props: {
+            active: {
+                default: false,
+                type: Boolean
+            },
             disabled: {
                 default: false,
                 type: Boolean
@@ -33,7 +39,10 @@
             const isClicked = ref(false);
             const initialCoords = ref({ x: 0, y: 0 });
 
-            const classes = computed((): Record<string, boolean> => ({ "active": props.selected }));
+            const classes = computed((): Record<string, boolean> => ({
+                "active": props.active,
+                "selected": props.selected
+            }));
 
             if (!props.disabled)
             {
@@ -118,17 +127,39 @@
             right: 0px;
             text-align: center;
             top: 0px;
+            transition: opacity 0ms linear 100ms;
 
             & > img
             {
                 pointer-events: none;
             }
+
+            &.front
+            {
+                opacity: 0;
+                padding: 0.5em 1em;
+                transform: rotateY(180deg);
+            }
         }
 
-        &.active
+        &.selected
         {
             box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
             transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
+
+            &.active
+            {
+                transform: scale(1.25) rotateY(180deg);
+
+                & > .back
+                {
+                    opacity: 0;
+                }
+                & > .front
+                {
+                    opacity: 1;
+                }
+            }
         }
 
         &:active
