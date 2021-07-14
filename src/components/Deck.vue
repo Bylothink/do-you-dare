@@ -3,8 +3,8 @@
         <Card disabled />
         <Card ref="firstCard"
               class="interactive"
-              :active="isCardActive"
               :selected="isCardSelected"
+              :shown="isCardShown"
               @click.stop="onClickInside">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
         </Card>
@@ -22,8 +22,8 @@
 
         setup: () =>
         {
-            const isCardActive = ref(false);
             const isCardSelected = ref(false);
+            const isCardShown = ref(false);
 
             // SMELLS: 'sta cosa, probabilmente, dovrebbe essere gestita direttamente all'interno
             //          del componente Card...
@@ -37,18 +37,18 @@
                 }
                 else
                 {
-                    isCardActive.value = true;
+                    isCardShown.value = true;
                 }
             };
             const onClickOutside = (evt: MouseEvent) =>
             {
-                if (!isCardActive.value)
+                if (!isCardShown.value)
                 {
                     isCardSelected.value = false;
                 }
                 else
                 {
-                    isCardActive.value = false;
+                    isCardShown.value = false;
                 }
             };
 
@@ -61,7 +61,7 @@
                 window.removeEventListener("click", onClickOutside);
             });
 
-            return { isCardActive, isCardSelected, onClickInside };
+            return { isCardShown, isCardSelected, onClickInside };
         }
     });
 </script>

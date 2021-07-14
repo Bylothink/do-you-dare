@@ -1,7 +1,8 @@
 <template>
     <div ref="element"
          class="card"
-         :class="classes">
+         :class="classes"
+         :style="styles">
         <div class="spacer"></div>
         <div class="back content">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
@@ -13,15 +14,11 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
+    import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
 
     export default defineComponent({
         name: "Card",
         props: {
-            active: {
-                default: false,
-                type: Boolean
-            },
             disabled: {
                 default: false,
                 type: Boolean
@@ -29,42 +26,61 @@
             selected: {
                 default: false,
                 type: Boolean
+            },
+            shown: {
+                default: false,
+                type: Boolean
             }
         },
 
         setup: (props) =>
         {
-            const element = ref<HTMLDivElement>();
+            let initialCoords = { x: 0, y: 0 };
 
+            const element = ref<HTMLDivElement>();
             const isClicked = ref(false);
-            const initialCoords = ref({ x: 0, y: 0 });
+
+            const offset = reactive({ x: 0, y: 0 });
 
             const classes = computed((): Record<string, boolean> => ({
-                "active": props.active,
-                "selected": props.selected
+                "selected": props.selected,
+                "shown": props.shown
             }));
+            const styles = computed((): Record<string, string> =>
+            {
+                const _styles: Record<string, string> = {};
+
+                if (props.shown)
+                {
+                    _styles.transform = `translateX(${offset.x}px) translateY(${offset.y}px)` +
+                        `rotateX(${offset.y / 25}deg) rotateY(${offset.x / 25}deg) rotateZ(${offset.x / 50}deg)` +
+                        "scale(1.25) rotateY(180deg)";
+                }
+                else if (props.selected)
+                {
+                    _styles.transform = "translateX(5px) translateY(-7.5px) rotateZ(-1deg)";
+                }
+
+                return _styles;
+            });
 
             if (!props.disabled)
             {
                 const onMouseDown = (evt: MouseEvent) =>
                 {
-                    if (evt.button === 0)
+                    if ((props.shown) && (evt.button === 0))
                     {
                         isClicked.value = true;
-                        initialCoords.value = { x: evt.clientX, y: evt.clientY };
+                        initialCoords = { x: evt.clientX, y: evt.clientY };
                     }
                 };
                 const onMouseMove = (evt: MouseEvent) =>
                 {
-                    // if (isClicked.value)
-                    // {
-                    //     const x = evt.clientX - initialCoords.value.x;
-                    //     const y = evt.clientY - initialCoords.value.y;
-
-                    //     element.value!.style.transform =
-                    //         `translateX(${x}px) translateY(${y}px)` +
-                    //         `rotateX(${y / 25}deg) rotateY(${x / 25}deg) rotateZ(${x / 50}deg)`;
-                    // }
+                    if (isClicked.value)
+                    {
+                        offset.x = evt.clientX - initialCoords.x;
+                        offset.y = evt.clientY - initialCoords.y;
+                    }
                 };
                 const onMouseUp = (evt: MouseEvent) =>
                 {
@@ -72,7 +88,8 @@
                     {
                         isClicked.value = false;
 
-                        // element.value!.style.transform = `translateX(0px) translateY(0px)`;
+                        offset.x = 0;
+                        offset.y = 0;
                     }
                 };
 
@@ -93,7 +110,7 @@
                 });
             }
 
-            return { classes, element, isClicked, initialCoords };
+            return { classes, styles, element, isClicked };
         }
     });
 </script>
@@ -145,12 +162,9 @@
         &.selected
         {
             box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
-            transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
 
-            &.active
+            &.shown
             {
-                transform: scale(1.25) rotateY(180deg);
-
                 & > .back
                 {
                     opacity: 0;
