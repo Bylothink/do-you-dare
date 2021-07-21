@@ -1,8 +1,6 @@
 <template>
     <div class="deck">
-        <Card disabled />
-        <Card ref="firstCard"
-              class="interactive"
+        <Card :draggable="isCardDraggable"
               :selected="isCardSelected"
               :shown="isCardShown"
               @click.stop="onClickInside">
@@ -22,13 +20,10 @@
 
         setup: () =>
         {
+            const isCardDraggable = ref(false);
             const isCardSelected = ref(false);
             const isCardShown = ref(false);
 
-            // SMELLS: 'sta cosa, probabilmente, dovrebbe essere gestita direttamente all'interno
-            //          del componente Card...
-            //         Da capire se lasciarla qui o spostarla al suo interno.
-            //
             const onClickInside = (evt: MouseEvent) =>
             {
                 if (!isCardSelected.value)
@@ -37,17 +32,24 @@
                 }
                 else
                 {
+                    isCardDraggable.value = true;
                     isCardShown.value = true;
                 }
             };
             const onClickOutside = (evt: MouseEvent) =>
             {
+                // TODO: Cercar di capire come gestire questa menata del cambio del target durante il click.
+                //
+                // Si ipotizzava di utilizzare gli eventi `mousedown` e `mouseup` anziché di ascoltare per
+                //  gli eventi `click`.
+                //
                 if (!isCardShown.value)
                 {
                     isCardSelected.value = false;
                 }
                 else
                 {
+                    isCardDraggable.value = false;
                     isCardShown.value = false;
                 }
             };
@@ -61,20 +63,10 @@
                 window.removeEventListener("click", onClickOutside);
             });
 
-            return { isCardShown, isCardSelected, onClickInside };
+            return { isCardDraggable, isCardShown, isCardSelected, onClickInside };
         }
     });
 </script>
 
 <style lang="scss" scoped>
-    .deck
-    {
-        position: relative;
-
-        & > .card.interactive
-        {
-            position: absolute;
-            top: 0px;
-        }
-    }
 </style>
