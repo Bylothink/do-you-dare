@@ -3,7 +3,8 @@
         <Card :draggable="isCardDraggable"
               :selected="isCardSelected"
               :shown="isCardShown"
-              @click.stop="onClickInside">
+              @click.passive="onClickInside"
+              @mousedown.stop>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
         </Card>
     </div>
@@ -36,31 +37,46 @@
                     isCardShown.value = true;
                 }
             };
-            const onClickOutside = (evt: MouseEvent) =>
+
+            let mouseTarget: EventTarget | null = null;
+
+            const onMouseDown = (evt: MouseEvent) =>
             {
-                // TODO: Cercar di capire come gestire questa menata del cambio del target durante il click.
-                //
-                // Si ipotizzava di utilizzare gli eventi `mousedown` e `mouseup` anziché di ascoltare per
-                //  gli eventi `click`.
-                //
-                if (!isCardShown.value)
+                if (evt.button === 0)
                 {
-                    isCardSelected.value = false;
+                    mouseTarget = evt.target;
                 }
-                else
+            };
+            const onMouseUp = (evt: MouseEvent) =>
+            {
+                if (evt.button === 0)
                 {
-                    isCardDraggable.value = false;
-                    isCardShown.value = false;
+                    if (mouseTarget === evt.target)
+                    {
+                        if (!isCardShown.value)
+                        {
+                            isCardSelected.value = false;
+                        }
+                        else
+                        {
+                            isCardDraggable.value = false;
+                            isCardShown.value = false;
+                        }
+                    }
+
+                    mouseTarget = null;
                 }
             };
 
             onMounted(() =>
             {
-                window.addEventListener("click", onClickOutside);
+                window.addEventListener("mousedown", onMouseDown, { passive: true });
+                window.addEventListener("mouseup", onMouseUp, { passive: true });
             });
             onUnmounted(() =>
             {
-                window.removeEventListener("click", onClickOutside);
+                window.removeEventListener("mouseup", onMouseUp);
+                window.removeEventListener("mousedown", onMouseDown);
             });
 
             return { isCardDraggable, isCardShown, isCardSelected, onClickInside };
