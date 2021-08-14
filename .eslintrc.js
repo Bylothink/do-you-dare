@@ -11,7 +11,10 @@ module.exports = {
     },
     {
       files: ["*.vue"],
-      rules: { "vue/no-multiple-template-root": "off" }
+      rules: {
+        "vue/no-multiple-template-root": "off",
+        "vue/no-v-model-argument": "off"
+      }
     }
   ]
 };

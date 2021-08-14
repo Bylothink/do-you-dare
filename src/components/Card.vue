@@ -16,12 +16,18 @@
 <script lang="ts">
     import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
 
+    import { DragEvent, Point } from "@/core/types";
+
     export default defineComponent({
         name: "Card",
         props: {
             draggable: {
                 default: false,
                 type: Boolean
+            },
+            position: {
+                default: null,
+                type: Point
             },
             selected: {
                 default: false,
@@ -33,9 +39,9 @@
             }
         },
 
-        setup: (props) =>
+        setup: (props, { emit }) =>
         {
-            let initialCoords = { x: 0, y: 0 };
+            let initialCoords: Point = { x: 0, y: 0 };
 
             const isGrabbed = ref(false);
             const offset = reactive({ x: 0, y: 0 });
@@ -48,6 +54,11 @@
             const styles = computed((): Record<string, string> =>
             {
                 const _styles: Record<string, string> = { transform: "" };
+
+                /*
+                 * TODO:
+                if (props.position)
+                 */
 
                 if (props.draggable)
                 {
@@ -71,8 +82,15 @@
             {
                 if ((props.draggable) && (evt.button === 0))
                 {
+                    const grabEvt: DragEvent = {
+                        offset: { x: 0, y: 0 },
+                        mouse: { x: evt.clientX, y: evt.clientY }
+                    };
+
                     isGrabbed.value = true;
                     initialCoords = { x: evt.clientX, y: evt.clientY };
+
+                    emit("grab", grabEvt);
                 }
             };
             const onMouseMove = (evt: MouseEvent) =>
@@ -81,16 +99,30 @@
                 {
                     offset.x = evt.clientX - initialCoords.x;
                     offset.y = evt.clientY - initialCoords.y;
+
+                    const grabEvt: DragEvent = {
+                        offset: { x: offset.x, y: offset.y },
+                        mouse: { x: evt.clientX, y: evt.clientY }
+                    };
+
+                    emit("dragging", grabEvt);
                 }
             };
             const onMouseUp = (evt: MouseEvent) =>
             {
-                if (evt.button === 0)
+                if ((isGrabbed.value) && (evt.button === 0))
                 {
+                    const grabEvt: DragEvent = {
+                        offset: { x: offset.x, y: offset.y },
+                        mouse: { x: evt.clientX, y: evt.clientY }
+                    };
+
                     isGrabbed.value = false;
 
                     offset.x = 0;
                     offset.y = 0;
+
+                    emit("ungrab", grabEvt);
                 }
             };
 
@@ -117,7 +149,6 @@
         border: 1px solid #000000;
         border-radius: 1em;
         box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
-        cursor: pointer;
         position: relative;
         transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
         user-select: none;
@@ -156,11 +187,8 @@
 
         &.draggable
         {
-            cursor: grab;
-
             &:active
             {
-                cursor: grabbing;
                 transition: box-shadow 200ms ease-in-out;
             }
         }
