@@ -18,7 +18,7 @@
     import Card from "./Card.vue";
 
     export default defineComponent({
-        name: "DraggableCard",
+        name: "InteractiveCard",
         components: { Card, Draggable },
         props: {
             x: {

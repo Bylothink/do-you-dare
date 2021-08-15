@@ -1,22 +1,27 @@
 <template>
     <div class="deck">
-        <Card />
+        <Card hole />
         <Draggable v-model:x="cardPosition.x"
                    v-model:y="cardPosition.y"
+                   :class="classes"
                    :disabled="!isCardDraggable"
+                   :style="styles"
+                   @drag="onDrag"
                    @mousedown.stop
                    @drop="onDrop">
-            <Card :selected="isCardSelected"
-                  :shown="isCardShown"
+            <Card :drawn="hasCardBeenDrawn"
+                  :hole="isCardHole"
                   @click.passive="onClickInside">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
+                <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
+                </div>
             </Card>
         </Draggable>
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
+    import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
 
     import { DragEvent, Point } from "@/core/types";
 
@@ -30,21 +35,43 @@
         setup: () =>
         {
             const isCardDraggable = ref(false);
-            const isCardSelected = ref(false);
-            const isCardShown = ref(false);
+            const hasCardBeenDrawn = ref(false);
+            const isCardHole = ref(true);
+
+            const isCardBeingDragged = ref(false);
 
             const cardPosition = reactive(new Point());
 
+            const classes = computed((): Record<string, boolean> => ({ "drawn": hasCardBeenDrawn.value }));
+            const styles = computed((): Record<string, string> =>
+            {
+                let transform = "";
+
+                if (!isCardHole.value)
+                {
+                    transform += `scale(1.25)`;
+                }
+
+                if (isCardBeingDragged.value)
+                {
+                    transform += `rotateX(${cardPosition.y / 25}deg) ` +
+                        `rotateY(${cardPosition.x / 25}deg)` +
+                        `rotateZ(${cardPosition.x / 50}deg)`;
+                }
+
+                return { transform };
+            });
+
             const onClickInside = (evt: MouseEvent) =>
             {
-                if (!isCardSelected.value)
+                if (!hasCardBeenDrawn.value)
                 {
-                    isCardSelected.value = true;
+                    hasCardBeenDrawn.value = true;
                 }
                 else
                 {
                     isCardDraggable.value = true;
-                    isCardShown.value = true;
+                    isCardHole.value = false;
                 }
             };
 
@@ -63,14 +90,14 @@
                 {
                     if (mouseTarget === evt.target)
                     {
-                        if (!isCardShown.value)
+                        if (isCardHole.value)
                         {
-                            isCardSelected.value = false;
+                            hasCardBeenDrawn.value = false;
                         }
                         else
                         {
                             isCardDraggable.value = false;
-                            isCardShown.value = false;
+                            isCardHole.value = true;
                         }
                     }
 
@@ -89,6 +116,10 @@
                 window.removeEventListener("mousedown", onMouseDown);
             });
 
+            const onDrag = (evt: DragEvent) =>
+            {
+                isCardBeingDragged.value = true;
+            };
             const onDrop = (evt: DragEvent) =>
             {
                 const x = evt.offset.x;
@@ -115,9 +146,11 @@
                     cardPosition.x = 0; // x * 2;
                     cardPosition.y = 0; // y * 2;
                 }
+
+                isCardBeingDragged.value = false;
             };
 
-            return { cardPosition, isCardDraggable, isCardShown, isCardSelected, onClickInside, onDrop };
+            return { cardPosition, classes, isCardDraggable, isCardHole, hasCardBeenDrawn, onClickInside, onDrag, onDrop, styles };
         }
     });
 </script>
@@ -129,7 +162,8 @@
 
         & > .draggable
         {
-            transition: left 200ms ease-in-out, top 200ms ease-in-out;
+            border-radius: 1em;
+            transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 200ms ease-in-out;
 
             &.active
             {
@@ -139,6 +173,23 @@
             {
                 cursor: pointer;
             }
+            &.drawn
+            {
+                transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
+            }
+
+            & > .card
+            {
+                .content
+                {
+                    padding: 0.5em 1em;
+                }
+            }
+        }
+
+        .card
+        {
+            width: 18.75em;
         }
     }
 </style>

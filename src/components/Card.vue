@@ -1,143 +1,39 @@
 <template>
-    <div class="card"
-         :class="classes"
-         :style="styles"
-         @mousedown="onMouseDown">
+    <div class="card" :class="classes">
         <div class="spacer"></div>
-        <div class="content back-face">
+        <div class="face back">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
         </div>
-        <div class="content front-face">
+        <div class="face front">
             <slot></slot>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
-
-    import { DragEvent, Point } from "@/core/types";
+    import { computed, defineComponent } from "vue";
 
     export default defineComponent({
         name: "Card",
         props: {
-            draggable: {
+            drawn: {
                 default: false,
                 type: Boolean
             },
-            position: {
-                default: null,
-                type: Point
-            },
-            selected: {
-                default: false,
-                type: Boolean
-            },
-            shown: {
+            hole: {
                 default: false,
                 type: Boolean
             }
         },
 
-        setup: (props, { emit }) =>
+        setup: (props) =>
         {
-            let initialCoords: Point = { x: 0, y: 0 };
-
-            const isGrabbed = ref(false);
-            const offset = reactive({ x: 0, y: 0 });
-
             const classes = computed((): Record<string, boolean> => ({
-                "draggable": props.draggable,
-                "selected": props.selected,
-                "shown": props.shown
+                "drawn": props.drawn,
+                "hole": props.hole
             }));
-            const styles = computed((): Record<string, string> =>
-            {
-                const _styles: Record<string, string> = { transform: "" };
 
-                /*
-                 * TODO:
-                if (props.position)
-                 */
-
-                if (props.draggable)
-                {
-                    _styles.transform = `translateX(${offset.x}px) translateY(${offset.y}px) ` +
-                        `rotateX(${offset.y / 25}deg) rotateY(${offset.x / 25}deg) rotateZ(${offset.x / 50}deg)`;
-                }
-
-                if (props.shown)
-                {
-                    _styles.transform += " scale(1.25) rotateY(180deg)";
-                }
-                else if (props.selected)
-                {
-                    _styles.transform += " translateX(5px) translateY(-7.5px) rotateZ(-1deg)";
-                }
-
-                return _styles;
-            });
-
-            const onMouseDown = (evt: MouseEvent) =>
-            {
-                if ((props.draggable) && (evt.button === 0))
-                {
-                    const grabEvt: DragEvent = {
-                        offset: { x: 0, y: 0 },
-                        mouse: { x: evt.clientX, y: evt.clientY }
-                    };
-
-                    isGrabbed.value = true;
-                    initialCoords = { x: evt.clientX, y: evt.clientY };
-
-                    emit("grab", grabEvt);
-                }
-            };
-            const onMouseMove = (evt: MouseEvent) =>
-            {
-                if (isGrabbed.value)
-                {
-                    offset.x = evt.clientX - initialCoords.x;
-                    offset.y = evt.clientY - initialCoords.y;
-
-                    const grabEvt: DragEvent = {
-                        offset: { x: offset.x, y: offset.y },
-                        mouse: { x: evt.clientX, y: evt.clientY }
-                    };
-
-                    emit("dragging", grabEvt);
-                }
-            };
-            const onMouseUp = (evt: MouseEvent) =>
-            {
-                if ((isGrabbed.value) && (evt.button === 0))
-                {
-                    const grabEvt: DragEvent = {
-                        offset: { x: offset.x, y: offset.y },
-                        mouse: { x: evt.clientX, y: evt.clientY }
-                    };
-
-                    isGrabbed.value = false;
-
-                    offset.x = 0;
-                    offset.y = 0;
-
-                    emit("ungrab", grabEvt);
-                }
-            };
-
-            onMounted(() =>
-            {
-                window.addEventListener("mousemove", onMouseMove, { passive: true });
-                window.addEventListener("mouseup", onMouseUp, { passive: true });
-            });
-            onUnmounted(() =>
-            {
-                window.removeEventListener("mouseup", onMouseUp);
-                window.removeEventListener("mousemove", onMouseMove);
-            });
-
-            return { classes, styles, isGrabbed, onMouseDown };
+            return { classes };
         }
     });
 </script>
@@ -152,13 +48,12 @@
         position: relative;
         transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
         user-select: none;
-        width: 18.75em;
 
         & > .spacer
         {
             padding: 70% 0px;
         }
-        & > .content
+        & > .face
         {
             align-items: center;
             bottom: 0px;
@@ -177,35 +72,28 @@
                 pointer-events: none;
             }
 
-            &.front-face
+            &.back
             {
                 opacity: 0;
-                padding: 0.5em 1em;
                 transform: rotateY(180deg);
             }
         }
 
-        &.draggable
-        {
-            &:active
-            {
-                transition: box-shadow 200ms ease-in-out;
-            }
-        }
-        &.selected
+        &.drawn
         {
             box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
+        }
+        &.hole
+        {
+            transform: rotateY(180deg);
 
-            &.shown
+            & > .face.back
             {
-                & > .back-face
-                {
-                    opacity: 0;
-                }
-                & > .front-face
-                {
-                    opacity: 1;
-                }
+                opacity: 1;
+            }
+            & > .face.front
+            {
+                opacity: 0;
             }
         }
     }
