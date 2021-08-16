@@ -1,36 +1,35 @@
 <template>
     <div class="deck">
         <Card hole />
-        <Draggable v-model:x="cardPosition.x"
-                   v-model:y="cardPosition.y"
-                   :class="classes"
-                   :disabled="!isCardDraggable"
-                   :style="styles"
-                   @drag="onDrag"
-                   @mousedown.stop
-                   @drop="onDrop">
-            <Card :drawn="hasCardBeenDrawn"
-                  :hole="isCardHole"
-                  @click.passive="onClickInside">
-                <div class="content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
-                </div>
-            </Card>
-        </Draggable>
+        <InteractiveCard v-model:x="cardPosition.x"
+                         v-model:y="cardPosition.y"
+                         :class="classes"
+                         :draggable="isCardDraggable"
+                         :drawn="hasCardBeenDrawn"
+                         :hole="isCardHole"
+                         :style="styles"
+                         @click:inside="onClickInside"
+                         @click:outside="onClickOutside"
+                         @drag="onDrag"
+                         @drop="onDrop">
+            <div class="content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
+            </div>
+        </InteractiveCard>
     </div>
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
+    import { computed, defineComponent, reactive, ref } from "vue";
 
     import { DragEvent, Point } from "@/core/types";
 
-    import Draggable from "./core/Draggable.vue";
     import Card from "./Card.vue";
+    import InteractiveCard from "./InteractiveCard.vue";
 
     export default defineComponent({
         name: "Deck",
-        components: { Card, Draggable },
+        components: { Card, InteractiveCard },
 
         setup: () =>
         {
@@ -74,47 +73,18 @@
                     isCardHole.value = false;
                 }
             };
-
-            let mouseTarget: EventTarget | null = null;
-
-            const onMouseDown = (evt: MouseEvent) =>
+            const onClickOutside = (evt: MouseEvent) =>
             {
-                if (evt.button === 0)
+                if (isCardHole.value)
                 {
-                    mouseTarget = evt.target;
+                    hasCardBeenDrawn.value = false;
+                }
+                else
+                {
+                    isCardDraggable.value = false;
+                    isCardHole.value = true;
                 }
             };
-            const onMouseUp = (evt: MouseEvent) =>
-            {
-                if (evt.button === 0)
-                {
-                    if (mouseTarget === evt.target)
-                    {
-                        if (isCardHole.value)
-                        {
-                            hasCardBeenDrawn.value = false;
-                        }
-                        else
-                        {
-                            isCardDraggable.value = false;
-                            isCardHole.value = true;
-                        }
-                    }
-
-                    mouseTarget = null;
-                }
-            };
-
-            onMounted(() =>
-            {
-                window.addEventListener("mousedown", onMouseDown, { passive: true });
-                window.addEventListener("mouseup", onMouseUp, { passive: true });
-            });
-            onUnmounted(() =>
-            {
-                window.removeEventListener("mouseup", onMouseUp);
-                window.removeEventListener("mousedown", onMouseDown);
-            });
 
             const onDrag = (evt: DragEvent) =>
             {
@@ -134,7 +104,6 @@
                 if ((absX > maxX) || (absY > maxY))
                 {
                     console.log("Sei fuori!");
-                    console.log("X:", evt.offset.x, "Y:", evt.offset.y);
 
                     cardPosition.x = 0; // x * 2;
                     cardPosition.y = 0; // y * 2;
@@ -150,7 +119,19 @@
                 isCardBeingDragged.value = false;
             };
 
-            return { cardPosition, classes, isCardDraggable, isCardHole, hasCardBeenDrawn, onClickInside, onDrag, onDrop, styles };
+            return {
+                cardPosition,
+                classes,
+                isCardDraggable,
+                isCardHole,
+                hasCardBeenDrawn,
+                styles,
+
+                onClickInside,
+                onClickOutside,
+                onDrag,
+                onDrop
+            };
         }
     });
 </script>
@@ -160,15 +141,14 @@
     {
         position: relative;
 
-        & > .draggable
+        & > .card
         {
-            border-radius: 1em;
-            transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 200ms ease-in-out;
+            width: 298px;
+        }
+        & > .interactive-card
+        {
+            width: 300px;
 
-            &.active
-            {
-                transition: none;
-            }
             &.disabled
             {
                 cursor: pointer;
@@ -178,18 +158,10 @@
                 transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
             }
 
-            & > .card
+            .content
             {
-                .content
-                {
-                    padding: 0.5em 1em;
-                }
+                padding: 0.5em 1em;
             }
-        }
-
-        .card
-        {
-            width: 18.75em;
         }
     }
 </style>

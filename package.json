@@ -1,7 +1,20 @@
 {
   "name": "do-you-dare",
   "version": "0.1.0",
-  "private": true,
+  "description": "A web-game based on the original game of \"Truth or Dare?\" with different game modes.",
+  "keywords": [],
+  "homepage": "https://github.com/Bylothink/do-you-dare#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byloth/website.git"
+  },
+  "bugs": { "url": "https://github.com/Bylothink/do-you-dare/issues" },
+  "author": {
+    "name": "Matteo Bilotta",
+    "email": "me@byloth.net",
+    "url": "https://www.byloth.net/"
+  },
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -40,5 +53,6 @@
     "typescript": "^4.3.5",
     "vue-eslint-parser": "^7.10.0",
     "webpack": "~4.46.0"
-  }
+  },
+  "private": true
 }
