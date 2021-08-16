@@ -2,7 +2,12 @@
   "name": "do-you-dare",
   "version": "0.1.0",
   "description": "A web-game based on the original game of \"Truth or Dare?\" with different game modes.",
-  "keywords": [],
+  "keywords": [
+    "Vue.js",
+    "TypeScript",
+    "SCSS",
+    "Web-Game"
+  ],
   "homepage": "https://github.com/Bylothink/do-you-dare#readme",
   "repository": {
     "type": "git",

@@ -1,6 +1,4 @@
-# Do you Dare?
-
-## ♠ ♥ ♣ ♦
+# Do you Dare? 🎴
 
 A web-game based on the original game of "Truth or Dare?" with different game modes.
 
