@@ -40,11 +40,11 @@
 
         setup: (props, { emit }) =>
         {
-            const isBeingDragged = ref(false);
+            const isMoving = ref(false);
             const initialCoords = reactive(new Point());
 
             const classes = computed((): Record<string, boolean> => ({
-                "active": isBeingDragged.value,
+                "moving": isMoving.value,
                 "disabled": props.disabled
             }));
             const styles = computed((): Record<string, string> => ({ left: `${props.x}px`, top: `${props.y}px` }));
@@ -58,7 +58,7 @@
                         offset: new Point(props.x, props.y)
                     };
 
-                    isBeingDragged.value = true;
+                    isMoving.value = true;
                     initialCoords.x = evt.clientX - props.x;
                     initialCoords.y = evt.clientY - props.y;
 
@@ -68,7 +68,7 @@
 
             const onMouseMove = (evt: MouseEvent) =>
             {
-                if (isBeingDragged.value)
+                if (isMoving.value)
                 {
                     const x = evt.clientX - initialCoords.x;
                     const y = evt.clientY - initialCoords.y;
@@ -86,14 +86,14 @@
             };
             const onMouseUp = (evt: MouseEvent) =>
             {
-                if ((isBeingDragged.value) && (evt.button === 0))
+                if ((isMoving.value) && (evt.button === 0))
                 {
                     const dragEvt: DragEvent = {
                         mouse: new Point(evt.clientX, evt.clientY),
                         offset: new Point(props.x, props.y)
                     };
 
-                    isBeingDragged.value = false;
+                    isMoving.value = false;
 
                     emit("drop", dragEvt);
                 }

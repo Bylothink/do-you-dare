@@ -7,6 +7,7 @@
                          :draggable="isCardDraggable"
                          :drawn="hasCardBeenDrawn"
                          :hole="isCardHole"
+                         :inanimate="isCardInanimate"
                          :style="styles"
                          @click:inside="onClickInside"
                          @click:outside="onClickOutside"
@@ -22,6 +23,7 @@
 <script lang="ts">
     import { computed, defineComponent, reactive, ref } from "vue";
 
+    import { nextFrame, waitTimeout } from "@/core/utils";
     import { DragEvent, Point } from "@/core/types";
 
     import Card from "./Card.vue";
@@ -33,9 +35,10 @@
 
         setup: () =>
         {
-            const isCardDraggable = ref(false);
             const hasCardBeenDrawn = ref(false);
+            const isCardDraggable = ref(false);
             const isCardHole = ref(true);
+            const isCardInanimate = ref(false);
 
             const isCardBeingDragged = ref(false);
 
@@ -60,6 +63,24 @@
 
                 return { transform };
             });
+
+            const reset = async () =>
+            {
+                isCardInanimate.value = true;
+
+                await nextFrame();
+
+                hasCardBeenDrawn.value = false;
+                isCardDraggable.value = false;
+                isCardHole.value = true;
+
+                cardPosition.x = 0;
+                cardPosition.y = 0;
+
+                await nextFrame();
+
+                isCardInanimate.value = false;
+            };
 
             const onClickInside = (evt: MouseEvent) =>
             {
@@ -103,17 +124,19 @@
 
                 if ((absX > maxX) || (absY > maxY))
                 {
-                    console.log("Sei fuori!");
+                    // SMELLS: Questi valori "a caso" non vanno bene!
+                    //         Trovare una logica migliore per impostare i valori di "uscita" della `Card`.
+                    //
+                    cardPosition.x = x * 3;
+                    cardPosition.y = y * 3;
 
-                    cardPosition.x = 0; // x * 2;
-                    cardPosition.y = 0; // y * 2;
+                    waitTimeout(200)
+                        .then(reset);
                 }
                 else
                 {
-                    console.log("Torna al tuo posto!");
-
-                    cardPosition.x = 0; // x * 2;
-                    cardPosition.y = 0; // y * 2;
+                    cardPosition.x = 0;
+                    cardPosition.y = 0;
                 }
 
                 isCardBeingDragged.value = false;
@@ -122,9 +145,10 @@
             return {
                 cardPosition,
                 classes,
+                hasCardBeenDrawn,
                 isCardDraggable,
                 isCardHole,
-                hasCardBeenDrawn,
+                isCardInanimate,
                 styles,
 
                 onClickInside,

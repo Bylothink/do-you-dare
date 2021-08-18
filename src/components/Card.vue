@@ -23,6 +23,10 @@
             hole: {
                 default: false,
                 type: Boolean
+            },
+            inanimate: {
+                default: false,
+                type: Boolean
             }
         },
 
@@ -30,7 +34,8 @@
         {
             const classes = computed((): Record<string, boolean> => ({
                 "drawn": props.drawn,
-                "hole": props.hole
+                "hole": props.hole,
+                "inanimate": props.inanimate
             }));
 
             return { classes };
@@ -94,6 +99,15 @@
             & > .face.front
             {
                 opacity: 0;
+            }
+        }
+        &.inanimate
+        {
+            transition: none;
+
+            & > .face
+            {
+                transition: none;
             }
         }
     }

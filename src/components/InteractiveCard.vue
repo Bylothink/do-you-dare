@@ -1,5 +1,6 @@
 <template>
     <Draggable class="interactive-card"
+               :class="classes"
                :x="x"
                :y="y"
                :disabled="!draggable"
@@ -7,14 +8,16 @@
                @mousedown.stop
                @update:x="$emit('update:x', $event)"
                @update:y="$emit('update:y', $event)">
-        <Card :drawn="drawn" :hole="hole">
+        <Card :drawn="drawn"
+              :hole="hole"
+              :inanimate="inanimate">
             <slot></slot>
         </Card>
     </Draggable>
 </template>
 
 <script lang="ts">
-    import { defineComponent, onMounted, onUnmounted } from "vue";
+    import { computed, defineComponent, onMounted, onUnmounted } from "vue";
 
     import Draggable from "./core/Draggable.vue";
     import Card from "./Card.vue";
@@ -43,6 +46,10 @@
             hole: {
                 default: false,
                 type: Boolean
+            },
+            inanimate: {
+                default: false,
+                type: Boolean
             }
         },
         emits: [
@@ -54,6 +61,8 @@
         ],
         setup: (props, { emit }) =>
         {
+            const classes = computed((): Record<string, boolean> => ({ "inanimate": props.inanimate }));
+
             const onClick = (evt: MouseEvent) =>
             {
                 emit("click:inside", evt);
@@ -92,7 +101,7 @@
                 window.removeEventListener("mousedown", onMouseDown);
             });
 
-            return { onClick };
+            return { classes, onClick };
         }
     });
 </script>
@@ -103,7 +112,8 @@
         border-radius: 1em;
         transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 200ms ease-in-out;
 
-        &.active
+        &.inanimate,
+        &.moving
         {
             transition: none;
         }
