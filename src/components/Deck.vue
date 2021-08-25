@@ -14,13 +14,14 @@
                          @drag="onDrag"
                          @drop="onDrop">
             <div class="content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.</p>
+                <p>{{ cardText }}</p>
             </div>
         </InteractiveCard>
     </div>
 </template>
 
 <script lang="ts">
+    import axios from "axios";
     import { computed, defineComponent, reactive, ref } from "vue";
 
     import { nextFrame, waitTimeout } from "@/core/utils";
@@ -41,6 +42,8 @@
             const isCardInanimate = ref(false);
 
             const isCardBeingDragged = ref(false);
+
+            const cardText = ref("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.");
 
             const cardPosition = reactive(new Point());
 
@@ -64,8 +67,32 @@
                 return { transform };
             });
 
+            const getNewCard = async () =>
+            {
+                const GET_ALL_CARDS_QUERY = `
+                    query {
+                        allCards {
+                            text
+                        }
+                    }`;
+
+                const GET_RANDOM_CARD_QUERY = `
+                    query {
+                        getRandomOne {
+                            text
+                        }
+                    }`;
+
+                const response = await axios.post("http://localhost:8000/graphql/", { query: GET_RANDOM_CARD_QUERY });
+                const card = response.data.data.getRandomOne;
+
+                cardText.value = card.text;
+            };
+
             const reset = async () =>
             {
+                getNewCard();
+
                 isCardInanimate.value = true;
 
                 await nextFrame();
@@ -149,6 +176,7 @@
                 isCardDraggable,
                 isCardHole,
                 isCardInanimate,
+                cardText,
                 styles,
 
                 onClickInside,
