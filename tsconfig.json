@@ -6,7 +6,8 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
@@ -15,6 +16,7 @@
     "paths": { "@/*": ["src/*"] },
     "lib": [
       "esnext",
+      "esnext.asynciterable",
       "dom",
       "dom.iterable",
       "scripthost"
