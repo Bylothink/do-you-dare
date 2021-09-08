@@ -34,7 +34,7 @@
         background-image: linear-gradient(90deg, #e66465, #9198e5);
         border: 1px solid rgba(0, 0, 0, 0.25);
         border-radius: 1.5em;
-        box-shadow: 0px 0px 0.25em 0.125em rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 0px 0.125em rgba(0, 0, 0, 0.25);
         color: #FFFFFF;
         display: inline-block;
         font-weight: bold;
@@ -45,7 +45,7 @@
         &:hover
         {
             border-radius: 1.5em 3em;
-            box-shadow: 0px 0px 1em 0.5em rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 0.5em 0.25em rgba(0, 0, 0, 0.25);
         }
     }
 </style>

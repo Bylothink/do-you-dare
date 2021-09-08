@@ -22,6 +22,7 @@
 
 <script lang="ts">
     import axios from "axios";
+    import gql from "graphql-tag";
     import { computed, defineComponent, reactive, ref } from "vue";
 
     import { nextFrame, waitTimeout } from "@/core/utils";
@@ -69,21 +70,21 @@
 
             const getNewCard = async () =>
             {
-                const GET_ALL_CARDS_QUERY = `
+                const GET_ALL_CARDS_QUERY = gql`
                     query {
                         allCards {
                             text
                         }
                     }`;
 
-                const GET_RANDOM_CARD_QUERY = `
+                const GET_RANDOM_CARD_QUERY = gql`
                     query {
                         getRandomOne {
                             text
                         }
                     }`;
 
-                const response = await axios.post("http://localhost:8000/graphql/", { query: GET_RANDOM_CARD_QUERY });
+                const response = await axios.post("http://localhost:8000/cards/", { query: GET_RANDOM_CARD_QUERY });
                 const card = response.data.data.getRandomOne;
 
                 cardText.value = card.text;

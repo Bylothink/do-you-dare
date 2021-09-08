@@ -1,20 +1,21 @@
 <template>
-    <main id="match-page">
+    <CenteredLayout id="match-page" tag="main">
         <Deck />
         <h1 class="title">
             Do you dare?
         </h1>
-    </main>
+    </CenteredLayout>
 </template>
 
 <script lang="ts">
     import { defineComponent } from "vue";
 
     import Deck from "@/components/Deck.vue";
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
         name: "MatchPage",
-        components: { Deck }
+        components: { CenteredLayout, Deck }
     });
 </script>
 
@@ -35,11 +36,6 @@
 
     #match-page
     {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
         overflow: hidden;
 
         & > .deck

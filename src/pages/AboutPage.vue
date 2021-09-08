@@ -1,13 +1,18 @@
 <template>
-    <main id="about-poage">
+    <CenteredLayout id="about-page" tag="main">
         <h1>This is an about page</h1>
-    </main>
+    </CenteredLayout>
 </template>
 
 <script lang="ts">
     import { defineComponent } from "vue";
 
-    export default defineComponent({ name: "AboutPage" });
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
+
+    export default defineComponent({
+        name: "AboutPage",
+        components: { CenteredLayout }
+    });
 </script>
 
 <style lang="scss" scoped>

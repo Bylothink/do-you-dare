@@ -58,6 +58,14 @@ export default new Config({
         },
         {
             id: 0x3,
+            name: "login",
+            path: "/login",
+            component: () => import(/* webpackChunkName: "login-page" */ "@/pages/LoginPage.vue"),
+            title: "Login",
+            topLevel: true
+        },
+        {
+            id: 0x4,
             name: "about",
             path: "/about",
             component: () => import(/* webpackChunkName: "about-page" */ "@/pages/AboutPage.vue"),

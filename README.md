@@ -44,6 +44,7 @@ Copy those files directly to your web-server to simply serve this project as sta
 ### Recommended [Visual Studio Code](https://code.visualstudio.com/) extensions
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [GraphQL](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql)
 - [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
 
 ### Used technologies

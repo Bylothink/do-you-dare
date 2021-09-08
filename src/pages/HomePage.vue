@@ -1,5 +1,5 @@
 <template>
-    <main id="home-page">
+    <CenteredLayout id="home-page" tag="main">
         <h1 class="title">
             Do you dare?
         </h1>
@@ -16,7 +16,7 @@
                 </li>
             </RouterLink>
         </ul>
-    </main>
+    </CenteredLayout>
 </template>
 
 <script lang="ts">
@@ -25,14 +25,15 @@
     import config, { PageOptions } from "@/config";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
         name: "HomePage",
-        components: { RoundButton },
+        components: { CenteredLayout, RoundButton },
 
         setup: () =>
         {
-            const pages: PageOptions[] = config.pages;
+            const pages: PageOptions[] = config.pages.filter((page) => page.name !== "index");
 
             return { pages };
         }
@@ -42,12 +43,7 @@
 <style lang="scss" scoped>
     #home-page
     {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        overflow: hidden;
+        text-align: center;
 
         & > .title
         {
