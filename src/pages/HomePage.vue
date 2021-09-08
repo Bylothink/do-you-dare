@@ -22,7 +22,7 @@
 <script lang="ts">
     import { defineComponent } from "vue";
 
-    import config from "@/config";
+    import config, { PageOptions } from "@/config";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
 
@@ -32,7 +32,9 @@
 
         setup: () =>
         {
-            return { pages: config.pages };
+            const pages: PageOptions[] = config.pages;
+
+            return { pages };
         }
     });
 </script>

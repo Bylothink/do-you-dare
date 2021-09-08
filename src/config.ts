@@ -36,7 +36,7 @@ class Config implements ConfigOptions
     }
 }
 
-const config: Config = new Config({
+export default new Config({
     title: "Do you Dare?",
     author: "Matteo Bilotta",
     pages: [
@@ -67,5 +67,3 @@ const config: Config = new Config({
     ],
     version: "0.0.1α"
 });
-
-export default config;
