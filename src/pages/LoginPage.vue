@@ -23,9 +23,10 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios";
     import gql from "graphql-tag";
     import { defineComponent, ref } from "vue";
+
+    import { graphql } from "@/services";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
@@ -47,15 +48,18 @@
                         }
                     }`;
 
-                const response = await axios.post("http://localhost:8000/auth/", {
-                    query: DO_LOGIN,
-                    variables: {
-                        username: username.value,
-                        password: password.value
-                    }
+                // SMELLS: Rimuovere questa definizione hard-coded del tipo di risposta
+                //          e definire una nuova interfaccia apposita.
+                //
+                const response = await graphql.mutation<{ tokenAuth: { token: string } }>("auth", DO_LOGIN, {
+                    username: username.value,
+                    password: password.value
                 });
 
-                console.log(response);
+                // TODO: Implementare il login tramite lo store di Vuex e le actions.
+                //
+                // <vuex>.user.login(username, password);
+                //
             };
 
             return { username, password, onSubmit };

@@ -21,12 +21,13 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios";
     import gql from "graphql-tag";
     import { computed, defineComponent, reactive, ref } from "vue";
 
     import { nextFrame, waitTimeout } from "@/core/utils";
     import { DragEvent, Point } from "@/core/types";
+
+    import { graphql } from "@/services";
 
     import Card from "./Card.vue";
     import InteractiveCard from "./InteractiveCard.vue";
@@ -84,8 +85,13 @@
                         }
                     }`;
 
-                const response = await axios.post("http://localhost:8000/cards/", { query: GET_RANDOM_CARD_QUERY });
-                const card = response.data.data.getRandomOne;
+                // SMELLS: Rimuovere questa definizione hard-coded del tipo di risposta
+                //          e definire una nuova interfaccia apposita.
+                //
+                const response =
+                    await graphql.query<{ getRandomOne: { text: string } }>("cards", GET_RANDOM_CARD_QUERY);
+
+                const card = response.getRandomOne;
 
                 cardText.value = card.text;
             };

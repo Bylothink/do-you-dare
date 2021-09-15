@@ -3,7 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
 
 // SMELLS: interface PageOptions extends RouteConfig
-type PageOptions = RouteRecordRaw &
+export type PageOptions = RouteRecordRaw &
 {
     id: number;
     title: string;
@@ -11,15 +11,13 @@ type PageOptions = RouteRecordRaw &
     topLevel: boolean;
 };
 
-interface ConfigOptions
+export interface ConfigOptions
 {
     title: string;
     author: string;
     pages: PageOptions[];
     version: string;
 }
-
-export { ConfigOptions, PageOptions };
 
 class Config implements ConfigOptions
 {
