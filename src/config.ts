@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 
 import HomePage from "@/pages/HomePage.vue";
 
-// SMELLS: interface PageOptions extends RouteConfig
+// SMELLS: interface PageOptions extends RouteRecordRaw
 export type PageOptions = RouteRecordRaw &
 {
     id: number;

@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
 
-export default createStore({
-    state: { },
-    mutations: { },
-    actions: { },
-    modules: { }
+import { RootState } from "./types";
+import userModule from "./user";
+
+export default createStore<RootState>({
+    modules: { user: userModule }
 });

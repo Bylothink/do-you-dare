@@ -23,10 +23,10 @@
 </template>
 
 <script lang="ts">
-    import gql from "graphql-tag";
     import { defineComponent, ref } from "vue";
+    import { useStore } from "vuex";
 
-    import { graphql } from "@/services";
+    import { RootState } from "@/store/types";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
@@ -36,30 +36,16 @@
 
         setup: () =>
         {
+            const store = useStore<RootState>();
+
             const username = ref("");
             const password = ref("");
 
-            const onSubmit = async () =>
+            const onSubmit = () =>
             {
-                const DO_LOGIN = gql`
-                    mutation tokenAuth($username: String!, $password: String!) {
-                        tokenAuth(username: $username, password: $password) {
-                            token
-                        }
-                    }`;
-
-                // SMELLS: Rimuovere questa definizione hard-coded del tipo di risposta
-                //          e definire una nuova interfaccia apposita.
-                //
-                const response = await graphql.mutation<{ tokenAuth: { token: string } }>("auth", DO_LOGIN, {
-                    username: username.value,
-                    password: password.value
-                });
-
-                // TODO: Implementare il login tramite lo store di Vuex e le actions.
-                //
-                // <vuex>.user.login(username, password);
-                //
+                store.dispatch("user/login", { username: username.value, password: password.value })
+                    .then(() => alert("Login avvenuto con successo!"))
+                    .catch(() => alert("Si è verificato un errore!"));
             };
 
             return { username, password, onSubmit };
