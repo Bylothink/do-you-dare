@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { ActionContext, Module } from "vuex";
+import { ActionContext, CommitOptions, DispatchOptions, Module } from "vuex";
 
 import { localStorage } from "@/core/utils";
 import { graphql } from "@/services";
@@ -23,7 +23,7 @@ interface TokenAuthResponse
     tokenAuth: { token: string };
 }
 
-const userModule: Module<UserState, RootState> = {
+const userModule = {
     namespaced: true,
 
     state: (): UserState => ({ token: localStorage.get<string>("user:token") }),
