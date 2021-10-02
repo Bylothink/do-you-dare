@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { ActionContext, CommitOptions, DispatchOptions, Module } from "vuex";
+import { ActionContext } from "vuex";
 
 import { localStorage } from "@/core/utils";
 import { graphql } from "@/services";
