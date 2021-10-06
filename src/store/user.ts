@@ -4,13 +4,7 @@ import { ActionContext } from "vuex";
 import { localStorage } from "@/core/utils";
 import { graphql } from "@/services";
 
-import { RootState, UserState } from "./types";
-
-interface LoginPayload
-{
-    username: string;
-    password: string;
-}
+import { LoginPayload, RootState, UserState } from "./types";
 
 const TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {

@@ -24,9 +24,8 @@
 
 <script lang="ts">
     import { defineComponent, ref } from "vue";
-    import { useStore } from "vuex";
 
-    import { RootState } from "@/store/types";
+    import { useStore } from "@/store";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
@@ -36,7 +35,7 @@
 
         setup: () =>
         {
-            const store = useStore<RootState>();
+            const store = useStore();
 
             const username = ref("");
             const password = ref("");

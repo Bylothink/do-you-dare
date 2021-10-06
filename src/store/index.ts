@@ -1,6 +1,6 @@
-import { createStore, StoreOptions } from "vuex";
+import { createStore, useStore as vuexStore, StoreOptions } from "vuex";
 
-import { IndexState, RootState } from "./types";
+import { IndexState, RootState, RootStore } from "./types";
 import userModule from "./user";
 
 const store = {
@@ -13,3 +13,4 @@ const store = {
 };
 
 export default createStore((store as unknown) as StoreOptions<RootState>);
+export const useStore = (): RootStore => vuexStore();
