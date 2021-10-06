@@ -1,5 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+/* eslint-disable @typescript-eslint/no-empty-interface */
+
 export interface IndexState { }
+export interface CardsState
+{
+    // TODO!
+}
 export interface UserState
 {
     token?: string;
@@ -7,5 +12,6 @@ export interface UserState
 
 export interface RootState extends IndexState
 {
+    cards: CardsState;
     user: UserState;
 }

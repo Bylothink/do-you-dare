@@ -59,6 +59,7 @@
             "update:x",
             "update:y"
         ],
+
         setup: (props, { emit }) =>
         {
             const classes = computed((): Record<string, boolean> => ({ "inanimate": props.inanimate }));

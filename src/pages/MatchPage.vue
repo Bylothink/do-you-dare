@@ -1,6 +1,6 @@
 <template>
     <CenteredLayout id="match-page" tag="main">
-        <Deck />
+        <Deck :card="card" @fold="getNewCard" />
         <h1 class="title">
             Do you dare?
         </h1>
@@ -8,14 +8,32 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
+    import { defineComponent, ref } from "vue";
+
+    import { Card } from "@/models";
+    import { useStore } from "@/store";
 
     import Deck from "@/components/Deck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
         name: "MatchPage",
-        components: { CenteredLayout, Deck }
+        components: { CenteredLayout, Deck },
+
+        setup: () =>
+        {
+            const store = useStore();
+            const card = ref<Card>();
+
+            const getNewCard = async () =>
+            {
+                card.value = await store.dispatch("cards/getRandomOne");
+            };
+
+            getNewCard();
+
+            return { card, getNewCard };
+        }
     });
 </script>
 

@@ -10,7 +10,7 @@
 <script lang="ts">
     import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
 
-    import { DragEvent, Point } from "@/core/types";
+    import { DragEvent } from "@/core/types";
 
     export default defineComponent({
         name: "Draggable",
@@ -41,7 +41,7 @@
         setup: (props, { emit }) =>
         {
             const isMoving = ref(false);
-            const initialCoords = reactive(new Point());
+            const initialCoords = reactive({ x: 0, y: 0 });
 
             const classes = computed((): Record<string, boolean> => ({
                 "moving": isMoving.value,
@@ -54,8 +54,8 @@
                 if ((!props.disabled) && (evt.button === 0))
                 {
                     const dragEvt: DragEvent = {
-                        mouse: new Point(evt.clientX, evt.clientY),
-                        offset: new Point(props.x, props.y)
+                        mouse: { x: evt.clientX, y: evt.clientY },
+                        offset: { x: props.x, y: props.y }
                     };
 
                     isMoving.value = true;
@@ -74,8 +74,8 @@
                     const y = evt.clientY - initialCoords.y;
 
                     const dragEvt: DragEvent = {
-                        mouse: new Point(evt.clientX, evt.clientY),
-                        offset: new Point(x, y)
+                        mouse: { x: evt.clientX, y: evt.clientY },
+                        offset: { x, y }
                     };
 
                     emit("move", dragEvt);
@@ -89,8 +89,8 @@
                 if ((isMoving.value) && (evt.button === 0))
                 {
                     const dragEvt: DragEvent = {
-                        mouse: new Point(evt.clientX, evt.clientY),
-                        offset: new Point(props.x, props.y)
+                        mouse: { x: evt.clientX, y: evt.clientY },
+                        offset: { x: props.x, y: props.y }
                     };
 
                     isMoving.value = false;

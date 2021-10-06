@@ -1,5 +1,6 @@
 import { IndexState } from "./types";
 
+import cards from "./cards";
 import user from "./user";
 
 export default {
@@ -8,5 +9,5 @@ export default {
     getters: { },
     mutations: { },
     actions: { },
-    modules: { user }
+    modules: { cards, user }
 };

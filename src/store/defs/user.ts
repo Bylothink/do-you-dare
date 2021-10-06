@@ -6,7 +6,7 @@ import { graphql } from "@/services";
 
 import { RootState, UserState } from "./types";
 
-const TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: String!) {
+const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
         token
     }
@@ -44,7 +44,7 @@ export default {
     actions: {
         async login({ commit }: ActionContext<UserState, RootState>, { username, password }: LoginPayload): Promise<void>
         {
-            const response = await graphql.mutation<TokenAuthResponse>("auth", TOKEN_AUTH, {
+            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, {
                 username: username,
                 password: password
             });

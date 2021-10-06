@@ -14,20 +14,19 @@
                          @drag="onDrag"
                          @drop="onDrop">
             <div class="content">
-                <p>{{ cardText }}</p>
+                <p>{{ card.text }}</p>
             </div>
         </InteractiveCard>
     </div>
 </template>
 
 <script lang="ts">
-    import gql from "graphql-tag";
     import { computed, defineComponent, reactive, ref } from "vue";
 
     import { nextFrame, waitTimeout } from "@/core/utils";
-    import { DragEvent, Point } from "@/core/types";
+    import { DragEvent } from "@/core/types";
 
-    import { graphql } from "@/services";
+    import { Card as CardModel } from "@/models";
 
     import Card from "./Card.vue";
     import InteractiveCard from "./InteractiveCard.vue";
@@ -35,8 +34,15 @@
     export default defineComponent({
         name: "Deck",
         components: { Card, InteractiveCard },
+        props: {
+            card: {
+                default: () => new CardModel("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula."),
+                type: CardModel
+            }
+        },
+        emits: ["fold"],
 
-        setup: () =>
+        setup: (props, { emit }) =>
         {
             const hasCardBeenDrawn = ref(false);
             const isCardDraggable = ref(false);
@@ -45,9 +51,7 @@
 
             const isCardBeingDragged = ref(false);
 
-            const cardText = ref("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula.");
-
-            const cardPosition = reactive(new Point());
+            const cardPosition = reactive({ x: 0, y: 0 });
 
             const classes = computed((): Record<string, boolean> => ({ "drawn": hasCardBeenDrawn.value }));
             const styles = computed((): Record<string, string> =>
@@ -69,36 +73,9 @@
                 return { transform };
             });
 
-            const getNewCard = async () =>
-            {
-                const GET_ALL_CARDS_QUERY = gql`
-                    query {
-                        allCards {
-                            text
-                        }
-                    }`;
-
-                const GET_RANDOM_CARD_QUERY = gql`
-                    query {
-                        getRandomOne {
-                            text
-                        }
-                    }`;
-
-                // SMELLS: Rimuovere questa definizione hard-coded del tipo di risposta
-                //          e definire una nuova interfaccia apposita.
-                //
-                const response =
-                    await graphql.query<{ getRandomOne: { text: string } }>("cards", GET_RANDOM_CARD_QUERY);
-
-                const card = response.getRandomOne;
-
-                cardText.value = card.text;
-            };
-
             const reset = async () =>
             {
-                getNewCard();
+                emit("fold");
 
                 isCardInanimate.value = true;
 
@@ -183,7 +160,6 @@
                 isCardDraggable,
                 isCardHole,
                 isCardInanimate,
-                cardText,
                 styles,
 
                 onClickInside,
