@@ -9,7 +9,7 @@
                @update:x="$emit('update:x', $event)"
                @update:y="$emit('update:y', $event)">
         <Card :drawn="drawn"
-              :hole="hole"
+              :facedown="facedown"
               :inanimate="inanimate">
             <slot></slot>
         </Card>
@@ -43,7 +43,7 @@
                 default: false,
                 type: Boolean
             },
-            hole: {
+            facedown: {
                 default: false,
                 type: Boolean
             },

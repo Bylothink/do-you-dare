@@ -1,11 +1,15 @@
 <template>
-    <a v-if="href"
-       class="round-button"
-       :href="href">
-        <slot></slot>
-    </a>
-    <button v-else class="round-button">
-        <slot></slot>
+    <button class="round-button">
+        <span class="spacer"></span>
+        <div class="content">
+            <p>
+                <span class="pippo">
+                    <div class="content">
+                    </div>
+                </span>
+            </p>
+            <slot></slot>
+        </div>
     </button>
 </template>
 
@@ -31,21 +35,23 @@
 <style lang="scss" scoped>
     .round-button
     {
-        background-image: linear-gradient(90deg, #e66465, #9198e5);
-        border: 1px solid rgba(0, 0, 0, 0.25);
-        border-radius: 1.5em;
-        box-shadow: 0px 0px 0.125em rgba(0, 0, 0, 0.25);
-        color: #FFFFFF;
-        display: inline-block;
-        font-weight: bold;
-        padding: 0.5em 1em;
-        transition: box-shadow 250ms ease-in-out, border-radius 125ms ease-in-out;
-        text-decoration: none;
+        border-radius: 100%;
+        padding: 0px;
+        position: relative;
+        width: 2em;
 
-        &:hover
+        & > .spacer
         {
-            border-radius: 1.5em 3em;
-            box-shadow: 0px 0px 0.5em 0.25em rgba(0, 0, 0, 0.25);
+            display: block;
+            padding: 50% 0px;
+        }
+        & > .content
+        {
+            bottom: 0px;
+            left: 0px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
         }
     }
 </style>

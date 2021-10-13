@@ -20,7 +20,7 @@
                 default: false,
                 type: Boolean
             },
-            hole: {
+            facedown: {
                 default: false,
                 type: Boolean
             },
@@ -34,7 +34,7 @@
         {
             const classes = computed((): Record<string, boolean> => ({
                 "drawn": props.drawn,
-                "hole": props.hole,
+                "facedown": props.facedown,
                 "inanimate": props.inanimate
             }));
 
@@ -46,7 +46,7 @@
 <style lang="scss" scoped>
     .card
     {
-        background-color: #FFFFFF;
+        background-color: #202124;
         border: 1px solid #000000;
         border-radius: 1em;
         box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
@@ -88,7 +88,7 @@
         {
             box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
         }
-        &.hole
+        &.facedown
         {
             transform: rotateY(180deg);
 

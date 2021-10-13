@@ -1,21 +1,21 @@
 <template>
     <CenteredLayout id="home-page" tag="main">
+        <Card id="background-card" facedown />
         <h1 class="title">
             Do you dare?
         </h1>
-        <ul>
-            <RouterLink v-for="page in pages"
-                        :key="page.id"
-                        v-slot="{ href, route, navigate, isActive, isExactActive }"
-                        :to="page"
-                        custom>
-                <li>
-                    <RoundButton :href="href" @click="navigate">
-                        {{ page.title }}
-                    </RoundButton>
-                </li>
-            </RouterLink>
-        </ul>
+        <button id="play-now-btn" class="btn btn-primary btn-lg">
+            Play now!
+        </button>
+        <button id="game-modes-btn" class="btn btn-secondary btn-lg">
+            Game modes
+        </button>
+        <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
+            <span class="fas fa-cogs"></span>
+        </RoundButton>
+        <RoundButton id="user-btn" class="btn btn-primary btn-lg">
+            <span class="fas fa-user"></span>
+        </RoundButton>
     </CenteredLayout>
 </template>
 
@@ -25,11 +25,12 @@
     import config, { PageOptions } from "@/config";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
+    import Card from "@/components/Card.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
         name: "HomePage",
-        components: { CenteredLayout, RoundButton },
+        components: { Card, CenteredLayout, RoundButton },
 
         setup: () =>
         {
@@ -45,14 +46,6 @@
     {
         text-align: center;
 
-        & > .title
-        {
-            font-size: 6.666em;
-            font-weight: 100;
-            margin: 0px;
-            margin-top: 0.5em;
-        }
-
         & > ul
         {
             font-size: 2em;
@@ -64,6 +57,46 @@
             {
                 margin: 1em 0px;
             }
+        }
+
+        & > .title
+        {
+            font-size: 6.666em;
+            font-weight: 100;
+            margin: 0px;
+            margin-bottom: 1em;
+        }
+
+        & > #background-card
+        {
+            $card-width: 350px;
+
+            left: calc((100% - $card-width) / 4);
+            position: absolute;
+            width: $card-width;
+            z-index: -1;
+        }
+        & > #play-now-btn
+        {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+        }
+
+        & > #settings-btn,
+        & > #user-btn
+        {
+            font-size: 1.5em;
+            padding: 1em 1.25em;
+            position: absolute;
+            top: 1em;
+        }
+        & > #settings-btn
+        {
+            left: 1em;
+        }
+        & > #user-btn
+        {
+            right: 1em;
         }
     }
 </style>

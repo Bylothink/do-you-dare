@@ -1,12 +1,12 @@
 <template>
     <div class="deck">
-        <Card hole />
+        <Card facedown />
         <InteractiveCard v-model:x="cardPosition.x"
                          v-model:y="cardPosition.y"
                          :class="classes"
                          :draggable="isCardDraggable"
                          :drawn="hasCardBeenDrawn"
-                         :hole="isCardHole"
+                         :facedown="isCardFacedown"
                          :inanimate="isCardInanimate"
                          :style="styles"
                          @click:inside="onClickInside"
@@ -46,7 +46,7 @@
         {
             const hasCardBeenDrawn = ref(false);
             const isCardDraggable = ref(false);
-            const isCardHole = ref(true);
+            const isCardFacedown = ref(true);
             const isCardInanimate = ref(false);
 
             const isCardBeingDragged = ref(false);
@@ -58,7 +58,7 @@
             {
                 let transform = "";
 
-                if (!isCardHole.value)
+                if (!isCardFacedown.value)
                 {
                     transform += `scale(1.25)`;
                 }
@@ -83,7 +83,7 @@
 
                 hasCardBeenDrawn.value = false;
                 isCardDraggable.value = false;
-                isCardHole.value = true;
+                isCardFacedown.value = true;
 
                 cardPosition.x = 0;
                 cardPosition.y = 0;
@@ -102,19 +102,19 @@
                 else
                 {
                     isCardDraggable.value = true;
-                    isCardHole.value = false;
+                    isCardFacedown.value = false;
                 }
             };
             const onClickOutside = (evt: MouseEvent) =>
             {
-                if (isCardHole.value)
+                if (isCardFacedown.value)
                 {
                     hasCardBeenDrawn.value = false;
                 }
                 else
                 {
                     isCardDraggable.value = false;
-                    isCardHole.value = true;
+                    isCardFacedown.value = true;
                 }
             };
 
@@ -158,7 +158,7 @@
                 classes,
                 hasCardBeenDrawn,
                 isCardDraggable,
-                isCardHole,
+                isCardFacedown,
                 isCardInanimate,
                 styles,
 
