@@ -4,18 +4,22 @@
         <h1 class="title">
             Do you dare?
         </h1>
-        <button id="play-now-btn" class="btn btn-primary btn-lg">
-            Play now!
-        </button>
+        <RouterLink id="play-now-btn" :to="{'name': 'match'}">
+            <button class="btn btn-primary btn-lg">
+                Play now!
+            </button>
+        </RouterLink>
         <button id="game-modes-btn" class="btn btn-secondary btn-lg">
             Game modes
         </button>
         <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
             <span class="fas fa-cogs"></span>
         </RoundButton>
-        <RoundButton id="user-btn" class="btn btn-primary btn-lg">
-            <span class="fas fa-user"></span>
-        </RoundButton>
+        <RouterLink id="user-btn" :to="{'name': 'login'}">
+            <RoundButton class="btn btn-primary btn-lg">
+                <span class="fas fa-user"></span>
+            </RoundButton>
+        </RouterLink>
     </CenteredLayout>
 </template>
 
