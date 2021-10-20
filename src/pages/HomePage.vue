@@ -4,18 +4,27 @@
         <h1 class="title">
             Do you dare?
         </h1>
-        <button id="play-now-btn" class="btn btn-primary btn-lg">
+        <RouterLink id="play-now-btn"
+                    class="btn btn-primary btn-lg"
+                    :to="{ name: 'match' }">
             Play now!
-        </button>
+        </RouterLink>
         <button id="game-modes-btn" class="btn btn-secondary btn-lg">
             Game modes
         </button>
         <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
             <span class="fas fa-cogs"></span>
         </RoundButton>
-        <RoundButton id="user-btn" class="btn btn-primary btn-lg">
-            <span class="fas fa-user"></span>
-        </RoundButton>
+        <RouterLink v-slot="{ href, navigate }"
+                    custom
+                    :to="{ name: 'login' }">
+            <RoundButton id="user-btn"
+                         class="btn btn-primary btn-lg"
+                         :href="href"
+                         @click="navigate">
+                <span class="fas fa-user"></span>
+            </RoundButton>
+        </RouterLink>
     </CenteredLayout>
 </template>
 
@@ -71,7 +80,7 @@
         {
             $card-width: 350px;
 
-            left: calc((100% - $card-width) / 4);
+            left: calc((100% - #{$card-width}) / 4);
             position: absolute;
             width: $card-width;
             z-index: -1;
@@ -85,8 +94,7 @@
         & > #settings-btn,
         & > #user-btn
         {
-            font-size: 1.5em;
-            padding: 1em 1.25em;
+            font-size: 2.5em;
             position: absolute;
             top: 1em;
         }
