@@ -1,8 +1,12 @@
 @use "../variables";
 
+// Configurations...
+//
 $enable-gradients: true;
 $enable-shadows: true;
 
+// Grid breakpoints...
+//
 $grid-breakpoints:
 (
     xs: variables.$xs-size,
@@ -13,5 +17,10 @@ $grid-breakpoints:
     xxl: variables.$xxl-size
 );
 $grid-gutter-width: 0px;
+
+// Theme...
+//
+$primary: variables.$pink;
+$secondary: variables.$yellow;
 
 @import "~bootstrap/scss/bootstrap";
