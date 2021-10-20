@@ -1,1 +1,19 @@
+// Fonts...
+//
 $font-family: unquote("Ubuntu, Roboto, Helvetica, sans-serif");
+
+// Sizes...
+//
+$xs-size: 0;
+$sm-size: 576px;
+$md-size: 768px;
+$lg-size: 992px;
+$xl-size: 1200px;
+$xxl-size: 1400px;
+
+$max-mobile-size: $md-size - 1px;
+$min-tablet-size: $md-size;
+$max-tablet-size: $lg-size - 1px;
+$min-desktop-size: $lg-size;
+
+$card-width: 300px;

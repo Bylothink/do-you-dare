@@ -51,6 +51,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     #home-page
     {
         text-align: center;
@@ -78,11 +80,9 @@
 
         & > #background-card
         {
-            $card-width: 350px;
-
-            left: calc((100% - #{$card-width}) / 4);
+            left: calc((100% - #{variables.$card-width}) / 4);
             position: absolute;
-            width: $card-width;
+            width: variables.$card-width;
             z-index: -1;
         }
         & > #play-now-btn
