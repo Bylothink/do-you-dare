@@ -16,15 +16,7 @@
     export default defineComponent({
         name: "Card",
         props: {
-            drawn: {
-                default: false,
-                type: Boolean
-            },
             facedown: {
-                default: false,
-                type: Boolean
-            },
-            inanimate: {
                 default: false,
                 type: Boolean
             }
@@ -32,11 +24,7 @@
 
         setup: (props) =>
         {
-            const classes = computed((): Record<string, boolean> => ({
-                "drawn": props.drawn,
-                "facedown": props.facedown,
-                "inanimate": props.inanimate
-            }));
+            const classes = computed((): Record<string, boolean> => ({ "facedown": props.facedown }));
 
             return { classes };
         }
@@ -44,14 +32,15 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     .card
     {
-        background-color: #202124;
-        border: 1px solid #000000;
+        background-color: variables.$not-quite-black;
+        border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 1em;
         box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
         position: relative;
-        transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
         user-select: none;
 
         & > .spacer
@@ -84,10 +73,6 @@
             }
         }
 
-        &.drawn
-        {
-            box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
-        }
         &.facedown
         {
             transform: rotateY(180deg);
@@ -99,15 +84,6 @@
             & > .face.front
             {
                 opacity: 0;
-            }
-        }
-        &.inanimate
-        {
-            transition: none;
-
-            & > .face
-            {
-                transition: none;
             }
         }
     }

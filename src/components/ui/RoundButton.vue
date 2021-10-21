@@ -1,20 +1,16 @@
 <template>
-    <button class="round-button">
+    <component :is="tag"
+               class="round-button"
+               v-bind="properties">
         <span class="spacer"></span>
         <div class="content">
-            <p>
-                <span class="pippo">
-                    <div class="content">
-                    </div>
-                </span>
-            </p>
             <slot></slot>
         </div>
-    </button>
+    </component>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
+    import { computed, defineComponent } from "vue";
 
     export default defineComponent({
         name: "RoundButton",
@@ -27,7 +23,10 @@
 
         setup: (props) =>
         {
-            return { };
+            const tag = computed((): string => props.href ? "a" : "button");
+            const properties = computed((): Record<string, string> => props.href ? { "href": props.href } : { });
+
+            return { tag, properties };
         }
     });
 </script>
@@ -47,7 +46,10 @@
         }
         & > .content
         {
+            align-items: center;
             bottom: 0px;
+            display: flex;
+            justify-content: center;
             left: 0px;
             position: absolute;
             right: 0px;

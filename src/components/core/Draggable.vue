@@ -121,7 +121,7 @@
         cursor: grab;
         position: absolute;
 
-        &.active
+        &.moving
         {
             cursor: grabbing;
         }

@@ -3,7 +3,6 @@
         <Card facedown />
         <InteractiveCard v-model:x="cardPosition.x"
                          v-model:y="cardPosition.y"
-                         :class="classes"
                          :draggable="isCardDraggable"
                          :drawn="hasCardBeenDrawn"
                          :facedown="isCardFacedown"
@@ -53,7 +52,6 @@
 
             const cardPosition = reactive({ x: 0, y: 0 });
 
-            const classes = computed((): Record<string, boolean> => ({ "drawn": hasCardBeenDrawn.value }));
             const styles = computed((): Record<string, string> =>
             {
                 let transform = "";
@@ -155,7 +153,6 @@
 
             return {
                 cardPosition,
-                classes,
                 hasCardBeenDrawn,
                 isCardDraggable,
                 isCardFacedown,
@@ -172,18 +169,20 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     .deck
     {
         position: relative;
 
-        & > .card
-        {
-            width: 298px;
-        }
+        & > .card,
         & > .interactive-card
         {
-            width: 300px;
+            width: variables.$card-width;
+        }
 
+        & > .interactive-card
+        {
             &.disabled
             {
                 cursor: pointer;

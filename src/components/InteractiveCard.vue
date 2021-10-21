@@ -8,9 +8,7 @@
                @mousedown.stop
                @update:x="$emit('update:x', $event)"
                @update:y="$emit('update:y', $event)">
-        <Card :drawn="drawn"
-              :facedown="facedown"
-              :inanimate="inanimate">
+        <Card :facedown="facedown">
             <slot></slot>
         </Card>
     </Draggable>
@@ -62,7 +60,10 @@
 
         setup: (props, { emit }) =>
         {
-            const classes = computed((): Record<string, boolean> => ({ "inanimate": props.inanimate }));
+            const classes = computed((): Record<string, boolean> => ({
+                "drawn": props.drawn,
+                "inanimate": props.inanimate
+            }));
 
             const onClick = (evt: MouseEvent) =>
             {
@@ -113,6 +114,31 @@
         border-radius: 1em;
         transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 200ms ease-in-out;
 
+        .card
+        {
+            box-shadow: none;
+            transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+        }
+
+        &.drawn
+        {
+            .card
+            {
+                box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
+            }
+        }
+        &.inanimate
+        {
+            .card
+            {
+                transition: none;
+
+                &:deep(.face)
+                {
+                    transition: none;
+                }
+            }
+        }
         &.inanimate,
         &.moving
         {

@@ -4,10 +4,10 @@
         <h1 class="title">
             Do you dare?
         </h1>
-        <RouterLink id="play-now-btn" :to="{'name': 'match'}">
-            <button class="btn btn-primary btn-lg">
-                Play now!
-            </button>
+        <RouterLink id="play-now-btn"
+                    class="btn btn-primary btn-lg"
+                    :to="{ name: 'match' }">
+            Play now!
         </RouterLink>
         <button id="game-modes-btn" class="btn btn-secondary btn-lg">
             Game modes
@@ -15,8 +15,13 @@
         <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
             <span class="fas fa-cogs"></span>
         </RoundButton>
-        <RouterLink id="user-btn" :to="{'name': 'login'}">
-            <RoundButton class="btn btn-primary btn-lg">
+        <RouterLink v-slot="{ href, navigate }"
+                    custom
+                    :to="{ name: 'login' }">
+            <RoundButton id="user-btn"
+                         class="btn btn-primary btn-lg"
+                         :href="href"
+                         @click="navigate">
                 <span class="fas fa-user"></span>
             </RoundButton>
         </RouterLink>
@@ -46,6 +51,8 @@
 </script>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     #home-page
     {
         text-align: center;
@@ -73,11 +80,9 @@
 
         & > #background-card
         {
-            $card-width: 350px;
-
-            left: calc((100% - $card-width) / 4);
+            left: calc((100% - #{variables.$card-width}) / 4);
             position: absolute;
-            width: $card-width;
+            width: variables.$card-width;
             z-index: -1;
         }
         & > #play-now-btn
@@ -89,8 +94,7 @@
         & > #settings-btn,
         & > #user-btn
         {
-            font-size: 1.5em;
-            padding: 1em 1.25em;
+            font-size: 2.5em;
             position: absolute;
             top: 1em;
         }

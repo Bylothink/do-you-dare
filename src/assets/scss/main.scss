@@ -1,3 +1,5 @@
+@use "./variables";
+
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 
 html,
@@ -8,10 +10,9 @@ body
 
 body
 {
-    background-color: #35363A;
-    color: #FFFFFF;
-    font-family: "Ubuntu", sans-serif;
-    margin: 0px;
+    background-color: variables.$chrome-incognito-color;
+    color: variables.$slightly-off-white;
+    font-family: variables.$font-family;
 }
 
 .btn
