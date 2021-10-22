@@ -55,15 +55,23 @@ export default new Config({
             topLevel: true
         },
         {
-            id: 0x3,
-            name: "login",
-            path: "/login",
-            component: () => import(/* webpackChunkName: "login-page" */ "@/pages/LoginPage.vue"),
-            title: "Login",
+            id: 0x31,
+            name: "sign-in",
+            path: "/sign-in",
+            component: () => import(/* webpackChunkName: "sign-in-page" */ "@/pages/SignInPage.vue"),
+            title: "Sign in",
             topLevel: true
         },
         {
-            id: 0x4,
+            id: 0x32,
+            name: "sign-up",
+            path: "/sign-up",
+            component: () => import(/* webpackChunkName: "sign-up-page" */ "@/pages/SignUpPage.vue"),
+            title: "Sign up",
+            topLevel: true
+        },
+        {
+            id: 0x9,
             name: "about",
             path: "/about",
             component: () => import(/* webpackChunkName: "about-page" */ "@/pages/AboutPage.vue"),

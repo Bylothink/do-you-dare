@@ -1,6 +1,6 @@
 <template>
-    <CenteredLayout id="login-page" tag="main">
-        <h1>This is a login page</h1>
+    <CenteredLayout id="sign-in-page" tag="main">
+        <h1>This is a sign in page</h1>
         <form @submit.prevent="onSubmit">
             <fieldset>
                 <legend>Accedi</legend>
@@ -30,7 +30,7 @@
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
-        name: "LoginPage",
+        name: "SignInPage",
         components: { CenteredLayout },
 
         setup: () =>
@@ -42,7 +42,7 @@
 
             const onSubmit = () =>
             {
-                store.dispatch("user/login", { username: username.value, password: password.value })
+                store.dispatch("user/signIn", { username: username.value, password: password.value })
                     .then(() => alert("Login avvenuto con successo!"))
                     .catch(() => alert("Si è verificato un errore!"));
             };

@@ -12,7 +12,7 @@ const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: Str
     }
 }`;
 
-interface LoginPayload
+interface SignInPayload
 {
     username: string;
     password: string;
@@ -42,7 +42,7 @@ export default {
         }
     },
     actions: {
-        async login({ commit }: ActionContext<UserState, RootState>, { username, password }: LoginPayload): Promise<void>
+        async signIn({ commit }: ActionContext<UserState, RootState>, { username, password }: SignInPayload): Promise<void>
         {
             const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, {
                 username: username,
