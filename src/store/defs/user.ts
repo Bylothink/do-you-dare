@@ -11,15 +11,51 @@ const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: Str
         token
     }
 }`;
+const GET_TOKEN_AUTH2 = gql`mutation createUser($firstName: String!, $lastName: String! $username: String!, $password: String!, $email: String!) {
+    createUser(firstName: $firstName, lastName: $lastName, username: $username, password: $password, email: $email) {
+        user {
+            id,
+            firstName,
+            lastName,
+            username,
+            email,
+            dateJoined,
+            lastLogin
+        }
+    }
+}`;
 
 interface SignInPayload
 {
     username: string;
     password: string;
 }
+interface SignUpPayload
+{
+    firstName: string;
+    lastName: string;
+    username: string;
+    password: string;
+    email: string;
+}
 interface TokenAuthResponse
 {
     tokenAuth: { token: string };
+}
+
+interface User
+{
+    id: number;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    dateJoined: string;
+    lastLogin: string | null;
+}
+interface CreateUserResponse
+{
+    createUser: { user: User };
 }
 
 export default {
@@ -50,6 +86,18 @@ export default {
             });
 
             commit("setToken", response.tokenAuth.token);
+        },
+        async signUp({ commit }: ActionContext<UserState, RootState>, { firstName, lastName, username, password, email }: SignUpPayload): Promise<User>
+        {
+            const response = await graphql.mutation<CreateUserResponse>("auth", GET_TOKEN_AUTH2, {
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                password: password,
+                email: email
+            });
+
+            return response.createUser.user;
         }
     }
 };

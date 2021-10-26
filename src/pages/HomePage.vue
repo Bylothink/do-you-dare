@@ -17,7 +17,7 @@
         </RoundButton>
         <RouterLink v-slot="{ href, navigate }"
                     custom
-                    :to="{ name: 'sign-in' }">
+                    :to="{ name: 'sign-up' }">
             <RoundButton id="user-btn"
                          class="btn btn-primary btn-lg"
                          :href="href"
