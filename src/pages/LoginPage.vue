@@ -1,31 +1,44 @@
 <template>
     <CenteredLayout id="login-page" tag="main">
         <form @submit.prevent="onSubmit">
-            <div class="input-group">
-                <span id="basic-addon1" class="input-group-text">@</span>
-                <input v-model="username"
-                       placeholder="Nome utente"
-                       name="username"
-                       class="form-control form-control-lg"
-                       required />
+            <div class="row mb-3">
+                <label for="user" class="col-sm-3 col-form-label col-form-label-lg">Username</label>
+                <div class="col-sm-9">
+                    <input id="user"
+                           v-model="username"
+                           type="text"
+                           class="form-control form-control-lg"
+                           required />
+                </div>
             </div>
-            <input v-model="password"
-                   name="password"
-                   class="form-control form-control-lg"
-                   placeholder="Password"
-                   type="password"
-                   required />
-            <br />
-            <input id="1"
-                   v-model="rememberMe"
-                   name="checkbox"
-                   type="checkbox" />
-            <label for="1">Ricordami</label>
-            <br />
-            <br />
-            <button class="form-control form-control-lg" type="submit">
-                Accedi
-            </button>
+            <div class="row mb-3">
+                <label for="pass" class="col-sm-3 col-form-label col-form-label-lg">Password</label>
+                <div class="col-sm-9">
+                    <input id="pass"
+                           v-model="password"
+                           type="password"
+                           class="form-control form-control-lg"
+                           required />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-9 offset-sm-3">
+                    <div class="form-check">
+                        <input id="checkbox"
+                               v-model="rememberMe"
+                               class="form-check-input"
+                               type="checkbox" />
+                        <label class="form-check-label" for="checkbox">Ricordami</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 mt-4">
+                <div class="col-sm-9 offset-sm-3">
+                    <button class="form control form-control-lg btn btn-primary" type="submit">
+                        Accedi
+                    </button>
+                </div>
+            </div>
         </form>
     </CenteredLayout>
 </template>
@@ -95,4 +108,16 @@
 </script>
 
 <style lang="scss" scoped>
+    #login-page
+    {
+        .btn.btn-primary
+        {
+            width: 100%;
+        }
+        .form-check > input,
+        .form-check > label
+        {
+            cursor: pointer;
+        }
+    }
 </style>
