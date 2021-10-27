@@ -3,6 +3,7 @@ import { DocumentNode, GraphQLError, print } from "graphql";
 
 import { GraphQLException } from "@/core/exceptions";
 
+export type GraphQLVariables = Record<string, unknown>;
 export interface GraphQLResponse<T = unknown>
 {
     data?: T;
@@ -46,7 +47,7 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(name: string, query: DocumentNode, variables: Record<string, string>)
+    public async mutation<T = unknown>(name: string, query: DocumentNode, variables: GraphQLVariables)
         : Promise<T>
     {
         try

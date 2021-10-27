@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import { ActionContext } from "vuex";
 
 import { localStorage } from "@/core/utils";
-import { graphql } from "@/services";
+import graphql, { GraphQLVariables } from "@/services/graphql";
 
 import { RootState, UserState } from "./types";
 
@@ -25,12 +25,12 @@ const CREATE_USER = gql`mutation createUser($firstName: String!, $lastName: Stri
     }
 }`;
 
-interface SignInPayload
+interface SignInVariables extends GraphQLVariables
 {
     username: string;
     password: string;
 }
-interface SignUpPayload
+interface SignUpVariables extends GraphQLVariables
 {
     firstName: string;
     lastName: string;
@@ -38,6 +38,7 @@ interface SignUpPayload
     password: string;
     email: string;
 }
+
 interface TokenAuthResponse
 {
     tokenAuth: { token: string };
@@ -78,24 +79,15 @@ export default {
         }
     },
     actions: {
-        async signIn({ commit }: ActionContext<UserState, RootState>, { username, password }: SignInPayload): Promise<void>
+        async signIn({ commit }: ActionContext<UserState, RootState>, signInVariables: SignInVariables): Promise<void>
         {
-            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, {
-                username: username,
-                password: password
-            });
+            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, signInVariables);
 
             commit("setToken", response.tokenAuth.token);
         },
-        async signUp({ commit }: ActionContext<UserState, RootState>, { firstName, lastName, username, password, email }: SignUpPayload): Promise<User>
+        async signUp({ commit }: ActionContext<UserState, RootState>, signUpVariables: SignUpVariables): Promise<User>
         {
-            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, {
-                firstName: firstName,
-                lastName: lastName,
-                username: username,
-                password: password,
-                email: email
-            });
+            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, signUpVariables);
 
             return response.createUser.user;
         }

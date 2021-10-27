@@ -59,9 +59,20 @@
 
             const onSubmit = (): void =>
             {
-                store.dispatch("user/signIn", { username: username.value, password: password.value })
+                const signInPayload = {
+                    username: username.value,
+                    password: password.value
+                };
+
+                store.dispatch("user/signIn", signInPayload)
                     .then(() => alert("Login avvenuto con successo!"))
-                    .catch(() => alert("Si è verificato un errore!"));
+                    .catch((exc) =>
+                    {
+                        // eslint-disable-next-line no-console
+                        console.error(exc);
+
+                        alert("Si è verificato un errore!");
+                    });
             };
 
             return { username, password, onSubmit };
