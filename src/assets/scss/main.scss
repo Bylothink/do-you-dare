@@ -15,7 +15,48 @@ body
     font-family: variables.$font-family;
 }
 
+hr,
+hr:not([size])
+{
+    background-color: rgba(255, 255, 255, 0.25);
+    border: none;
+    height: 3px;
+    opacity: 1;
+}
+
+label
+{
+    &:after
+    {
+        content: ":";
+        margin-right: 0.5em;
+    }
+}
+
 .btn
 {
     border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@media (min-width: variables.$sm-size)
+{
+    .form-table
+    {
+        display: table;
+    }
+    .form-row
+    {
+        display: table-row;
+    }
+    .form-cell
+    {
+        display: table-cell;
+
+        &.col-form-label
+        {
+            text-align: right;
+        }
+    }
 }

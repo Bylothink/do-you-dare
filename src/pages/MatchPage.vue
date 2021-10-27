@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="match-page" tag="main">
+    <CenteredLayout id="match-page">
         <Deck :card="card" @fold="getNewCard" />
         <h1 class="title">
             Do you dare?

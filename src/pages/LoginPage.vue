@@ -1,41 +1,37 @@
 <template>
-    <CenteredLayout id="login-page" tag="main">
-        <form @submit.prevent="onSubmit">
-            <div class="row mb-3">
-                <label for="user" class="col-sm-3 col-form-label col-form-label-lg">Username</label>
-                <div class="col-sm-9">
-                    <input id="user"
+    <CenteredLayout id="login-page">
+        <h1>Do you dare?</h1>
+        <h3 class="mb-4">
+            Sign in
+        </h3>
+        <form class="mx-3 form-table" @submit.prevent="onSubmit">
+            <div class="form-row">
+                <label for="username" class="form-cell col-form-label col-form-label-lg">Nome utente</label>
+                <div class="form-cell">
+                    <input id="username"
                            v-model="username"
+                           class="form-control form-control-lg mb-3"
                            type="text"
-                           class="form-control form-control-lg"
                            required />
                 </div>
             </div>
-            <div class="row mb-3">
-                <label for="pass" class="col-sm-3 col-form-label col-form-label-lg">Password</label>
-                <div class="col-sm-9">
-                    <input id="pass"
+            <div class="form-row">
+                <label for="password" class="form-cell col-form-label col-form-label-lg">Password</label>
+                <div class="form-cell">
+                    <input id="password"
                            v-model="password"
+                           class="form-control form-control-lg mb-3"
                            type="password"
-                           class="form-control form-control-lg"
                            required />
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-sm-9 offset-sm-3">
-                    <div class="form-check">
-                        <input id="checkbox"
-                               v-model="rememberMe"
-                               class="form-check-input"
-                               type="checkbox" />
-                        <label class="form-check-label" for="checkbox">Ricordami</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3 mt-4">
-                <div class="col-sm-9 offset-sm-3">
-                    <button class="form control form-control-lg btn btn-primary" type="submit">
-                        Accedi
+            <div class="form-row">
+                <span></span>
+                <div class="form-cell">
+                    <hr />
+                    <button class="form-control form-control-lg btn btn-primary" type="submit">
+                        <span class="fas fa-key"></span>
+                        Sign in
                     </button>
                 </div>
             </div>
@@ -44,80 +40,49 @@
 </template>
 
 <script lang="ts">
-    import { defineComponent } from "vue";
-    import axios from "axios";
+    import { defineComponent, ref } from "vue";
+
+    import { useStore } from "@/store";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
-
-    const LoginQuery = `mutation tokenAuth($username: String!, $password: String!) {
-        tokenAuth(username: $username, password: $password) {
-            token
-        }
-    }`;
 
     export default defineComponent({
         name: "LoginPage",
         components: { CenteredLayout },
-        data: function()
-        {
-            return {
-                username: "",
-                password: "",
-                rememberMe: false
-            };
-        },
-        methods: {
-            async onSubmit(payload: Event)
-            {
-                try
-                {
-                    const response: any = await axios.post("http://localhost:8000/auth/", {
-                        query: LoginQuery,
-                        variables: {
-                            username: this.username,
-                            password: this.password
-                        }
-                    });
-                    if (response.data.data.tokenAuth == null)
-                    {
-                        console.error(response.data.errors[0].message);
-                        alert(response.data.errors[0].message);
-                    }
-                    else
-                    {
-                        console.log(response.data.data.tokenAuth.token);
 
-                        if (this.rememberMe)
-                        {
-                            localStorage.setItem("token", response.data.data.tokenAuth.token);
-                        }
-                        else
-                        {
-                            sessionStorage.setItem("token", response.data.data.tokenAuth.token);
-                        }
-                    }
-                }
-                catch (exc)
-                {
-                    console.log((exc as Error).message);
-                    alert("Si è verificato un problema, riprovare più tardi");
-                }
-            }
+        setup: () =>
+        {
+            const store = useStore();
+
+            const username = ref("");
+            const password = ref("");
+
+            const onSubmit = (): void =>
+            {
+                store.dispatch("user/login", { username: username.value, password: password.value })
+                    .then(() => alert("Login avvenuto con successo!"))
+                    .catch(() => alert("Si è verificato un errore!"));
+            };
+
+            return { username, password, onSubmit };
         }
     });
 </script>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     #login-page
     {
-        .btn.btn-primary
+        @media (max-width: variables.$max-mobile-size)
         {
-            width: 100%;
-        }
-        .form-check > input,
-        .form-check > label
-        {
-            cursor: pointer;
+            & > .form-table > .form-row > .form-cell
+            {
+                & > hr
+                {
+                    margin-top: 2em;
+                }
+            }
         }
     }
 </style>
