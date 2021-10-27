@@ -11,14 +11,14 @@
         name: "CenteredLayout",
         props: {
             tag: {
-                default: "div",
+                default: "main",
                 type: String
             }
         }
     });
 </script>
 
-<style>
+<style lang="scss" scoped>
     .centered-layout
     {
         align-items: center;

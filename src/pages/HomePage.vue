@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="home-page" tag="main">
+    <CenteredLayout id="home-page">
         <Card id="background-card" facedown />
         <h1 class="title">
             Do you dare?
