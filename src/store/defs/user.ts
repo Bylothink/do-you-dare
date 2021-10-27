@@ -11,7 +11,7 @@ const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: Str
         token
     }
 }`;
-const GET_TOKEN_AUTH2 = gql`mutation createUser($firstName: String!, $lastName: String! $username: String!, $password: String!, $email: String!) {
+const CREATE_USER = gql`mutation createUser($firstName: String!, $lastName: String! $username: String!, $password: String!, $email: String!) {
     createUser(firstName: $firstName, lastName: $lastName, username: $username, password: $password, email: $email) {
         user {
             id,
@@ -89,7 +89,7 @@ export default {
         },
         async signUp({ commit }: ActionContext<UserState, RootState>, { firstName, lastName, username, password, email }: SignUpPayload): Promise<User>
         {
-            const response = await graphql.mutation<CreateUserResponse>("auth", GET_TOKEN_AUTH2, {
+            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, {
                 firstName: firstName,
                 lastName: lastName,
                 username: username,
