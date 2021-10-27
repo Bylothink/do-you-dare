@@ -55,9 +55,9 @@
                                required />
                     </div>
                 </div>
-                <hr />
-                <div class="row mb-3 mt-4">
+                <div class="row mb-3">
                     <div class="col-sm-9 offset-sm-3">
+                        <hr />
                         <button class="form control form-control-lg btn btn-primary" type="submit">
                             Conferma
                         </button>
@@ -102,7 +102,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #sing-up-page
+    #sign-up-page
     {
         .btn.btn-primary
         {
