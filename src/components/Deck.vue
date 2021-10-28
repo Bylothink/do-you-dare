@@ -35,11 +35,11 @@
         components: { Card, InteractiveCard },
         props: {
             card: {
-                default: () => new CardModel("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula."),
+                default: () => new CardModel(0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula."),
                 type: CardModel
             }
         },
-        emits: ["fold"],
+        emits: ["draw", "fold"],
 
         setup: (props, { emit }) =>
         {
@@ -101,6 +101,8 @@
                 {
                     isCardDraggable.value = true;
                     isCardFacedown.value = false;
+
+                    emit("draw");
                 }
             };
             const onClickOutside = (evt: MouseEvent) =>
