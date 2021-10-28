@@ -12,18 +12,29 @@ export interface GraphQLResponse<T = unknown>
 
 export class GraphQLService
 {
-    private _baseUrl: string;
+    private readonly _baseUrl: string;
 
     public constructor(baseUrl: string)
     {
         this._baseUrl = baseUrl;
     }
 
-    public async query<T = unknown>(name: string, query: DocumentNode): Promise<T>
+    public async query<T = unknown>(name: string, query: DocumentNode, jwtToken?: string): Promise<T>
     {
+        const headers: Record<string, string> = { };
+
+        if (jwtToken)
+        {
+            headers.Authorization = `JWT ${jwtToken}`;
+        }
+
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(`${this._baseUrl}/${name}/`, { query: print(query) });
+            const response = await axios.post<GraphQLResponse<T>>(
+                `${this._baseUrl}/${name}/`,
+                { query: print(query) },
+                { headers }
+            );
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -47,15 +58,25 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(name: string, query: DocumentNode, variables: GraphQLVariables)
+    public async mutation<T = unknown>(name: string, query: DocumentNode, variables: GraphQLVariables, jwtToken?: string)
         : Promise<T>
     {
+        const headers: Record<string, string> = { };
+
+        if (jwtToken)
+        {
+            headers.Authorization = `JWT ${jwtToken}`;
+        }
+
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(`${this._baseUrl}/${name}/`, {
-                query: print(query),
-                variables: variables
-            });
+            const response = await axios.post<GraphQLResponse<T>>(
+                `${this._baseUrl}/${name}/`,
+                {
+                    query: print(query),
+                    variables: variables
+                },
+                { headers });
 
             if ((response.data.errors) || (!response.data.data))
             {

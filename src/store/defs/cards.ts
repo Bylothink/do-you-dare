@@ -60,22 +60,25 @@ export default {
     getters: { },
     mutations: { },
     actions: {
-        async getAll({ commit }: ActionContext<CardsState, RootState>): Promise<Card[]>
+        async getAll({ commit, rootState }: ActionContext<CardsState, RootState>): Promise<Card[]>
         {
-            const response = await graphql.query<AllCardsResponse>("cards", GET_ALL_CARDS);
+            const jwtToken = rootState.user.token;
+            const response = await graphql.query<AllCardsResponse>("cards", GET_ALL_CARDS, jwtToken);
 
             return response.allCards.map((card) => new Card(card.id, card.text));
         },
-        async getRandomOne({ commit }: ActionContext<CardsState, RootState>): Promise<Card>
+        async getRandomOne({ commit, rootState }: ActionContext<CardsState, RootState>): Promise<Card>
         {
-            const response = await graphql.query<GetRandomOneResponse>("cards", GET_RANDOM_CARD);
+            const jwtToken = rootState.user.token;
+            const response = await graphql.query<GetRandomOneResponse>("cards", GET_RANDOM_CARD, jwtToken);
             const card = response.getRandomOne;
 
             return new Card(card.id, card.text);
         },
-        async createDraw({ commit }: ActionContext<DrawState, RootState>, cardId: number): Promise<Draw>
+        async createDraw({ commit, rootState }: ActionContext<DrawState, RootState>, cardId: number): Promise<Draw>
         {
-            const response = await graphql.mutation<CreateDrawResponse>("cards", CREATE_DRAW, { cardId });
+            const jwtToken = rootState.user.token;
+            const response = await graphql.mutation<CreateDrawResponse>("cards", CREATE_DRAW, { cardId }, jwtToken);
             const draw = response.createDraw;
 
             return new Draw(draw.card, draw.user, draw.createDate);
