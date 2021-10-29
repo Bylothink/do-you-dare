@@ -82,7 +82,6 @@
                 hasCardBeenDrawn.value = false;
                 isCardDraggable.value = false;
                 isCardFacedown.value = true;
-
                 cardPosition.x = 0;
                 cardPosition.y = 0;
 
@@ -99,10 +98,13 @@
                 }
                 else
                 {
+                    if (isCardFacedown.value)
+                    {
+                        emit("draw");
+                    }
+
                     isCardDraggable.value = true;
                     isCardFacedown.value = false;
-
-                    emit("draw");
                 }
             };
             const onClickOutside = (evt: MouseEvent) =>
@@ -110,11 +112,6 @@
                 if (isCardFacedown.value)
                 {
                     hasCardBeenDrawn.value = false;
-                }
-                else
-                {
-                    isCardDraggable.value = false;
-                    isCardFacedown.value = true;
                 }
             };
 
