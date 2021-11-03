@@ -52,11 +52,12 @@
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
 
     #home-page
     {
         text-align: center;
-
         & > ul
         {
             font-size: 2em;
@@ -69,11 +70,11 @@
                 margin: 1em 0px;
             }
         }
-
         & > .title
         {
-            font-size: 6.666em;
-            font-weight: 100;
+            font-size: 7vw;
+            font-family: "Caveat", Helvetica, Arial, Verdana, sans-serif;
+            font-style: italic;
             margin: 0px;
             margin-bottom: 1em;
         }
@@ -87,10 +88,17 @@
         }
         & > #play-now-btn
         {
-            font-size: 2.5em;
+            font-size: 3vw;
+            font-family: "Roboto Mono", 'Times New Roman', Times, serif;
             margin-bottom: 1em;
         }
 
+        & > #game-modes-btn
+        {
+            font-size: 2vw;
+            font-family: "Roboto Mono", 'Times New Roman', Times, serif;
+            margin-bottom: 1em;
+        }
         & > #settings-btn,
         & > #user-btn
         {
