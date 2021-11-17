@@ -81,15 +81,13 @@ export default {
     actions: {
         async signIn({ state, commit }: ActionContext<UserState, RootState>, signInVariables: SignInVariables): Promise<void>
         {
-            const jwtToken = state.token;
-            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, signInVariables, jwtToken);
+            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, signInVariables);
 
             commit("setToken", response.tokenAuth.token);
         },
         async signUp({ state, commit }: ActionContext<UserState, RootState>, signUpVariables: SignUpVariables): Promise<User>
         {
-            const jwtToken = state.token;
-            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, signUpVariables, jwtToken);
+            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, signUpVariables);
 
             return response.createUser.user;
         }
