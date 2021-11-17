@@ -1,13 +1,20 @@
-export default class Draw
+export interface DrawData
 {
-    public readonly card: number;
-    public readonly user: number;
+    readonly cardId: number;
+    readonly userId: number;
+    readonly createDate: string;
+}
+
+export default class Draw implements DrawData
+{
+    public readonly cardId: number;
+    public readonly userId: number;
     public readonly createDate: string;
 
-    public constructor(card: number, user: number, createDate: string)
+    public constructor({ cardId, userId, createDate }: DrawData)
     {
-        this.card = card;
-        this.user = user;
+        this.cardId = cardId;
+        this.userId = userId;
         this.createDate = createDate;
     }
 }

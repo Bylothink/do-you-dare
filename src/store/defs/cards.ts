@@ -1,7 +1,8 @@
 import gql from "graphql-tag";
 import { ActionContext } from "vuex";
 
-import { Card, Draw } from "@/models";
+import Card, { CardData } from "@/models/card";
+import Draw, { DrawData } from "@/models/draw";
 
 import { graphql } from "@/services";
 
@@ -41,15 +42,15 @@ const CREATE_DRAW = gql`mutation createDraw($cardId: Int!) {
 
 interface AllCardsResponse
 {
-    allCards: Card[];
+    allCards: CardData[];
 }
 interface GetRandomOneResponse
 {
-    getRandomOne: Card;
+    getRandomOne: CardData;
 }
 interface CreateDrawResponse
 {
-    createDraw: Draw;
+    createDraw: DrawData;
 }
 
 export default {
@@ -65,7 +66,7 @@ export default {
             const jwtToken = rootState.user.token;
             const response = await graphql.query<AllCardsResponse>("cards", GET_ALL_CARDS, jwtToken);
 
-            return response.allCards.map((card) => new Card(card.id, card.text));
+            return response.allCards.map((card) => new Card(card));
         },
         async getRandomOne({ commit, rootState }: ActionContext<CardsState, RootState>): Promise<Card>
         {
@@ -73,7 +74,7 @@ export default {
             const response = await graphql.query<GetRandomOneResponse>("cards", GET_RANDOM_CARD, jwtToken);
             const card = response.getRandomOne;
 
-            return new Card(card.id, card.text);
+            return new Card(card);
         },
         async createDraw({ commit, rootState }: ActionContext<DrawState, RootState>, cardId: number): Promise<Draw>
         {
@@ -81,7 +82,7 @@ export default {
             const response = await graphql.mutation<CreateDrawResponse>("cards", CREATE_DRAW, { cardId }, jwtToken);
             const draw = response.createDraw;
 
-            return new Draw(draw.card, draw.user, draw.createDate);
+            return new Draw(draw);
         }
     }
 };
