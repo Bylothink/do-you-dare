@@ -9,6 +9,10 @@ export interface UserState
 {
     token?: string;
 }
+export interface DrawState
+{
+    //
+}
 
 export interface RootState extends IndexState
 {

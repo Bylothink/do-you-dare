@@ -3,6 +3,15 @@ import { DocumentNode, GraphQLError, print } from "graphql";
 
 import { GraphQLException } from "@/core/exceptions";
 
+export interface GraphQLOptions
+{
+    jwtToken?: string;
+}
+export interface GraphQLConfigs
+{
+    headers: Record<string, string>;
+}
+
 export type GraphQLVariables = Record<string, unknown>;
 export interface GraphQLResponse<T = unknown>
 {
@@ -12,18 +21,34 @@ export interface GraphQLResponse<T = unknown>
 
 export class GraphQLService
 {
-    private _baseUrl: string;
+    private readonly _baseUrl: string;
 
     public constructor(baseUrl: string)
     {
         this._baseUrl = baseUrl;
     }
 
-    public async query<T = unknown>(name: string, query: DocumentNode): Promise<T>
+    protected _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
     {
+        const configs: GraphQLConfigs = { headers: { } };
+
+        if (options?.jwtToken)
+        {
+            configs.headers.Authorization = `JWT ${options.jwtToken}`;
+        }
+
+        return configs;
+    }
+
+    public async query<T = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<T>
+    {
+        const url = `${this._baseUrl}/${name}/`;
+        const data = { query: print(query) };
+        const configs = this._composeConfigs(options);
+
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(`${this._baseUrl}/${name}/`, { query: print(query) });
+            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -47,15 +72,20 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(name: string, query: DocumentNode, variables: GraphQLVariables)
-        : Promise<T>
+    public async mutation<T = unknown>(
+        name: string,
+        query: DocumentNode,
+        variables: GraphQLVariables,
+        options?: GraphQLOptions
+    ) : Promise<T>
     {
+        const url = `${this._baseUrl}/${name}/`;
+        const data = { query: print(query), variables: variables };
+        const configs = this._composeConfigs(options);
+
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(`${this._baseUrl}/${name}/`, {
-                query: print(query),
-                variables: variables
-            });
+            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
