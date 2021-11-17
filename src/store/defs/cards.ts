@@ -24,16 +24,10 @@ const CREATE_DRAW = gql`mutation createDraw($cardId: Int!) {
     createDraw(cardId: $cardId) {
       draw {
         card {
-          text
+          id
         },
         user {
-          id,
-          firstName,
-          lastName,
-          username,
-          email,
-          dateJoined,
-          lastLogin
+          id
         },
         createDate
       }
