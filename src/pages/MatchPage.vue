@@ -1,6 +1,8 @@
 <template>
     <CenteredLayout id="match-page">
-        <Deck :card="card" @fold="getNewCard" />
+        <Deck :card="card"
+              @draw="createNewDraw"
+              @fold="getNewCard" />
         <h1 class="title">
             Do you dare?
         </h1>
@@ -29,10 +31,11 @@
             {
                 card.value = await store.dispatch("cards/getRandomOne");
             };
+            const createNewDraw = () => store.dispatch("cards/createDraw", card.value!.id);
 
             getNewCard();
 
-            return { card, getNewCard };
+            return { card, getNewCard, createNewDraw };
         }
     });
 </script>

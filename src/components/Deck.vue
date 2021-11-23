@@ -1,6 +1,6 @@
 <template>
     <div class="deck">
-        <Card facedown />
+        <CardElement facedown />
         <InteractiveCard v-model:x="cardPosition.x"
                          v-model:y="cardPosition.y"
                          :draggable="isCardDraggable"
@@ -25,21 +25,21 @@
     import { nextFrame, waitTimeout } from "@/core/utils";
     import { DragEvent } from "@/core/types";
 
-    import { Card as CardModel } from "@/models";
+    import { Card } from "@/models";
 
-    import Card from "./Card.vue";
+    import CardElement from "./Card.vue";
     import InteractiveCard from "./InteractiveCard.vue";
 
     export default defineComponent({
         name: "Deck",
-        components: { Card, InteractiveCard },
+        components: { CardElement, InteractiveCard },
         props: {
             card: {
-                default: () => new CardModel("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula."),
-                type: CardModel
+                default: () => Card.Empty,
+                type: Card
             }
         },
-        emits: ["fold"],
+        emits: ["draw", "fold"],
 
         setup: (props, { emit }) =>
         {
@@ -99,6 +99,11 @@
                 }
                 else
                 {
+                    if (isCardFacedown.value)
+                    {
+                        emit("draw");
+                    }
+
                     isCardDraggable.value = true;
                     isCardFacedown.value = false;
                 }
@@ -108,11 +113,6 @@
                 if (isCardFacedown.value)
                 {
                     hasCardBeenDrawn.value = false;
-                }
-                else
-                {
-                    isCardDraggable.value = false;
-                    isCardFacedown.value = true;
                 }
             };
 
