@@ -1,10 +1,11 @@
 import gql from "graphql-tag";
-import { ActionContext } from "vuex";
+import { Action, ActionContext } from "vuex";
 
 import { localStorage } from "@/core/utils";
 import graphql, { GraphQLVariables } from "@/services/graphql";
 
 import { RootState, UserState } from "./types";
+import { responsePathAsArray } from "graphql";
 
 const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
@@ -24,6 +25,16 @@ const CREATE_USER = gql`mutation createUser($firstName: String!, $lastName: Stri
         }
     }
 }`;
+const RESET_PASSWORD = gql`mutation resetPassword($email: String!) {
+    resetPassword(email: $email) {
+        codice
+    }
+}`;
+const NEW_PASSWORD = gql`mutation newPassword($codice: String!) {
+    newPassword(codice: $codice) {
+        password
+    }
+}`;
 
 interface SignInVariables extends GraphQLVariables
 {
@@ -37,6 +48,15 @@ interface SignUpVariables extends GraphQLVariables
     username: string;
     password: string;
     email: string;
+}
+
+interface ResetVariables extends GraphQLVariables
+{
+    codice: string;
+}
+interface NewPasswordVariables extends GraphQLVariables
+{
+    password: string;
 }
 
 interface TokenAuthResponse
@@ -58,7 +78,14 @@ interface CreateUserResponse
 {
     createUser: { user: User };
 }
-
+interface ResetPasswordResponse
+{
+    resetPassword: {email: string};
+}
+interface NewPasswordResponse
+{
+    newPassword: {codice: string};
+}
 export default {
     namespaced: true,
 
@@ -90,6 +117,18 @@ export default {
             const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, signUpVariables);
 
             return response.createUser.user;
+        },
+        async reset({ commit }: ActionContext<UserState, RootState>, resetVariables: ResetVariables): Promise<string>
+        {
+            const response = await graphql.mutation<ResetPasswordResponse>("auth", RESET_PASSWORD, resetVariables);
+
+            return response.resetPassword.email;
+        },
+        async newPassword({ commit }: ActionContext<UserState, RootState>, newPasswordVariables: NewPasswordVariables): Promise<string>
+        {
+            const response = await graphql.mutation<NewPasswordResponse>("auth", NEW_PASSWORD, newPasswordVariables);
+
+            return response.newPassword.codice;
         }
     }
 };

@@ -71,6 +71,22 @@ export default new Config({
             topLevel: true
         },
         {
+            id: 0x33,
+            name: "reset",
+            path: "/reset",
+            component: () => import(/* webpackChunkName: "reset-page" */ "@/pages/ResetPassword.vue"),
+            title: "Reset Password",
+            topLevel: true
+        },
+        {
+            id: 0x34,
+            name: "new-password",
+            path: "/new-password",
+            component: () => import(/* webpackChunkName: "newPassword-page" */ "@/pages/NewPassword.vue"),
+            title: "New Password",
+            topLevel: true
+        },
+        {
             id: 0x9,
             name: "about",
             path: "/about",
