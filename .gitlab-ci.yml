@@ -1,0 +1,26 @@
+image: docker:latest
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+
+services:
+  - docker:dind
+
+before_script:
+  - docker login "${CI_REGISTRY}" -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}"
+
+build:
+  stage: build
+  script:
+    - docker pull "${DOCKER_IMAGE}" || true
+    - docker build --cache-from "${DOCKER_IMAGE}" --tag "${DOCKER_IMAGE}"
+      --build-arg AUTHOR="${GITLAB_USER_NAME}"
+      --build-arg COMMIT_SHA="${CI_COMMIT_SHA}"
+      --build-arg COMMIT_REF="${CI_COMMIT_REF}"
+      --build-arg CREATE_DATE="${CI_PIPELINE_CREATED_AT}"
+      .
+
+    - docker push "${DOCKER_IMAGE}"
+
+  only:
+    - master
