@@ -3,7 +3,6 @@ FROM node:16.13 as builder
 WORKDIR /opt/arderco/frontend/
 COPY . ./
 RUN yarn ci \
- && yarn lint:prod \
  && yarn build
 
 FROM nginx:1.21
