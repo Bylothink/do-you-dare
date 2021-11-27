@@ -1,18 +1,22 @@
 version: "3.9"
 services:
   nginx:
-    build: .
+    build:
+      context: .
+      args:
+        - VUE_APP_BACKEND_URL=http://localhost:8000
+
     image: do-you-dare/frontend:latest
     env_file:
       - .env
 
     labels:
       traefik.enable: true
-      traefik.http.routers.do-you-dare.entrypoints: websecure
-      traefik.http.routers.do-you-dare.rule: Host(`${HOSTNAME}`)
-      traefik.http.routers.do-you-dare.tls: true
-      traefik.http.routers.do-you-dare.tls.certresolver: letsencrypt
-      traefik.http.services.do-you-dare.loadbalancer.server.port: 80
+      traefik.http.routers.do-you-dare_frontend.entrypoints: websecure
+      traefik.http.routers.do-you-dare_frontend.rule: Host(`${HOSTNAME}`)
+      traefik.http.routers.do-you-dare_frontend.tls: true
+      traefik.http.routers.do-you-dare_frontend.tls.certresolver: letsencrypt
+      traefik.http.services.do-you-dare_frontend.loadbalancer.server.port: 80
 
     networks:
       - default

@@ -1,5 +1,6 @@
 image: docker:latest
 variables:
+  APPLICATION_URL: "https://${APPLICATION_HOST}"
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
 
@@ -14,6 +15,7 @@ build:
   script:
     - docker pull "${DOCKER_IMAGE}" || true
     - docker build --cache-from "${DOCKER_IMAGE}" --tag "${DOCKER_IMAGE}"
+      --build-arg VUE_APP_BACKEND_URL="${APPLICATION_URL}"
       --build-arg AUTHOR="${GITLAB_USER_NAME}"
       --build-arg COMMIT_SHA="${CI_COMMIT_SHA}"
       --build-arg COMMIT_REF="${CI_COMMIT_REF}"

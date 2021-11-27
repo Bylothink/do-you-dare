@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { DocumentNode, GraphQLError, print } from "graphql";
 
+import config from "@/config";
+
 import { GraphQLException } from "@/core/exceptions";
 
 export interface GraphQLOptions
@@ -21,11 +23,11 @@ export interface GraphQLResponse<T = unknown>
 
 export class GraphQLService
 {
-    private readonly _baseUrl: string;
+    private readonly _endpoint: string;
 
-    public constructor(baseUrl: string)
+    public constructor(endpopint: string)
     {
-        this._baseUrl = baseUrl;
+        this._endpoint = endpopint;
     }
 
     protected _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
@@ -40,15 +42,14 @@ export class GraphQLService
         return configs;
     }
 
-    public async query<T = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<T>
+    public async query<T = unknown>(query: DocumentNode, options?: GraphQLOptions): Promise<T>
     {
-        const url = `${this._baseUrl}/${name}/`;
         const data = { query: print(query) };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<T>>(this._endpoint, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -72,20 +73,14 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(
-        name: string,
-        query: DocumentNode,
-        variables: GraphQLVariables,
-        options?: GraphQLOptions
-    ) : Promise<T>
+    public async mutation<T = unknown>(query: DocumentNode, variables: GraphQLVariables, options?: GraphQLOptions) : Promise<T>
     {
-        const url = `${this._baseUrl}/${name}/`;
         const data = { query: print(query), variables: variables };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<T>>(this._endpoint, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -110,4 +105,4 @@ export class GraphQLService
     }
 }
 
-export default new GraphQLService("http://localhost:8000");
+export default new GraphQLService(`${config.backendUrl}/graphql/`);

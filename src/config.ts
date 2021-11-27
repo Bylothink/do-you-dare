@@ -13,6 +13,7 @@ export type PageOptions = RouteRecordRaw &
 
 export interface ConfigOptions
 {
+    backendUrl: string;
     title: string;
     author: string;
     pages: PageOptions[];
@@ -23,6 +24,7 @@ class Config implements ConfigOptions
 {
     protected _options: ConfigOptions;
 
+    public get backendUrl(): string { return this._options.backendUrl; }
     public get title(): string { return this._options.title; }
     public get author(): string { return this._options.author; }
     public get pages(): PageOptions[] { return this._options.pages; }
@@ -35,6 +37,8 @@ class Config implements ConfigOptions
 }
 
 export default new Config({
+    backendUrl: process.env.VUE_APP_BACKEND_URL,
+
     title: "Do you Dare?",
     author: "Matteo Bilotta",
     pages: [

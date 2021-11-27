@@ -6,8 +6,8 @@ import graphql, { GraphQLVariables } from "@/services/graphql";
 
 import { RootState, UserState } from "./types";
 
-const GET_TOKEN_AUTH = gql`mutation tokenAuth($username: String!, $password: String!) {
-    tokenAuth(username: $username, password: $password) {
+const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) {
+    getToken(username: $username, password: $password) {
         token
     }
 }`;
@@ -39,9 +39,9 @@ interface SignUpVariables extends GraphQLVariables
     email: string;
 }
 
-interface TokenAuthResponse
+interface GetTokenResponse
 {
-    tokenAuth: { token: string };
+    getToken: { token: string };
 }
 
 interface User
@@ -81,13 +81,13 @@ export default {
     actions: {
         async signIn({ state, commit }: ActionContext<UserState, RootState>, signInVariables: SignInVariables): Promise<void>
         {
-            const response = await graphql.mutation<TokenAuthResponse>("auth", GET_TOKEN_AUTH, signInVariables);
+            const response = await graphql.mutation<GetTokenResponse>(GET_TOKEN, signInVariables);
 
-            commit("setToken", response.tokenAuth.token);
+            commit("setToken", response.getToken.token);
         },
         async signUp({ state, commit }: ActionContext<UserState, RootState>, signUpVariables: SignUpVariables): Promise<User>
         {
-            const response = await graphql.mutation<CreateUserResponse>("auth", CREATE_USER, signUpVariables);
+            const response = await graphql.mutation<CreateUserResponse>(CREATE_USER, signUpVariables);
 
             return response.createUser.user;
         }
