@@ -61,9 +61,14 @@ build:
     - docker push "${DOCKER_IMAGE_REF}"
     - docker push "${DOCKER_IMAGE_TAG}"
 
-  only:
-    - master
-    - production
+  rules:
+    - exists:
+      - Dockerfile
+    - if: '"${CI_COMMIT_BRANCH}" =~ /^(master|production)$/'
+      when: on_success
+    - if: '"${CI_COMMIT_BRANCH}" =~ /^feature\//'
+      when: manual
+    - when: never
 
 release:
   stage: release
