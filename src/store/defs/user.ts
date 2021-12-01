@@ -6,6 +6,8 @@ import graphql, { GraphQLVariables } from "@/services/graphql";
 
 import { RootState, UserState } from "./types";
 
+const AUTH_SCHEMA = "auth";
+
 const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) {
     getToken(username: $username, password: $password) {
         token
@@ -81,13 +83,13 @@ export default {
     actions: {
         async signIn({ state, commit }: ActionContext<UserState, RootState>, signInVariables: SignInVariables): Promise<void>
         {
-            const response = await graphql.mutation<GetTokenResponse>(GET_TOKEN, signInVariables);
+            const response = await graphql.mutation<GetTokenResponse>(AUTH_SCHEMA, GET_TOKEN, signInVariables);
 
             commit("setToken", response.getToken.token);
         },
         async signUp({ state, commit }: ActionContext<UserState, RootState>, signUpVariables: SignUpVariables): Promise<User>
         {
-            const response = await graphql.mutation<CreateUserResponse>(CREATE_USER, signUpVariables);
+            const response = await graphql.mutation<CreateUserResponse>(AUTH_SCHEMA, CREATE_USER, signUpVariables);
 
             return response.createUser.user;
         }

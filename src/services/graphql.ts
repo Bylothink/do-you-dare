@@ -42,14 +42,15 @@ export class GraphQLService
         return configs;
     }
 
-    public async query<T = unknown>(query: DocumentNode, options?: GraphQLOptions): Promise<T>
+    public async query<T = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<T>
     {
+        const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query) };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(this._endpoint, data, configs);
+            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -73,14 +74,20 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(query: DocumentNode, variables: GraphQLVariables, options?: GraphQLOptions) : Promise<T>
+    public async mutation<T = unknown>(
+        name: string,
+        query: DocumentNode,
+        variables: GraphQLVariables,
+        options?: GraphQLOptions
+    ) : Promise<T>
     {
+        const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query), variables: variables };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(this._endpoint, data, configs);
+            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -105,4 +112,4 @@ export class GraphQLService
     }
 }
 
-export default new GraphQLService(`${config.backendUrl}/graphql/`);
+export default new GraphQLService(`${config.backendUrl}/graphql`);
