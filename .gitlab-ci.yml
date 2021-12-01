@@ -19,7 +19,8 @@ before_script:
 build:
   stage: build
   script:
-    - if docker pull "${DOCKER_IMAGE_REF}" &> /dev/null
+    - |-
+      if docker pull "${DOCKER_IMAGE_REF}" &> /dev/null
       then
         docker tag "${DOCKER_IMAGE_REF}" "${DOCKER_IMAGE_TAG}"
       else
