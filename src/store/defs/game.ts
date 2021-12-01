@@ -6,7 +6,7 @@ import Draw, { DrawData } from "@/models/draw";
 
 import { graphql } from "@/services";
 
-import { RootState, CardsState, DrawState } from "./types";
+import { RootState, GameState, DrawState } from "./types";
 
 const GAME_SCHEMA = "game";
 
@@ -17,7 +17,7 @@ const GET_ALL_CARDS = gql`query {
     }
 }`;
 const GET_RANDOM_CARD = gql`query {
-    getRandomOne {
+    getRandomCard {
         id,
         text
     }
@@ -40,9 +40,9 @@ interface AllCardsResponse
 {
     allCards: CardData[];
 }
-interface GetRandomOneResponse
+interface GetRandomCardResponse
 {
-    getRandomOne: CardData;
+    getRandomCard: CardData;
 }
 interface CreateDrawResponse
 {
@@ -52,23 +52,23 @@ interface CreateDrawResponse
 export default {
     namespaced: true,
 
-    state: (): CardsState => ({ }),
+    state: (): GameState => ({ }),
 
     getters: { },
     mutations: { },
     actions: {
-        async getAll({ commit, rootState }: ActionContext<CardsState, RootState>): Promise<Card[]>
+        async getAllCards({ commit, rootState }: ActionContext<GameState, RootState>): Promise<Card[]>
         {
             const jwtToken = rootState.user.token;
             const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS, { jwtToken });
 
             return response.allCards.map((card) => new Card(card));
         },
-        async getRandomOne({ commit, rootState }: ActionContext<CardsState, RootState>): Promise<Card>
+        async getRandomCard({ commit, rootState }: ActionContext<GameState, RootState>): Promise<Card>
         {
             const jwtToken = rootState.user.token;
-            const response = await graphql.query<GetRandomOneResponse>(GAME_SCHEMA, GET_RANDOM_CARD, { jwtToken });
-            const card = response.getRandomOne;
+            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD, { jwtToken });
+            const card = response.getRandomCard;
 
             return new Card(card);
         },

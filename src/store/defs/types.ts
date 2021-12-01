@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 export interface IndexState { }
-export interface CardsState
+export interface GameState
 {
     // TODO!
 }
@@ -16,6 +16,6 @@ export interface DrawState
 
 export interface RootState extends IndexState
 {
-    cards: CardsState;
+    game: GameState;
     user: UserState;
 }

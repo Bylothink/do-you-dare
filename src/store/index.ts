@@ -3,35 +3,35 @@ import { createStore, useStore as useVuexStore, Store as VuexStore, StoreOptions
 import store from "./defs";
 
 type IndexState = ReturnType<typeof store.state>;
-type CardsState = ReturnType<typeof store.modules.cards.state>;
+type GameState = ReturnType<typeof store.modules.game.state>;
 type UserState = ReturnType<typeof store.modules.user.state>;
 type State =
     { readonly [S in keyof IndexState]: IndexState[S]; } &
-    { readonly cards: { readonly [S in keyof CardsState]: CardsState[S]; }; } &
+    { readonly game: { readonly [S in keyof GameState]: GameState[S]; }; } &
     { readonly user: { readonly [S in keyof UserState]: UserState[S]; }; };
 
 type IndexGetters = typeof store.getters;
-type CardsGetters = typeof store.modules.cards.getters;
+type GameGetters = typeof store.modules.game.getters;
 type UserGetters = typeof store.modules.user.getters;
 type Getters =
     { readonly [G in keyof IndexGetters]: ReturnType<IndexGetters[G]>; } &
-    { readonly [G in keyof CardsGetters as `cards/${G}`]: ReturnType<CardsGetters[G]>; } &
+    { readonly [G in keyof GameGetters as `game/${G}`]: ReturnType<GameGetters[G]>; } &
     { readonly [G in keyof UserGetters as `user/${G}`]: ReturnType<UserGetters[G]>; };
 
 type IndexMutations = typeof store.mutations;
-type CardsMutations = typeof store.modules.cards.mutations;
+type GameMutations = typeof store.modules.game.mutations;
 type UserMutations = typeof store.modules.user.mutations;
 type Mutations =
     { [M in keyof IndexMutations]: IndexMutations[M]; } &
-    { [M in keyof CardsMutations as `cards/${M}`]: CardsMutations[M]; } &
+    { [M in keyof GameMutations as `game/${M}`]: GameMutations[M]; } &
     { [M in keyof UserMutations as `user/${M}`]: UserMutations[M]; };
 
 type IndexActions = typeof store.actions;
-type CardsActions = typeof store.modules.cards.actions;
+type GameActions = typeof store.modules.game.actions;
 type UserActions = typeof store.modules.user.actions;
 type Actions =
     { [A in keyof IndexActions]: IndexActions[A]; } &
-    { [A in keyof CardsActions as `cards/${A}`]: CardsActions[A]; } &
+    { [A in keyof GameActions as `game/${A}`]: GameActions[A]; } &
     { [A in keyof UserActions as `user/${A}`]: UserActions[A]; };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

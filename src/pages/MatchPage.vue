@@ -29,9 +29,9 @@
 
             const getNewCard = async () =>
             {
-                card.value = await store.dispatch("cards/getRandomOne");
+                card.value = await store.dispatch("game/getRandomCard");
             };
-            const createNewDraw = () => store.dispatch("cards/createDraw", card.value!.id);
+            const createNewDraw = () => store.dispatch("game/createDraw", card.value!.id);
 
             getNewCard();
 
