@@ -1,10 +1,22 @@
-import { printError } from "graphql";
+import { GraphQLError, printError } from "graphql";
 import { GraphQLResponse } from "@/services/graphql";
 
 import Exception from "./core";
 
 export default class GraphQLException extends Exception
 {
+    public static PrintError(error: GraphQLError): string
+    {
+        let errorMessage = printError(error);
+
+        if (!errorMessage.endsWith("."))
+        {
+            errorMessage += ".";
+        }
+
+        return errorMessage;
+    }
+
     public constructor(response: GraphQLResponse)
     {
         let message: string;
@@ -14,16 +26,16 @@ export default class GraphQLException extends Exception
         {
             if (errors.length > 1)
             {
-                message = `Some errors occurred:`;
+                message = `Some errors occurred!`;
 
                 for (const error of errors)
                 {
-                    message += `\n - ${printError(error)}.`;
+                    message += `\n - ${GraphQLException.PrintError(error)}.`;
                 }
             }
             else
             {
-                message = `${printError(errors[0])}.`;
+                message = `${GraphQLException.PrintError(errors[0])}.`;
             }
         }
         else
