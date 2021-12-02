@@ -6,7 +6,7 @@
         </h1>
         <RouterLink id="play-now-btn"
                     class="btn btn-primary btn-lg"
-                    :to="{ name: 'match' }">
+                    :to="{ name: 'game' }">
             Play now!
         </RouterLink>
         <button id="game-modes-btn" class="btn btn-secondary btn-lg">

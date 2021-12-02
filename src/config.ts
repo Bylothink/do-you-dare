@@ -52,10 +52,10 @@ export default new Config({
         },
         {
             id: 0x2,
-            name: "match",
-            path: "/match",
-            component: () => import(/* webpackChunkName: "match-page" */ "./pages/MatchPage.vue"),
-            title: "Match",
+            name: "game",
+            path: "/game",
+            component: () => import(/* webpackChunkName: "game-page" */ "./pages/GamePage.vue"),
+            title: "Game",
             topLevel: true
         },
         {

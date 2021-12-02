@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="match-page">
+    <CenteredLayout id="game-page">
         <Deck :card="card"
               @draw="createNewDraw"
               @fold="getNewCard" />
@@ -19,7 +19,7 @@
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     export default defineComponent({
-        name: "MatchPage",
+        name: "GamePage",
         components: { CenteredLayout, Deck },
 
         setup: () =>
@@ -55,7 +55,7 @@
         100% { margin-top: 0.5em; }
     }
 
-    #match-page
+    #game-page
     {
         overflow: hidden;
 
