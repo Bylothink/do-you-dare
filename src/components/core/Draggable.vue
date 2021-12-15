@@ -2,15 +2,17 @@
     <div class="draggable"
          :class="classes"
          :style="styles"
-         @mousedown.passive="onMouseDown">
+         @mousedown.passive="onMouseDown"
+         @touchstart.passive="onTouchStart">
         <slot></slot>
     </div>
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, onUnmounted, reactive, ref } from "vue";
+    import { computed, defineComponent, reactive, ref } from "vue";
+    import { useEventListener } from "@vueuse/core";
 
-    import { DragEvent } from "@/core/types";
+    import { DragEvent, Point } from "@/core/types";
 
     export default defineComponent({
         name: "Draggable",
@@ -49,32 +51,45 @@
             }));
             const styles = computed((): Record<string, string> => ({ left: `${props.x}px`, top: `${props.y}px` }));
 
+            const onEventDown = (evt: Point) =>
+            {
+                const dragEvt: DragEvent = {
+                    mouse: { x: evt.x, y: evt.y },
+                    offset: { x: props.x, y: props.y }
+                };
+
+                isMoving.value = true;
+                initialCoords.x = evt.x - props.x;
+                initialCoords.y = evt.y - props.y;
+
+                emit("drag", dragEvt);
+            };
             const onMouseDown = (evt: MouseEvent) =>
             {
                 if ((!props.disabled) && (evt.button === 0))
                 {
-                    const dragEvt: DragEvent = {
-                        mouse: { x: evt.clientX, y: evt.clientY },
-                        offset: { x: props.x, y: props.y }
-                    };
+                    onEventDown({ x: evt.clientX, y: evt.clientY });
+                }
+            };
+            const onTouchStart = (evt: TouchEvent) =>
+            {
+                if ((!props.disabled) && (evt.touches.length === 1))
+                {
+                    const touch = evt.touches[0];
 
-                    isMoving.value = true;
-                    initialCoords.x = evt.clientX - props.x;
-                    initialCoords.y = evt.clientY - props.y;
-
-                    emit("drag", dragEvt);
+                    onEventDown({ x: touch.clientX, y: touch.clientY });
                 }
             };
 
-            const onMouseMove = (evt: MouseEvent) =>
+            const onEventMove = (evt: Point) =>
             {
                 if (isMoving.value)
                 {
-                    const x = evt.clientX - initialCoords.x;
-                    const y = evt.clientY - initialCoords.y;
+                    const x = evt.x - initialCoords.x;
+                    const y = evt.y - initialCoords.y;
 
                     const dragEvt: DragEvent = {
-                        mouse: { x: evt.clientX, y: evt.clientY },
+                        mouse: { x: evt.x, y: evt.y },
                         offset: { x, y }
                     };
 
@@ -84,33 +99,48 @@
                     emit("update:y", y);
                 }
             };
+            const onMouseMove = (evt: MouseEvent) =>
+            {
+                onEventMove({ x: evt.clientX, y: evt.clientY });
+            };
+            const onTouchMove = (evt: TouchEvent) =>
+            {
+                if (evt.touches.length === 1)
+                {
+                    const touch = evt.touches[0];
+
+                    onEventMove({ x: touch.clientX, y: touch.clientY });
+                }
+            };
+
+            const onEventUp = () =>
+            {
+                isMoving.value = false;
+
+                emit("drop");
+            };
             const onMouseUp = (evt: MouseEvent) =>
             {
                 if ((isMoving.value) && (evt.button === 0))
                 {
-                    const dragEvt: DragEvent = {
-                        mouse: { x: evt.clientX, y: evt.clientY },
-                        offset: { x: props.x, y: props.y }
-                    };
-
-                    isMoving.value = false;
-
-                    emit("drop", dragEvt);
+                    onEventUp();
+                }
+            };
+            const onTouchEnd = (evt: TouchEvent) =>
+            {
+                if ((isMoving.value))
+                {
+                    onEventUp();
                 }
             };
 
-            onMounted(() =>
-            {
-                window.addEventListener("mousemove", onMouseMove, { passive: true });
-                window.addEventListener("mouseup", onMouseUp, { passive: true });
-            });
-            onUnmounted(() =>
-            {
-                window.removeEventListener("mouseup", onMouseUp);
-                window.removeEventListener("mousemove", onMouseMove);
-            });
+            useEventListener(window, "mousemove", onMouseMove, { passive: true });
+            useEventListener(window, "touchmove", onTouchMove, { passive: true });
 
-            return { classes, styles, onMouseDown };
+            useEventListener(window, "mouseup", onMouseUp, { passive: true });
+            useEventListener(window, "touchend", onTouchEnd, { passive: true });
+
+            return { classes, styles, onMouseDown, onTouchStart };
         }
     });
 </script>

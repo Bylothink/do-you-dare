@@ -15,7 +15,8 @@
 </template>
 
 <script lang="ts">
-    import { computed, defineComponent, onMounted, onUnmounted } from "vue";
+    import { computed, defineComponent } from "vue";
+    import { useEventListener } from "@vueuse/core";
 
     import Draggable from "./core/Draggable.vue";
     import Card from "./Card.vue";
@@ -92,16 +93,8 @@
                 }
             };
 
-            onMounted(() =>
-            {
-                window.addEventListener("mousedown", onMouseDown, { passive: true });
-                window.addEventListener("mouseup", onMouseUp, { passive: true });
-            });
-            onUnmounted(() =>
-            {
-                window.removeEventListener("mouseup", onMouseUp);
-                window.removeEventListener("mousedown", onMouseDown);
-            });
+            useEventListener(window, "mousedown", onMouseDown, { passive: true });
+            useEventListener(window, "mouseup", onMouseUp, { passive: true });
 
             return { classes, onClick };
         }

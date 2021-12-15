@@ -120,10 +120,10 @@
             {
                 isCardBeingDragged.value = true;
             };
-            const onDrop = (evt: DragEvent) =>
+            const onDrop = () =>
             {
-                const x = evt.offset.x;
-                const y = evt.offset.y;
+                const x = cardPosition.x;
+                const y = cardPosition.y;
 
                 const absX = Math.abs(x);
                 const absY = Math.abs(y);
