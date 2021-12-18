@@ -1,11 +1,64 @@
-# Vue 3 + Typescript + Vite
+# Do you Dare? 🎴
+## Frontend project
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A web-game based on the original game of "Truth or Dare?" with different game modes.
 
-## Recommended IDE Setup
+## Get started
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+### Set up
 
-## Type Support For `.vue` Imports in TS
+To install all the dependencies required by this project, you need to run:
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+```bash
+$ yarn install
+```
+
+### Develop
+
+To run this project in `development` mode with also the auto-refresh feature, you need to run:
+
+```bash
+$ yarn dev
+```
+
+### Contribute
+
+To lint this project and check for any syntax or stylistic errors, you need to run:
+
+```bash
+$ yarn lint
+```
+
+### Publish
+
+To build this project in `production` mode with also tree-shaking and minifing features, you need to run:
+
+```bash
+$ yarn build
+```
+
+After built this project, you'll find all the production-ready files in the `dist/` directory.  
+Copy those files directly to your web-server to simply serve this project as static files.
+
+## Nerds informations 🤓
+
+### Recommended [Visual Studio Code](https://code.visualstudio.com/) extensions
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [GraphQL](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql)
+- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+
+### Used technologies
+
+- [Vue.js 3](https://v3.vuejs.org/guide/introduction.html)
+    - [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)
+    - [SFC `<script setup>` syntax](https://v3.vuejs.org/api/sfc-script-setup.html)
+- [Vue Router](https://next.router.vuejs.org/guide/)
+- [Vuex](https://next.vuex.vuejs.org/guide/)
+- [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [ESLint](https://eslint.org/docs/user-guide/getting-started)
+- [GraphQL](https://graphql.org/code/#javascript)
+- [SASS](https://sass-lang.com/guide)
+- [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
+- [FontAwesome](https://fontawesome.com/v5.15/icons?m=free)
+- [Vite.js](https://vitejs.dev/guide/)

@@ -1,0 +1,35 @@
+// Colors...
+//
+$not-quite-black: #202124;
+$slightly-off-white: #FAFAFA;
+
+
+$yellow: #FFC107;
+$orange: #FF5722;
+$red: #F44336;
+$pink: #E91E63;
+
+
+$chrome-scrollbar-color: #F1F1F1;
+$chrome-link-preview-color: #DEE1E6;
+$chrome-incognito-color: #35363A;
+
+// Fonts...
+//
+$font-family: unquote("Ubuntu, Roboto, Helvetica, sans-serif");
+
+// Sizes...
+//
+$xs-size: 0;
+$sm-size: 576px;
+$md-size: 768px;
+$lg-size: 992px;
+$xl-size: 1200px;
+$xxl-size: 1400px;
+
+$max-mobile-size: $sm-size - 1px;
+$min-tablet-size: $sm-size;
+$max-tablet-size: $lg-size - 1px;
+$min-desktop-size: $lg-size;
+
+$card-width: 300px;

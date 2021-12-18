@@ -1,0 +1,63 @@
+@use "./variables";
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+html,
+body
+{
+    height: 100%;
+    overflow: hidden;
+}
+
+body
+{
+    background-color: variables.$chrome-incognito-color;
+    color: variables.$slightly-off-white;
+    font-family: variables.$font-family;
+}
+
+hr,
+hr:not([size])
+{
+    background-color: rgba(255, 255, 255, 0.25);
+    border: none;
+    height: 3px;
+    opacity: 1;
+}
+
+label
+{
+    &:after
+    {
+        content: ":";
+        margin-right: 0.5em;
+    }
+}
+
+.btn
+{
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@media (min-width: variables.$sm-size)
+{
+    .form-table
+    {
+        display: table;
+    }
+    .form-row
+    {
+        display: table-row;
+    }
+    .form-cell
+    {
+        display: table-cell;
+
+        &.col-form-label
+        {
+            text-align: right;
+        }
+    }
+}
