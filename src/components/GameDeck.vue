@@ -21,8 +21,9 @@
 
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
+    import { promiseTimeout } from "@vueuse/core";
 
-    import { nextFrame, waitTimeout } from "@/core/utils";
+    import { nextFrame } from "@/core/utils";
     import { DragEvent } from "@/core/types";
 
     import { Card } from "@/models";
@@ -134,7 +135,7 @@
             cardPosition.x = x * 3;
             cardPosition.y = y * 3;
 
-            waitTimeout(200)
+            promiseTimeout(200)
                 .then(reset);
         }
         else

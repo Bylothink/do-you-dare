@@ -10,11 +10,3 @@ export const nextFrame = (): Promise<void> =>
         requestAnimationFrame(() => resolve());
     });
 };
-
-export const waitTimeout = (milliseconds: number): Promise<void> =>
-{
-    return new Promise<void>((resolve, reject) =>
-    {
-        setTimeout(resolve, milliseconds);
-    });
-};

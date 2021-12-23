@@ -32,6 +32,7 @@
                            v-model="username"
                            class="form-control form-control-lg mb-3"
                            type="text"
+                           autocomplete="username"
                            required />
                 </div>
             </div>
@@ -52,6 +53,7 @@
                            v-model="password"
                            class="form-control form-control-lg mb-3"
                            type="password"
+                           autocomplete="new-password"
                            required />
                 </div>
             </div>

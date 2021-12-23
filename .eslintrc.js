@@ -11,6 +11,10 @@ module.exports = {
   },
   overrides: [
     {
+      files: ["*.vue"],
+      rules: { "vue/no-v-model-argument": "off" }
+    },
+    {
       files: ["*.ts"],
       rules: { "no-unused-vars": "off" }
     }

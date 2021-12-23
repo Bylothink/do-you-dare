@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { computed, reactive, ref } from "vue";
+    import { computed, reactive, ref, onUnmounted } from "vue";
     import { useEventListener } from "@vueuse/core";
 
     import { DragEvent, Point } from "@/core/types";
@@ -52,27 +52,30 @@
 
     const onEventDown = (evt: Point) =>
     {
-        const dragEvt: DragEvent = {
-            mouse: { x: evt.x, y: evt.y },
-            offset: { x: props.x, y: props.y }
-        };
+        if (!props.disabled)
+        {
+            const dragEvt: DragEvent = {
+                mouse: { x: evt.x, y: evt.y },
+                offset: { x: props.x, y: props.y }
+            };
 
-        isMoving.value = true;
-        initialCoords.x = evt.x - props.x;
-        initialCoords.y = evt.y - props.y;
+            isMoving.value = true;
+            initialCoords.x = evt.x - props.x;
+            initialCoords.y = evt.y - props.y;
 
-        emit("drag", dragEvt);
+            emit("drag", dragEvt);
+        }
     };
     const onMouseDown = (evt: MouseEvent) =>
     {
-        if ((!props.disabled) && (evt.button === 0))
+        if (evt.button === 0)
         {
             onEventDown({ x: evt.clientX, y: evt.clientY });
         }
     };
     const onTouchStart = (evt: TouchEvent) =>
     {
-        if ((!props.disabled) && (evt.touches.length === 1))
+        if (evt.touches.length === 1)
         {
             const touch = evt.touches[0];
 
@@ -80,15 +83,22 @@
         }
     };
 
-    const onEventMove = (evt: Point) =>
+    //
+    // TODO: Creare un helper / debouncer per gestire
+    //        correttamente il movimento della carta.
+    //
+    let _requestId: number | null = null;
+    let _mousePosition: Point = { x: 0, y: 0 };
+
+    const _requestCallback = () =>
     {
-        if (isMoving.value)
+        if (_requestId)
         {
-            const x = evt.x - initialCoords.x;
-            const y = evt.y - initialCoords.y;
+            const x = _mousePosition.x - initialCoords.x;
+            const y = _mousePosition.y - initialCoords.y;
 
             const dragEvt: DragEvent = {
-                mouse: { x: evt.x, y: evt.y },
+                mouse: { x: _mousePosition.x, y: _mousePosition.y },
                 offset: { x, y }
             };
 
@@ -96,8 +106,23 @@
 
             emit("update:x", x);
             emit("update:y", y);
+
+            _requestId = null;
         }
     };
+    const onEventMove = (evt: Point) =>
+    {
+        if (isMoving.value)
+        {
+            _mousePosition = evt;
+
+            if (!_requestId)
+            {
+                _requestId = requestAnimationFrame(_requestCallback);
+            }
+        }
+    };
+
     const onMouseMove = (evt: MouseEvent) =>
     {
         onEventMove({ x: evt.clientX, y: evt.clientY });
@@ -114,23 +139,32 @@
 
     const onEventUp = () =>
     {
-        isMoving.value = false;
+        if ((isMoving.value))
+        {
+            isMoving.value = false;
 
-        emit("drop");
+            if (_requestId)
+            {
+                cancelAnimationFrame(_requestId);
+            }
+
+            _requestId = null;
+
+            emit("drop");
+        }
     };
     const onMouseUp = (evt: MouseEvent) =>
     {
-        if ((isMoving.value) && (evt.button === 0))
+        if (evt.button === 0)
         {
             onEventUp();
         }
     };
     const onTouchEnd = (evt: TouchEvent) =>
     {
-        if ((isMoving.value))
-        {
-            onEventUp();
-        }
+        // TODO: Cosa succede se ho sollevato un dito diverso dal primo?
+        //
+        onEventUp();
     };
 
     useEventListener(window, "mousemove", onMouseMove, { passive: true });
@@ -138,6 +172,16 @@
 
     useEventListener(window, "mouseup", onMouseUp, { passive: true });
     useEventListener(window, "touchend", onTouchEnd, { passive: true });
+
+    onUnmounted(() =>
+    {
+        if (_requestId)
+        {
+            cancelAnimationFrame(_requestId);
+        }
+
+        _requestId = null;
+    });
 </script>
 
 <style lang="scss" scoped>

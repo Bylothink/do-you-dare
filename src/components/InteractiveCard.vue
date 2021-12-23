@@ -52,10 +52,6 @@
         "click:inside",
         "click:outside",
 
-        "drag",
-        "move",
-        "drop",
-
         "update:x",
         "update:y"
     ]);
