@@ -5,6 +5,8 @@
                       :y="y"
                       :disabled="!draggable"
                       @click.passive="onClick"
+                      @drag="$emit('drag', $event)"
+                      @drop="$emit('drop', $event)"
                       @mousedown.stop
                       @update:x="$emit('update:x', $event)"
                       @update:y="$emit('update:y', $event)">
@@ -51,6 +53,9 @@
     const emit = defineEmits([
         "click:inside",
         "click:outside",
+
+        "drag",
+        "drop",
 
         "update:x",
         "update:y"

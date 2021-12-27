@@ -9,10 +9,11 @@
 </template>
 
 <script lang="ts" setup>
-    import { computed, reactive, ref, onUnmounted } from "vue";
+    import { computed, reactive, ref } from "vue";
     import { useEventListener } from "@vueuse/core";
 
     import { DragEvent, Point } from "@/core/types";
+    import { syncWithFrame } from "@/core/utils";
 
     const props = defineProps({
         x: {
@@ -83,22 +84,15 @@
         }
     };
 
-    //
-    // TODO: Creare un helper / debouncer per gestire
-    //        correttamente il movimento della carta.
-    //
-    let _requestId: number | null = null;
-    let _mousePosition: Point = { x: 0, y: 0 };
-
-    const _requestCallback = () =>
+    const onEventMove = syncWithFrame((evt: Point) =>
     {
-        if (_requestId)
+        if (isMoving.value)
         {
-            const x = _mousePosition.x - initialCoords.x;
-            const y = _mousePosition.y - initialCoords.y;
+            const x = evt.x - initialCoords.x;
+            const y = evt.y - initialCoords.y;
 
             const dragEvt: DragEvent = {
-                mouse: { x: _mousePosition.x, y: _mousePosition.y },
+                mouse: { x: evt.x, y: evt.y },
                 offset: { x, y }
             };
 
@@ -106,22 +100,8 @@
 
             emit("update:x", x);
             emit("update:y", y);
-
-            _requestId = null;
         }
-    };
-    const onEventMove = (evt: Point) =>
-    {
-        if (isMoving.value)
-        {
-            _mousePosition = evt;
-
-            if (!_requestId)
-            {
-                _requestId = requestAnimationFrame(_requestCallback);
-            }
-        }
-    };
+    });
 
     const onMouseMove = (evt: MouseEvent) =>
     {
@@ -142,13 +122,6 @@
         if ((isMoving.value))
         {
             isMoving.value = false;
-
-            if (_requestId)
-            {
-                cancelAnimationFrame(_requestId);
-            }
-
-            _requestId = null;
 
             emit("drop");
         }
@@ -172,16 +145,6 @@
 
     useEventListener(window, "mouseup", onMouseUp, { passive: true });
     useEventListener(window, "touchend", onTouchEnd, { passive: true });
-
-    onUnmounted(() =>
-    {
-        if (_requestId)
-        {
-            cancelAnimationFrame(_requestId);
-        }
-
-        _requestId = null;
-    });
 </script>
 
 <style lang="scss" scoped>
