@@ -88,6 +88,7 @@ deploy:
   needs:
     - release
 
+  before_script: []
   script:
     - ansible-playbook ansible.yml
         --extra-vars "project_dir=${PROJECT_DIR}"
