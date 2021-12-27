@@ -53,6 +53,7 @@ compile:
     - build
 
   script:
+    - docker pull "${BUILDER_IMAGE_TAG}"
     - |-
       if docker pull "${COMPILER_IMAGE_REF}" &> /dev/null
       then
