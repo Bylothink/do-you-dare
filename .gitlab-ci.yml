@@ -45,9 +45,7 @@ build:
       - Dockerfile
     - if: '"${CI_COMMIT_BRANCH}" =~ /^(master|production)$/'
       when: on_success
-    - if: '"${CI_COMMIT_BRANCH}" =~ /^feature\//'
-      when: manual
-    - when: never
+    - when: manual
 
 compile:
   stage: compile
@@ -102,3 +100,6 @@ deploy:
         --inventory "${ANSIBLE_HOSTS}"
         --key-file "${DEPLOY_KEY}"
         --limit "${DEPLOY_SERVER}"
+
+  only:
+    - production
