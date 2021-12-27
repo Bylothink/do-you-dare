@@ -40,20 +40,6 @@ build:
     - docker push "${BUILDER_IMAGE_REF}"
     - docker push "${BUILDER_IMAGE_TAG}"
 
-  rules:
-    - exists:
-      - Dockerfile
-    - if: '"${CI_COMMIT_BRANCH}" =~ /^(master|production)$/'
-      when: on_success
-    - when: manual
-
-compile:
-  stage: compile
-  needs:
-    - build
-
-  script:
-    - docker pull "${BUILDER_IMAGE_TAG}"
     - |-
       if docker pull "${COMPILER_IMAGE_REF}" &> /dev/null
       then
@@ -76,10 +62,17 @@ compile:
     - docker push "${COMPILER_IMAGE_REF}"
     - docker push "${COMPILER_IMAGE_TAG}"
 
+  rules:
+    - exists:
+      - Dockerfile
+    - if: '"${CI_COMMIT_BRANCH}" =~ /^(master|production)$/'
+      when: on_success
+    - when: manual
+
 release:
   stage: release
   needs:
-    - compile
+    - build
 
   script:
     - docker pull "${COMPILER_IMAGE_REF}"
