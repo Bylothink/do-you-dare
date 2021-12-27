@@ -1,4 +1,4 @@
-FROM node:16.13 as builder
+FROM node:17.3 as builder
 
 ARG VITE_BACKEND_URL
 
@@ -19,10 +19,10 @@ ARG NAME="Do you Dare? - Frontend" \
     AUTHOR="Bilotta Matteo" \
     COMMIT_REF \
     COMMIT_SHA \
-    NOW
+    CREATE_DATE
 
-LABEL "net.byloth.do-you-dare.frontend.image.name"="${NAME}"
-LABEL "net.byloth.do-you-dare.frontend.image.author"="${AUTHOR}"
-LABEL "net.byloth.do-you-dare.frontend.image.commit.ref"="${COMMIT_REF}"
-LABEL "net.byloth.do-you-dare.frontend.image.commit.sha"="${COMMIT_SHA}"
-LABEL "net.byloth.do-you-dare.frontend.image.create-date"="${NOW}"
+LABEL "net.byloth.doyoudare.frontend.image.name"="${NAME}"
+LABEL "net.byloth.doyoudare.frontend.image.author"="${AUTHOR}"
+LABEL "net.byloth.doyoudare.frontend.image.commit.ref"="${COMMIT_REF}"
+LABEL "net.byloth.doyoudare.frontend.image.commit.sha"="${COMMIT_SHA}"
+LABEL "net.byloth.doyoudare.frontend.image.create-date"="${CREATE_DATE}"
