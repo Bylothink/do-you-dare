@@ -28,6 +28,11 @@
         disabled: {
             default: false,
             type: Boolean
+        },
+
+        transform: {
+            default: () => ({ }),
+            type: Object
         }
     });
     const emit = defineEmits([
@@ -46,10 +51,21 @@
         "moving": isMoving.value,
         "disabled": props.disabled
     }));
-    const styles = computed((): Record<string, string> => ({
-        left: `${props.x}px`,
-        top: `${props.y}px`
-    }));
+    const styles = computed((): Record<string, string> =>
+    {
+        const transform: Record<string, string> = { };
+
+        if (props.x || props.y)
+        {
+            transform.translate = `${props.x}px, ${props.y}px`;
+        }
+
+        return {
+            transform: Object.entries({ ...transform, ...props.transform })
+                .map(([key, value]) => `${key}(${value})`)
+                .join(" ")
+        };
+    });
 
     const onEventDown = (evt: Point) =>
     {
@@ -151,7 +167,9 @@
     .draggable-element
     {
         cursor: grab;
+        left: 0px;
         position: absolute;
+        top: 0px;
 
         &.moving
         {

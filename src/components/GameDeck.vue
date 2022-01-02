@@ -7,7 +7,7 @@
                          :drawn="hasCardBeenDrawn"
                          :facedown="isCardFacedown"
                          :inanimate="isCardInanimate"
-                         :style="styles"
+                         :transform="transformations"
                          @click:inside="onClickInside"
                          @click:outside="onClickOutside"
                          @drag="onDrag"
@@ -48,23 +48,23 @@
 
     const cardPosition = reactive({ x: 0, y: 0 });
 
-    const styles = computed((): Record<string, string> =>
+    const transformations = computed((): Record<string, string> =>
     {
-        let transform = "";
+        const transform: Record<string, string> = { };
 
         if (!isCardFacedown.value)
         {
-            transform += `scale(1.25)`;
+            transform.scale = "1.25";
         }
 
         if (isCardBeingDragged.value)
         {
-            transform += `rotateX(${cardPosition.y / 25}deg) ` +
-                `rotateY(${cardPosition.x / 25}deg)` +
-                `rotateZ(${cardPosition.x / 50}deg)`;
+            transform.rotateX = `${cardPosition.y / 25}deg`;
+            transform.rotateY = `${cardPosition.x / 25}deg`;
+            transform.rotateZ = `${cardPosition.x / 50}deg`;
         }
 
-        return { transform };
+        return transform;
     });
 
     const reset = async () =>
