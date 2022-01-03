@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import { ActionContext } from "vuex";
 
-import { localStorage } from "@/core/utils";
+import { jsonLocalStorage } from "@/core/utils";
 import graphql, { GraphQLVariables } from "@/services/graphql";
 
 import { RootState, UserState } from "./types";
@@ -66,7 +66,7 @@ interface CreateUserResponse
 export default {
     namespaced: true,
 
-    state: (): UserState => ({ token: localStorage.get<string>("user:token") }),
+    state: (): UserState => ({ token: jsonLocalStorage.get<string>("user:token") }),
 
     getters: {
         isLogged(state: UserState): boolean
@@ -79,7 +79,7 @@ export default {
         {
             state.token = value;
 
-            localStorage.set("user:token", value);
+            jsonLocalStorage.set("user:token", value);
         }
     },
     actions: {

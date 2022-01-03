@@ -1,7 +1,7 @@
 <template>
-    <component :is="tag" class="centered-layout">
+    <Component :is="tag" class="centered-layout">
         <slot></slot>
-    </component>
+    </Component>
 </template>
 
 <script lang="ts" setup>

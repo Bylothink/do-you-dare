@@ -1,3 +1,4 @@
+// import { onScopeDispose } from "vue";
 import { createStore, useStore as useVuexStore, Store as VuexStore, StoreOptions } from "vuex";
 
 import store from "./defs";
@@ -43,7 +44,52 @@ export interface Store extends VuexStore<State>
     readonly getters: { [G in keyof Getters]: Getters[G] };
     commit<M extends keyof Mutations>(type: M, ...payload: Payload<Mutations[M]>): ReturnType<Mutations[M]>;
     dispatch<A extends keyof Actions>(type: A, ...payload: Payload<Actions[A]>): ReturnType<Actions[A]>;
+
+    // onMutation<M extends keyof Mutations>(type: M, callback: (...payload: Payload<Mutations[M]>) => void): void;
+    // onAction<A extends keyof Actions>(type: A, callback: (...payload: Payload<Actions[A]>) => void): void;
 }
 
 export default createStore((store as unknown) as StoreOptions<State>);
 export const useStore = (): Store => useVuexStore();
+
+// {
+//     const store = useVuexStore() as Store;
+
+//     store.onMutation = function<M extends keyof Mutations>(
+//         type: M,
+//         callback: (...payload: Payload<Mutations[M]>) => void
+//     ): void
+//     {
+//         const unsubscribe = store.subscribe((mutation, state) =>
+//         {
+//             if (mutation.type === type)
+//             {
+//                 const payload = mutation.payload as Payload<Mutations[M]>;
+
+//                 callback(...payload);
+//             }
+//         });
+
+//         onScopeDispose(unsubscribe);
+//     };
+
+//     store.onAction = function<A extends keyof Actions>(
+//         type: A,
+//         callback: (...payload: Payload<Actions[A]>) => void
+//     ): void
+//     {
+//         const unsubscribe = store.subscribeAction((mutation, state) =>
+//         {
+//             if (mutation.type === type)
+//             {
+//                 const payload = mutation.payload as Payload<Actions[A]>;
+
+//                 callback(...payload);
+//             }
+//         });
+
+//         onScopeDispose(unsubscribe);
+//     };
+
+//     return store;
+// };

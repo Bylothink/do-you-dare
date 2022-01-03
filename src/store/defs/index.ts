@@ -1,4 +1,7 @@
-import { IndexState } from "./types";
+import { ActionContext } from "vuex";
+
+import { AlertOptions } from "@/core/types";
+import { IndexState, RootState } from "./types";
 
 import game from "./game";
 import user from "./user";
@@ -8,6 +11,6 @@ export default {
 
     getters: { },
     mutations: { },
-    actions: { },
+    actions: { alert(context: ActionContext<IndexState, RootState>, options: AlertOptions): void { /* ... */ } },
     modules: { game, user }
 };

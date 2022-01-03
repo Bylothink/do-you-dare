@@ -1,12 +1,12 @@
 <template>
-    <component :is="tag"
+    <Component :is="tag"
                class="round-button"
                v-bind="properties">
         <span class="spacer"></span>
         <div class="content">
             <slot></slot>
         </div>
-    </component>
+    </Component>
 </template>
 
 <script lang="ts">

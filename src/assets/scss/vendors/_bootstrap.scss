@@ -20,7 +20,12 @@ $grid-gutter-width: 0px;
 
 // Theme...
 //
-$primary: variables.$pink;
-$secondary: variables.$yellow;
+$primary: variables.$primary;
+$secondary: variables.$secondary;
+
+$danger: variables.$danger;
+$warning: variables.$warning;
+$success: variables.$success;
+$info: variables.$info;
 
 @import "bootstrap/scss/bootstrap";

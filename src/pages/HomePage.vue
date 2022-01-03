@@ -9,7 +9,9 @@
                     :to="{ name: 'game' }">
             Play now!
         </RouterLink>
-        <button id="game-modes-btn" class="btn btn-secondary btn-lg">
+        <button id="game-modes-btn"
+                class="btn btn-secondary btn-lg"
+                @click="pushAlert">
             Game modes
         </button>
         <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
@@ -29,13 +31,31 @@
 </template>
 
 <script lang="ts" setup>
-    // import config from "@/config";
+    import { useStore } from "@/store";
+    import config from "@/config";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
     import GameCard from "@/components/GameCard.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     // const pages = config.pages.filter((page) => page.name !== "index");
+
+    // WHY?! WHY?!
+    // const store = useStore();
+
+    // let numero = 0;
+    // const pushAlert = () =>
+    // {
+    //     numero += 1;
+
+    //     store.dispatch("alert", {
+    //         type: "success",
+    //         icon: "info-circle",
+    //         title: `Prova #${numero}!`,
+    //         message: "Questo è un messaggio di prova.",
+    //         dismissable: true
+    //     });
+    // };
 </script>
 
 <style lang="scss" scoped>
@@ -43,36 +63,31 @@
 
     @keyframes slide-down
     {
-        0% { transform: translateY(137px); }
-        50% { transform: translateY(137px); }
+        0%, 50% { transform: translateY(137px); }
         100% { transform: translateY(0px); }
     }
 
     @keyframes first-fade-in
     {
-        0% { transform: translateY(-73px); opacity: 0; }
-        50% { transform: translateY(-73px); }
-        75% { opacity: 0; }
+        0%, 50% { transform: translateY(-73px); }
+        0%, 75% { opacity: 0; }
         100% { transform: translateY(0px); opacity: 1; }
     }
     @keyframes second-fade-in
     {
-        0% { transform: translateY(-73px); opacity: 0; }
-        50% { transform: translateY(-73px); }
-        75% { opacity: 0; }
+        0%, 50% { transform: translateY(-73px); }
+        0%, 75% { opacity: 0; }
         100% { transform: translateY(0px); opacity: 1; }
     }
 
     @keyframes enter-right
     {
-        0% { transform: translateX(200%); }
-        75% { transform: translateX(200%); }
+        0%, 75% { transform: translateX(200%); }
         100% { transform: translateX(0px); }
     }
     @keyframes enter-left
     {
-        0% { transform: translateX(-200%); }
-        75% { transform: translateX(-200%); }
+        0%, 75% { transform: translateX(-200%); }
         100% { transform: translateX(0px); }
     }
 

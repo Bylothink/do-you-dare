@@ -2,8 +2,8 @@ import { onScopeDispose } from "vue";
 
 import JsonStorage from "./json-storage";
 
-export const localStorage = new JsonStorage(window.localStorage);
-export const sessionStorage = new JsonStorage(window.sessionStorage);
+export const jsonLocalStorage = new JsonStorage(window.localStorage);
+export const jsonSessionStorage = new JsonStorage(window.sessionStorage);
 
 export function nextFrame(): Promise<void>
 {
