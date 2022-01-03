@@ -51,7 +51,32 @@
         top: `${props.y}px`
     }));
 
-    const onEventDown = (evt: Point) =>
+    const _mergeTouches = (touches: TouchList): Point =>
+    {
+        const length = touches.length;
+
+        if (length === 1)
+        {
+            const touch = touches[0];
+
+            return { x: touch.clientX, y: touch.clientY };
+        }
+
+        const touch = { x: 0, y: 0 };
+
+        for (let index = 0; index < length; index += 1)
+        {
+            touch.x += touches[index].clientX;
+            touch.y += touches[index].clientY;
+        }
+
+        touch.x /= length;
+        touch.y /= length;
+
+        return touch;
+    };
+
+    const _onEventDrag = (evt: Point) =>
     {
         if (!props.disabled)
         {
@@ -71,20 +96,17 @@
     {
         if (evt.button === 0)
         {
-            onEventDown({ x: evt.clientX, y: evt.clientY });
+            _onEventDrag({ x: evt.clientX, y: evt.clientY });
         }
     };
     const onTouchStart = (evt: TouchEvent) =>
     {
-        if (evt.touches.length === 1)
-        {
-            const touch = evt.touches[0];
+        const touch = _mergeTouches(evt.touches);
 
-            onEventDown({ x: touch.clientX, y: touch.clientY });
-        }
+        _onEventDrag(touch);
     };
 
-    const onEventMove = syncWithFrame((evt: Point) =>
+    const _onEventMove = syncWithFrame((evt: Point) =>
     {
         if (isMoving.value)
         {
@@ -105,19 +127,16 @@
 
     const onMouseMove = (evt: MouseEvent) =>
     {
-        onEventMove({ x: evt.clientX, y: evt.clientY });
+        _onEventMove({ x: evt.clientX, y: evt.clientY });
     };
     const onTouchMove = (evt: TouchEvent) =>
     {
-        if (evt.touches.length === 1)
-        {
-            const touch = evt.touches[0];
+        const touch = _mergeTouches(evt.touches);
 
-            onEventMove({ x: touch.clientX, y: touch.clientY });
-        }
+        _onEventMove(touch);
     };
 
-    const onEventUp = () =>
+    const _onEventDrop = () =>
     {
         if ((isMoving.value))
         {
@@ -130,14 +149,19 @@
     {
         if (evt.button === 0)
         {
-            onEventUp();
+            _onEventDrop();
         }
     };
     const onTouchEnd = (evt: TouchEvent) =>
     {
-        // TODO: Cosa succede se ho sollevato un dito diverso dal primo?
-        //
-        onEventUp();
+        if (evt.touches.length)
+        {
+            onTouchMove(evt);
+        }
+        else
+        {
+            _onEventDrop();
+        }
     };
 
     useEventListener(window, "mousemove", onMouseMove, { passive: true });
