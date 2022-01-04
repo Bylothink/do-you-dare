@@ -8,7 +8,8 @@
         <button v-if="dismissable"
                 type="button"
                 class="btn-close"
-                aria-label="Close">
+                aria-label="Close"
+                @click="$emit('dismiss', $event)">
         </button>
     </ThemedElement>
 </template>
@@ -29,6 +30,7 @@
             type: Boolean
         }
     });
+    defineEmits(["dismiss"]);
 
     const classes = computed((): Record<string, boolean> => ({ "alert-dismissible": props.dismissable }));
 </script>

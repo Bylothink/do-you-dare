@@ -31,8 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-    import { useStore } from "@/store";
-    import config from "@/config";
+    // import config from "@/config";
+    import useUiStore from "@/stores/ui";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
     import GameCard from "@/components/GameCard.vue";
@@ -40,22 +40,21 @@
 
     // const pages = config.pages.filter((page) => page.name !== "index");
 
-    // WHY?! WHY?!
-    // const store = useStore();
+    const store = useUiStore();
 
-    // let numero = 0;
-    // const pushAlert = () =>
-    // {
-    //     numero += 1;
+    let numero = 0;
+    const pushAlert = () =>
+    {
+        numero += 1;
 
-    //     store.dispatch("alert", {
-    //         type: "success",
-    //         icon: "info-circle",
-    //         title: `Prova #${numero}!`,
-    //         message: "Questo è un messaggio di prova.",
-    //         dismissable: true
-    //     });
-    // };
+        store.alert({
+            type: "success",
+            icon: "info-circle",
+            title: `Prova #${numero}!`,
+            message: "Questo è un messaggio di prova.",
+            dismissable: true
+        });
+    };
 </script>
 
 <style lang="scss" scoped>

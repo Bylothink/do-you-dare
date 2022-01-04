@@ -4,7 +4,12 @@
             <Component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
         </Transition>
     </RouterView>
+    <AlertsHandler />
 </template>
+
+<script lang="ts" setup>
+    import AlertsHandler from "./components/handlers/AlertsHandler.vue";
+</script>
 
 <style lang="scss">
     @import "@/assets/scss/index";
@@ -13,18 +18,18 @@
     {
         height: 100%;
 
-        .fade-enter-from,
-        .fade-leave-to
+        & > .fade-enter-from,
+        & > .fade-leave-to
         {
             opacity: 0;
         }
-        .fade-enter-active,
-        .fade-leave-active
+        & > .fade-enter-active,
+        & > .fade-leave-active
         {
             transition: opacity 250ms;
         }
-        .fade-enter-to,
-        .fade-leave-from
+        & > .fade-enter-to,
+        & > .fade-leave-from
         {
             opacity: 1;
         }

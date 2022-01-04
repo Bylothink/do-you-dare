@@ -1,10 +1,8 @@
 import gql from "graphql-tag";
-import { ActionContext } from "vuex";
+import { defineStore } from "pinia";
 
 import { jsonLocalStorage } from "@/core/utils";
-import graphql, { GraphQLVariables } from "@/services/graphql";
-
-import { RootState, UserState } from "./types";
+import graphql from "@/services/graphql";
 
 const AUTH_SCHEMA = "auth";
 
@@ -29,12 +27,12 @@ const CREATE_USER = gql`mutation createUser($firstName: String!, $lastName: Stri
     }
 }`;
 
-interface SignInVariables extends GraphQLVariables
+interface SignInVariables
 {
     username: string;
     password: string;
 }
-interface SignUpVariables extends GraphQLVariables
+interface SignUpVariables
 {
     firstName: string;
     lastName: string;
@@ -63,39 +61,25 @@ interface CreateUserResponse
     createUser: { user: User };
 }
 
-export default {
-    namespaced: true,
+export default defineStore("user", {
+    state: () => ({ token: jsonLocalStorage.get<string>("user:token") }),
 
-    state: (): UserState => ({ token: jsonLocalStorage.get<string>("user:token") }),
-
-    getters: {
-        isLogged(state: UserState): boolean
-        {
-            return !!(state.token);
-        }
-    },
-    mutations: {
-        setToken(state: UserState, value: string): void
-        {
-            state.token = value;
-
-            jsonLocalStorage.set("user:token", value);
-        }
-    },
+    getters: { isLogged(): boolean { return !!(this.token); } },
     actions: {
-        async signIn({ state, commit }: ActionContext<UserState, RootState>, signInVariables: SignInVariables)
-            : Promise<void>
+        async signIn(signInVariables: SignInVariables) : Promise<void>
         {
             const response = await graphql.mutation<GetTokenResponse>(AUTH_SCHEMA, GET_TOKEN, signInVariables);
+            const token = response.getToken.token;
 
-            commit("setToken", response.getToken.token);
+            this.token = token;
+
+            jsonLocalStorage.set("user:token", token);
         },
-        async signUp({ state, commit }: ActionContext<UserState, RootState>, signUpVariables: SignUpVariables)
-            : Promise<User>
+        async signUp(signUpVariables: SignUpVariables) : Promise<User>
         {
             const response = await graphql.mutation<CreateUserResponse>(AUTH_SCHEMA, CREATE_USER, signUpVariables);
 
             return response.createUser.user;
         }
     }
-};
+});

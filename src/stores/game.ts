@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
-import { ActionContext } from "vuex";
+import { defineStore } from "pinia";
 
 import Card, { CardData } from "@/models/card";
 import Draw, { DrawData } from "@/models/draw";
 
 import { graphql } from "@/services";
 
-import { RootState, GameState, DrawState } from "./types";
+import useUserStore from "./user";
 
 const GAME_SCHEMA = "game";
 
@@ -34,7 +34,7 @@ const CREATE_DRAW = gql`mutation createDraw($cardId: Int!) {
         createDate
       }
     }
-  }`;
+}`;
 
 interface AllCardsResponse
 {
@@ -49,32 +49,35 @@ interface CreateDrawResponse
     createDraw: DrawData;
 }
 
-export default {
-    namespaced: true,
-
-    state: (): GameState => ({ }),
+export default defineStore("game", {
+    state: () => ({ }),
 
     getters: { },
-    mutations: { },
     actions: {
-        async getAllCards({ commit, rootState }: ActionContext<GameState, RootState>): Promise<Card[]>
+        async getAllCards(): Promise<Card[]>
         {
-            const jwtToken = rootState.user.token;
+            const userStore = useUserStore();
+            const jwtToken = userStore.token;
+
             const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS, { jwtToken });
 
             return response.allCards.map((card) => new Card(card));
         },
-        async getRandomCard({ commit, rootState }: ActionContext<GameState, RootState>): Promise<Card>
+        async getRandomCard(): Promise<Card>
         {
-            const jwtToken = rootState.user.token;
+            const userStore = useUserStore();
+            const jwtToken = userStore.token;
+
             const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD, { jwtToken });
             const card = response.getRandomCard;
 
             return new Card(card);
         },
-        async createDraw({ commit, rootState }: ActionContext<DrawState, RootState>, cardId: number): Promise<Draw>
+        async createDraw(cardId: number): Promise<Draw>
         {
-            const jwtToken = rootState.user.token;
+            const userStore = useUserStore();
+            const jwtToken = userStore.token;
+
             const response = await graphql.mutation<CreateDrawResponse>(
                 GAME_SCHEMA,
                 CREATE_DRAW,
@@ -87,4 +90,4 @@ export default {
             return new Draw(draw);
         }
     }
-};
+});

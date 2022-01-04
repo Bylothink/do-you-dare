@@ -44,11 +44,11 @@
 <script lang="ts" setup>
     import { ref } from "vue";
 
-    import { useStore } from "@/store";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    const store = useStore();
+    const userStore = useUserStore();
 
     const username = ref("");
     const password = ref("");
@@ -60,7 +60,7 @@
             password: password.value
         };
 
-        store.dispatch("user/signIn", signInPayload)
+        userStore.signIn(signInPayload)
             .then(() => alert("Login avvenuto con successo!"))
             .catch((exc) =>
             {

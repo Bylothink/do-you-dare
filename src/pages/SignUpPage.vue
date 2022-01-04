@@ -74,11 +74,11 @@
 <script lang="ts" setup>
     import { ref } from "vue";
 
-    import { useStore } from "@/store";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    const store = useStore();
+    const userStore = useUserStore();
 
     const firstName = ref("");
     const lastName = ref("");
@@ -96,7 +96,7 @@
             email: email.value
         };
 
-        store.dispatch("user/signUp", signUpPayload)
+        userStore.signUp(signUpPayload)
             .then(() => alert("Registrazione avvenuta con successo!"))
             .catch((exc) =>
             {

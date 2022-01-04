@@ -14,7 +14,6 @@ export interface GraphQLConfigs
     headers: Record<string, string>;
 }
 
-export type GraphQLVariables = Record<string, unknown>;
 export interface GraphQLResponse<T = unknown>
 {
     data?: T;
@@ -42,7 +41,7 @@ export class GraphQLService
         return configs;
     }
 
-    public async query<T = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<T>
+    public async query<R = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<R>
     {
         const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query) };
@@ -50,7 +49,7 @@ export class GraphQLService
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<R>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -74,12 +73,8 @@ export class GraphQLService
         }
     }
 
-    public async mutation<T = unknown>(
-        name: string,
-        query: DocumentNode,
-        variables: GraphQLVariables,
-        options?: GraphQLOptions
-    ) : Promise<T>
+    // eslint-disable-next-line max-len
+    public async mutation<R = unknown, V = unknown>(name: string, query: DocumentNode, variables: V, options?: GraphQLOptions) : Promise<R>
     {
         const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query), variables: variables };
@@ -87,7 +82,7 @@ export class GraphQLService
 
         try
         {
-            const response = await axios.post<GraphQLResponse<T>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<R>>(url, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {

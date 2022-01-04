@@ -13,19 +13,16 @@
     import { ref } from "vue";
 
     import { Card } from "@/models";
-    import { useStore } from "@/store";
+    import useGameStore from "@/stores/game";
 
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    const store = useStore();
+    const gameStore = useGameStore();
     const card = ref<Card>();
 
-    const getNewCard = async () =>
-    {
-        card.value = await store.dispatch("game/getRandomCard");
-    };
-    const createNewDraw = () => store.dispatch("game/createDraw", card.value!.id);
+    const getNewCard = async () => { card.value = await gameStore.getRandomCard(); };
+    const createNewDraw = () => gameStore.createDraw(card.value!.id);
 
     getNewCard();
 </script>
