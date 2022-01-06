@@ -6,6 +6,8 @@
             <AlertBox v-if="alert"
                       v-show="isOpen"
                       :type="alert.type"
+                      :title="alert.title"
+                      :icon="alert.icon"
                       :dismissable="alert.dismissable"
                       @dismiss="onDismiss">
                 {{ alert.message }}
@@ -39,12 +41,37 @@
         return null;
     });
 
-    const onDismiss = () => { isOpen.value = false; };
+    let timeoutId: number | undefined;
+
+    const open = () =>
+    {
+        isOpen.value = true;
+
+        if (alert.value?.timeout)
+        {
+            timeoutId = setTimeout(onDismiss, alert.value.timeout);
+        }
+    };
+
+    const onDismiss = () =>
+    {
+        if (timeoutId)
+        {
+            clearTimeout(timeoutId);
+
+            timeoutId = undefined;
+        }
+
+        isOpen.value = false;
+    };
     const onClosed = () =>
     {
         alerts.shift();
 
-        isOpen.value = alerts.length > 0;
+        if (alerts.length > 0)
+        {
+            open();
+        }
     };
 
     onAction(uiStore, "alert", (alert) =>
@@ -53,7 +80,7 @@
 
         if (alerts.length === 1)
         {
-            isOpen.value = true;
+            open();
         }
     });
 </script>
@@ -67,7 +94,7 @@
         right: 0px;
         text-align: initial;
         pointer-events: none;
-        top: 0px;
+        top: 1em;
 
         & > .alert-box
         {

@@ -13,7 +13,7 @@ export interface AlertOptions
     icon?: string;
     title?: string;
     message: string;
-    actions?: ActionOptions[];
+    // actions?: ActionOptions[]; // TODO!
     dismissable?: boolean;
     timeout?: number;
 }

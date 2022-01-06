@@ -42,19 +42,31 @@
 
     const store = useUiStore();
 
-    let numero = 0;
+    let number = 0;
     const pushAlert = () =>
     {
-        const type = ["danger", "warning", "success", "info"][Math.floor(Math.random() * 4)];
+        const typeId = Math.floor(Math.random() * 4);
+        const type = ["danger", "warning", "success", "info"][typeId];
+        const icon = ["times-circle", "exclamation-circle", "check-circle", "info-circle"][typeId];
 
-        numero += 1;
+        let dismissable = true;
+        let timeout: number | undefined;
+
+        if (Math.floor(Math.random() * 2))
+        {
+            dismissable = false;
+            timeout = Math.floor(Math.random() * 3000) + 1000;
+        }
+
+        number += 1;
 
         store.alert({
             type: type as "danger" | "warning" | "success" | "info",
-            icon: "info-circle",
-            title: `Prova #${numero}!`,
+            icon: icon,
+            title: Math.floor(Math.random() * 2) ? `Prova #${number}!` : undefined,
             message: "Questo è un messaggio di prova.",
-            dismissable: true
+            dismissable: dismissable,
+            timeout: timeout
         });
     };
 </script>

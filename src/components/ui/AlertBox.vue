@@ -4,6 +4,17 @@
                    :theme="type"
                    name="alert"
                    role="alert">
+        <h3 v-if="title" class="alert-heading">
+            <span v-if="icon"
+                  class="fas"
+                  :class="`fa-${icon}`">
+            </span>
+            {{ title }}
+        </h3>
+        <span v-else-if="icon"
+              class="fas"
+              :class="`fa-${icon}`">
+        </span>
         <slot></slot>
         <button v-if="dismissable"
                 type="button"
@@ -25,6 +36,15 @@
             type: String
         },
 
+        title: {
+            default: "",
+            type: String
+        },
+        icon: {
+            default: "",
+            type: String
+        },
+
         dismissable: {
             default: false,
             type: Boolean
@@ -40,6 +60,15 @@
 
     .alert-box
     {
+        & > .alert-heading > .fas
+        {
+            margin-right: 0.25em;
+        }
+        & > .fas
+        {
+            margin-right: 0.5em;
+        }
+
         &.alert-primary > .btn-close:focus
         {
             box-shadow: 0px 0px 0px 0.25rem rgba(variables.$primary, 0.25);
