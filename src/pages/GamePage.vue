@@ -13,6 +13,7 @@
     import { ref } from "vue";
 
     import { Card } from "@/models";
+
     import useGameStore from "@/stores/game";
 
     import GameDeck from "@/components/GameDeck.vue";

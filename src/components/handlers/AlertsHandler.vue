@@ -1,9 +1,13 @@
 <template>
     <div class="alerts-handler container">
-        <Transition name="fade" mode="out-in">
+        <Transition name="fade"
+                    mode="out-in"
+                    @after-leave="onClosed">
             <AlertBox v-if="alert"
+                      v-show="isOpen"
                       :type="alert.type"
-                      :dismissable="alert.dismissable">
+                      :dismissable="alert.dismissable"
+                      @dismiss="onDismiss">
                 {{ alert.message }}
             </AlertBox>
         </Transition>
@@ -11,28 +15,47 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, computed } from "vue";
+    import { reactive, ref, computed } from "vue";
 
     import { onAction } from "@/core/utils/store";
     import { AlertOptions } from "@/core/types";
+
     import useUiStore from "@/stores/ui";
 
     import AlertBox from "@/components/ui/AlertBox.vue";
 
     const uiStore = useUiStore();
-    const alerts = ref<AlertOptions[]>([]);
+
+    const isOpen = ref(false);
+    const alerts = reactive<AlertOptions[]>([]);
 
     const alert = computed((): AlertOptions | null =>
     {
-        if (alerts.value.length)
+        if (alerts.length)
         {
-            return alerts.value[0];
+            return alerts[0];
         }
 
         return null;
     });
 
-    onAction(uiStore, "alert", (alert) => alerts.value.push(alert));
+    const onDismiss = () => { isOpen.value = false; };
+    const onClosed = () =>
+    {
+        alerts.shift();
+
+        isOpen.value = alerts.length > 0;
+    };
+
+    onAction(uiStore, "alert", (alert) =>
+    {
+        alerts.push(alert);
+
+        if (alerts.length === 1)
+        {
+            isOpen.value = true;
+        }
+    });
 </script>
 
 <style lang="scss" scoped>

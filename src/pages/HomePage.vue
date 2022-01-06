@@ -45,10 +45,12 @@
     let numero = 0;
     const pushAlert = () =>
     {
+        const type = ["danger", "warning", "success", "info"][Math.floor(Math.random() * 4)];
+
         numero += 1;
 
         store.alert({
-            type: "success",
+            type: type as "danger" | "warning" | "success" | "info",
             icon: "info-circle",
             title: `Prova #${numero}!`,
             message: "Questo è un messaggio di prova.",
