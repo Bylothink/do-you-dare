@@ -1,10 +1,11 @@
 import { RouteLocationRaw } from "vue-router";
 
+export type ActionCallback = (this: AlertOptions, done: () => Promise<void>) => void;
 export interface ActionOptions
 {
-    text: string;
+    label: string;
 
-    callback?: () => void;
+    callback?: ActionCallback;
     location?: RouteLocationRaw;
 }
 export interface AlertOptions
@@ -13,7 +14,7 @@ export interface AlertOptions
     icon?: string;
     title?: string;
     message: string;
-    // actions?: ActionOptions[]; // TODO!
+    actions?: ActionOptions[];
     dismissable?: boolean;
     timeout?: number;
 }

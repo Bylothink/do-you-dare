@@ -34,9 +34,12 @@
     // import config from "@/config";
     import useUiStore from "@/stores/ui";
 
+    import { ActionOptions } from "@/core/types";
+
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
+
     import RoundButton from "@/components/ui/RoundButton.vue";
     import GameCard from "@/components/GameCard.vue";
-    import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     // const pages = config.pages.filter((page) => page.name !== "index");
 
@@ -51,11 +54,35 @@
 
         let dismissable = true;
         let timeout: number | undefined;
+        let actions: ActionOptions[] | undefined;
 
         if (Math.floor(Math.random() * 2))
         {
             dismissable = false;
             timeout = Math.floor(Math.random() * 3000) + 1000;
+        }
+        else
+        {
+            actions = [
+                {
+                    label: "OK",
+                    callback: (done) =>
+                    {
+                        console.log(`"OK" clicked!`, this);
+
+                        done();
+                    }
+                },
+                {
+                    label: "Cancel",
+                    callback: function(done)
+                    {
+                        console.log(`"Cancel" clicked!`, this);
+
+                        done();
+                    }
+                }
+            ];
         }
 
         number += 1;
@@ -65,6 +92,7 @@
             icon: icon,
             title: Math.floor(Math.random() * 2) ? `Prova #${number}!` : undefined,
             message: "Questo è un messaggio di prova.",
+            actions: actions,
             dismissable: dismissable,
             timeout: timeout
         });

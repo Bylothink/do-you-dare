@@ -9,8 +9,30 @@
                       :title="alert.title"
                       :icon="alert.icon"
                       :dismissable="alert.dismissable"
-                      @dismiss="onDismiss">
+                      @dismiss="close">
                 {{ alert.message }}
+                <template v-if="alert.actions?.length">
+                    <hr />
+                    <div style="display: flex; flex-direction: row-reverse;">
+                        <template v-for="action, index in alert.actions">
+                            <RouterLink v-if="action.location"
+                                        :key="`lnk-${index}`"
+                                        :to="action.location"
+                                        class="btn btn-sm"
+                                        :class="`btn-${alert.type}`">
+                                {{ action.label }}
+                            </RouterLink>
+                            <button v-else-if="action.callback"
+                                    :key="`btn-${index}`"
+                                    class="btn btn-sm"
+                                    :class="`btn-${alert.type}`"
+                                    style="margin-left: 0.5em;"
+                                    @click="handleCallback(action.callback!)">
+                                {{ action.label }}
+                            </button>
+                        </template>
+                    </div>
+                </template>
             </AlertBox>
         </Transition>
     </div>
@@ -20,7 +42,7 @@
     import { reactive, ref, computed } from "vue";
 
     import { onAction } from "@/core/utils/store";
-    import { AlertOptions } from "@/core/types";
+    import { ActionCallback, AlertOptions } from "@/core/types";
 
     import useUiStore from "@/stores/ui";
 
@@ -42,6 +64,7 @@
     });
 
     let timeoutId: number | undefined;
+    const onClosed = ref<() => void>();
 
     const open = () =>
     {
@@ -49,11 +72,10 @@
 
         if (alert.value?.timeout)
         {
-            timeoutId = setTimeout(onDismiss, alert.value.timeout);
+            timeoutId = setTimeout(close, alert.value.timeout);
         }
     };
-
-    const onDismiss = () =>
+    const close = () =>
     {
         if (timeoutId)
         {
@@ -63,16 +85,26 @@
         }
 
         isOpen.value = false;
-    };
-    const onClosed = () =>
-    {
-        alerts.shift();
 
-        if (alerts.length > 0)
+        return new Promise<void>((resolve, reject) =>
         {
-            open();
-        }
+            onClosed.value = () =>
+            {
+                alerts.shift();
+
+                if (alerts.length > 0)
+                {
+                    open();
+                }
+
+                resolve();
+
+                onClosed.value = undefined;
+            };
+        });
     };
+
+    const handleCallback = (callback: ActionCallback) => callback.call(alert.value!, close);
 
     onAction(uiStore, "alert", (alert) =>
     {
@@ -104,16 +136,18 @@
             &.fade-leave-to
             {
                 opacity: 0;
+                transform: translateY(-2.5em);
             }
             &.fade-enter-active,
             &.fade-leave-active
             {
-                transition: opacity 250ms;
+                transition: opacity 250ms ease-in-out, transform 250ms ease-in-out;
             }
             &.fade-enter-to,
             &.fade-leave-from
             {
                 opacity: 1;
+                transform: translateY(0px);
             }
         }
     }
