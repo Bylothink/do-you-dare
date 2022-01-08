@@ -48,54 +48,64 @@
     let number = 0;
     const pushAlert = () =>
     {
-        const typeId = Math.floor(Math.random() * 4);
-        const type = ["danger", "warning", "success", "info"][typeId];
-        const icon = ["times-circle", "exclamation-circle", "check-circle", "info-circle"][typeId];
-
-        let dismissable = true;
-        let timeout: number | undefined;
-        let actions: ActionOptions[] | undefined;
-
-        if (Math.floor(Math.random() * 2))
+        if (import.meta.env.DEV)
         {
-            dismissable = false;
-            timeout = Math.floor(Math.random() * 3000) + 1000;
-        }
-        else
-        {
-            actions = [
-                {
-                    label: "OK",
-                    callback: (done) =>
+            // TODO: Delete this things...
+            //
+
+            const typeId = Math.floor(Math.random() * 4);
+            const type = ["danger", "warning", "success", "info"][typeId];
+            const icon = ["times-circle", "exclamation-circle", "check-circle", "info-circle"][typeId];
+
+            let dismissable = true;
+            let timeout: number | undefined;
+            let actions: ActionOptions[] | undefined;
+
+            if (Math.floor(Math.random() * 2))
+            {
+                dismissable = false;
+                timeout = Math.floor(Math.random() * 3000) + 1000;
+            }
+            else
+            {
+                actions = [
                     {
-                        console.log(`"OK" clicked!`, this);
+                        label: "OK",
+                        callback: (done) =>
+                        {
+                            console.log(`"OK" clicked!`, this);
 
-                        done();
-                    }
-                },
-                {
-                    label: "Cancel",
-                    callback: function(done)
+                            done();
+                        }
+                    },
                     {
-                        console.log(`"Cancel" clicked!`, this);
+                        label: "Play!",
+                        location: { name: "game" }
+                    },
+                    {
+                        label: "Cancel",
+                        callback: function(done)
+                        {
+                            console.log(`"Cancel" clicked!`, this);
 
-                        done();
+                            done();
+                        }
                     }
-                }
-            ];
+                ];
+            }
+
+            number += 1;
+
+            store.alert({
+                type: type as "danger" | "warning" | "success" | "info",
+                icon: icon,
+                title: Math.floor(Math.random() * 2) ? `Prova #${number}!` : undefined,
+                message: "Questo è un messaggio di prova.",
+                actions: actions,
+                dismissable: dismissable,
+                timeout: timeout
+            });
         }
-
-        number += 1;
-
-        store.alert({
-            type: type as "danger" | "warning" | "success" | "info",
-            icon: icon,
-            title: Math.floor(Math.random() * 2) ? `Prova #${number}!` : undefined,
-            message: "Questo è un messaggio di prova.",
-            actions: actions,
-            dismissable: dismissable,
-            timeout: timeout
-        });
     };
 </script>
 

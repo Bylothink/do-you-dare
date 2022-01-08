@@ -13,14 +13,20 @@
                 {{ alert.message }}
                 <template v-if="alert.actions?.length">
                     <hr />
-                    <div style="display: flex; flex-direction: row-reverse;">
+                    <div class="alert-actions">
                         <template v-for="action, index in alert.actions">
                             <RouterLink v-if="action.location"
+                                        v-slot="{ href, navigate }"
                                         :key="`lnk-${index}`"
-                                        :to="action.location"
-                                        class="btn btn-sm"
-                                        :class="`btn-${alert.type}`">
-                                {{ action.label }}
+                                        custom
+                                        :to="action.location">
+                                <a :href="href"
+                                   class="btn btn-sm"
+                                   :class="`btn-${alert.type}`"
+                                   style="margin-left: 0.5em;"
+                                   @click="handleNavigate($event, navigate)">
+                                    {{ action.label }}
+                                </a>
                             </RouterLink>
                             <button v-else-if="action.callback"
                                     :key="`btn-${index}`"
@@ -40,6 +46,7 @@
 
 <script lang="ts" setup>
     import { reactive, ref, computed } from "vue";
+    import { NavigationFailure } from "vue-router";
 
     import { onAction } from "@/core/utils/store";
     import { ActionCallback, AlertOptions } from "@/core/types";
@@ -105,6 +112,12 @@
     };
 
     const handleCallback = (callback: ActionCallback) => callback.call(alert.value!, close);
+    const handleNavigate = (evt: MouseEvent, navigate: (e?: MouseEvent) => Promise<void | NavigationFailure>) =>
+    {
+        navigate(evt);
+
+        close();
+    };
 
     onAction(uiStore, "alert", (alert) =>
     {
@@ -131,6 +144,12 @@
         & > .alert-box
         {
             pointer-events: auto;
+
+            & > .alert-actions
+            {
+                display: flex;
+                flex-direction: row-reverse;
+            }
 
             &.fade-enter-from,
             &.fade-leave-to
