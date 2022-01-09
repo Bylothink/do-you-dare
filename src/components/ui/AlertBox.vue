@@ -18,7 +18,7 @@
         <slot></slot>
         <button v-if="dismissable"
                 type="button"
-                class="btn-close"
+                class="btn btn-close"
                 aria-label="Close"
                 @click="$emit('dismiss', $event)">
         </button>
@@ -67,31 +67,6 @@
         & > .fas
         {
             margin-right: 0.5em;
-        }
-
-        &.alert-primary > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$primary, 0.25);
-        }
-        &.alert-secondary > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$secondary, 0.25);
-        }
-        &.alert-danger > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$danger, 0.25);
-        }
-        &.alert-warning > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$warning, 0.25);
-        }
-        &.alert-success > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$success, 0.25);
-        }
-        &.alert-info > .btn-close:focus
-        {
-            box-shadow: 0px 0px 0px 0.25rem rgba(variables.$info, 0.25);
         }
     }
 </style>

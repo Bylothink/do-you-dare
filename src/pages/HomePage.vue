@@ -70,6 +70,7 @@
             {
                 actions = [
                     {
+                        type: "primary",
                         label: "OK",
                         callback: (done) =>
                         {
@@ -79,10 +80,7 @@
                         }
                     },
                     {
-                        label: "Play!",
-                        location: { name: "game" }
-                    },
-                    {
+                        type: "secondary",
                         label: "Cancel",
                         callback: function(done)
                         {
@@ -90,6 +88,11 @@
 
                             done();
                         }
+                    },
+                    {
+                        type: "link",
+                        label: "Play!",
+                        location: { name: "game" }
                     }
                 ];
             }

@@ -18,6 +18,11 @@ $grid-breakpoints:
 );
 $grid-gutter-width: 0px;
 
+// Style...
+//
+$link-decoration: none;
+$link-hover-decoration: underline;
+
 // Theme...
 //
 $primary: variables.$primary;
@@ -28,4 +33,86 @@ $warning: variables.$warning;
 $success: variables.$success;
 $info: variables.$info;
 
+$light: variables.$slightly-off-white;
+$dark: variables.$not-quite-black;
+
+$neutral: variables.$somewhat-gray;
+
+$theme-colors:
+(
+    "primary": $primary,
+    "secondary": $secondary,
+
+    "danger": $danger,
+    "warning": $warning,
+    "success": $success,
+    "info": $info,
+
+    "light": $light,
+    "dark": $dark,
+
+    "neutral": $neutral
+);
+
 @import "bootstrap/scss/bootstrap";
+
+a
+{
+    transition: color variables.$transition-duration variables.$transition-timing;
+}
+
+.alert
+{
+    @each $color, $value in $theme-colors
+    {
+        &.alert-#{$color}
+        {
+            .alert-link,
+            .btn-link
+            {
+                $alert-background: shift-color($value, $alert-bg-scale);
+                $alert-border: shift-color($value, $alert-border-scale);
+                $alert-color: shift-color($value, $alert-color-scale);
+
+                @if (contrast-ratio($alert-background, $alert-color) < $min-contrast-ratio)
+                {
+                    $alert-color: mix($value, color-contrast($alert-background), abs($alert-color-scale));
+                }
+
+                $link-color: shade-color($alert-color, 20%);
+
+                color: $link-color;
+
+                &:hover
+                {
+                    color: shift-color($link-color, -$link-shade-percentage);
+                }
+            }
+
+            .btn-close,
+            .btn-link
+            {
+                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+
+                &:focus
+                {
+                    box-shadow: 0px 0px 0px 0.25rem rgba($value, 0.25);
+                }
+            }
+
+            $button-color: tint-color($value, 25%);
+
+            .btn-primary
+            {
+                @include button-variant($button-color, $button-color);
+            }
+            .btn-secondary
+            {
+                $button-color: mix($neutral, $button-color);
+                $button-color: tint-color($button-color, 25%);
+
+                @include button-variant($button-color, $button-color);
+            }
+        }
+    }
+}

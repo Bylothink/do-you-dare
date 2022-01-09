@@ -22,7 +22,7 @@
                                         :to="action.location">
                                 <a :href="href"
                                    class="btn btn-sm"
-                                   :class="`btn-${alert.type}`"
+                                   :class="`btn-${action.type}`"
                                    style="margin-left: 0.5em;"
                                    @click="handleNavigate($event, navigate)">
                                     {{ action.label }}
@@ -31,7 +31,7 @@
                             <button v-else-if="action.callback"
                                     :key="`btn-${index}`"
                                     class="btn btn-sm"
-                                    :class="`btn-${alert.type}`"
+                                    :class="`btn-${action.type}`"
                                     style="margin-left: 0.5em;"
                                     @click="handleCallback(action.callback!)">
                                 {{ action.label }}

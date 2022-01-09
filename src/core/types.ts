@@ -3,6 +3,7 @@ import { RouteLocationRaw } from "vue-router";
 export type ActionCallback = (this: AlertOptions, done: () => Promise<void>) => void;
 export interface ActionOptions
 {
+    type: "primary" | "secondary" | "link";
     label: string;
 
     callback?: ActionCallback;

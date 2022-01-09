@@ -1,8 +1,8 @@
 // Colors...
 //
-$not-quite-black: #202124;
-$somewhat-gray: #666666;
-$slightly-off-white: #FAFAFA;
+$not-quite-black: #212529;
+$somewhat-gray: #ADB5BD;
+$slightly-off-white: #F8F9FA;
 
 $primary: #E91E63;
 $secondary: #E9A51E;
@@ -35,3 +35,8 @@ $max-tablet-size: $lg-size - 1px;
 $min-desktop-size: $lg-size;
 
 $card-width: 300px;
+
+// Transitions...
+//
+$transition-duration: 150ms;
+$transition-timing: ease-in-out;
