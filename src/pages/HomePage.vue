@@ -11,10 +11,12 @@
         </RouterLink>
         <button id="game-modes-btn"
                 class="btn btn-secondary btn-lg"
-                @click="pushAlert">
+                @click="underConstruction">
             Game modes
         </button>
-        <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
+        <RoundButton id="settings-btn"
+                     class="btn btn-primary btn-lg"
+                     @click="underConstruction">
             <span class="fas fa-cogs"></span>
         </RoundButton>
         <RouterLink v-slot="{ href, navigate }"
@@ -34,81 +36,26 @@
     // import config from "@/config";
     import useUiStore from "@/stores/ui";
 
-    import { ActionOptions } from "@/core/types";
-
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
     import RoundButton from "@/components/ui/RoundButton.vue";
     import GameCard from "@/components/GameCard.vue";
 
-    // const pages = config.pages.filter((page) => page.name !== "index");
+    // const pages = config.pages.filter((page) => page.name !== "home");
 
-    const store = useUiStore();
-
-    let number = 0;
-    const pushAlert = () =>
+    const uiStore = useUiStore();
+    const underConstruction = () =>
     {
-        if (import.meta.env.DEV)
-        {
-            // TODO: Delete this things...
-            //
-
-            const typeId = Math.floor(Math.random() * 4);
-            const type = ["danger", "warning", "success", "info"][typeId];
-            const icon = ["times-circle", "exclamation-circle", "check-circle", "info-circle"][typeId];
-
-            let dismissable = true;
-            let timeout: number | undefined;
-            let actions: ActionOptions[] | undefined;
-
-            if (Math.floor(Math.random() * 2))
-            {
-                dismissable = false;
-                timeout = Math.floor(Math.random() * 3000) + 1000;
-            }
-            else
-            {
-                actions = [
-                    {
-                        type: "primary",
-                        label: "OK",
-                        callback: (done) =>
-                        {
-                            console.log(`"OK" clicked!`, this);
-
-                            done();
-                        }
-                    },
-                    {
-                        type: "secondary",
-                        label: "Cancel",
-                        callback: function(done)
-                        {
-                            console.log(`"Cancel" clicked!`, this);
-
-                            done();
-                        }
-                    },
-                    {
-                        type: "link",
-                        label: "Play!",
-                        location: { name: "game" }
-                    }
-                ];
-            }
-
-            number += 1;
-
-            store.alert({
-                type: type as "danger" | "warning" | "success" | "info",
-                icon: icon,
-                title: Math.floor(Math.random() * 2) ? `Prova #${number}!` : undefined,
-                message: "Questo è un messaggio di prova.",
-                actions: actions,
-                dismissable: dismissable,
-                timeout: timeout
-            });
-        }
+        uiStore.alert({
+            type: "info",
+            icon: "tools",
+            title: "We still working on it!",
+            message: "We're so sorry but, at the moment, this feature is not implemented yet.\n" +
+                "Please, come back and try again later.\n\n" +
+                "--\n" +
+                `The "Do you Dare?" team. ❤`,
+            dismissable: true
+        });
     };
 </script>
 

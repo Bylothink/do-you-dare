@@ -1,5 +1,5 @@
 <template>
-    <ThemedElement class="alert-box alert"
+    <ThemedElement class="alert-box alert flex"
                    :class="classes"
                    :theme="type"
                    name="alert"
@@ -52,7 +52,11 @@
     });
     defineEmits(["dismiss"]);
 
-    const classes = computed((): Record<string, boolean> => ({ "alert-dismissible": props.dismissable }));
+    const classes = computed((): Record<string, boolean> => ({
+        "alert-dismissible": props.dismissable,
+        "flex-horizontal": !props.title,
+        "flex-vertical": !!props.title
+    }));
 </script>
 
 <style lang="scss" scoped>
@@ -67,6 +71,21 @@
         & > .fas
         {
             margin-right: 0.5em;
+            margin-top: 0.15em;
+        }
+
+        &.flex
+        {
+            display: flex;
+
+            &.flex-horizontal
+            {
+                flex-direction: row;
+            }
+            &.flex-vertical
+            {
+                flex-direction: column;
+            }
         }
     }
 </style>

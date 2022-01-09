@@ -73,11 +73,16 @@
 
 <script lang="ts" setup>
     import { ref } from "vue";
+    import { useRouter } from "vue-router";
 
+    import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
+    const router = useRouter();
+
+    const uiStore = useUiStore();
     const userStore = useUserStore();
 
     const firstName = ref("");
@@ -86,7 +91,7 @@
     const password = ref("");
     const email = ref("");
 
-    const onSubmit = () =>
+    const onSubmit = async () =>
     {
         const signUpPayload = {
             firstName: firstName.value,
@@ -96,15 +101,32 @@
             email: email.value
         };
 
-        userStore.signUp(signUpPayload)
-            .then(() => alert("Registrazione avvenuta con successo!"))
-            .catch((exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
+        try
+        {
+            await userStore.signUp(signUpPayload);
 
-                alert("Si è verificato un errore!");
+            uiStore.alert({
+                type: "success",
+                icon: "check-circle",
+                message: "Account created successfully!\n",
+                timeout: 2500
             });
+
+            router.push({ name: "sign-in" });
+        }
+        catch (exc)
+        {
+            // eslint-disable-next-line no-console
+            console.error(exc);
+
+            uiStore.alert({
+                type: "danger",
+                icon: "times-circle",
+                title: "An unexpected error occurred!",
+                message: `${exc}`,
+                dismissable: true
+            });
+        }
     };
 </script>
 

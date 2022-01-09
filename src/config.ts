@@ -44,7 +44,7 @@ export default new Config({
     pages: [
         {
             id: 0x1,
-            name: "index",
+            name: "home",
             path: "/",
             component: HomePage,
             title: "Home",

@@ -10,7 +10,7 @@
                       :icon="alert.icon"
                       :dismissable="alert.dismissable"
                       @dismiss="close">
-                {{ alert.message }}
+                <pre>{{ alert.message }}</pre>
                 <template v-if="alert.actions?.length">
                     <hr />
                     <div class="alert-actions">
@@ -144,6 +144,13 @@
         & > .alert-box
         {
             pointer-events: auto;
+
+            pre
+            {
+                font-family: inherit;
+                margin: 0px;
+                white-space: pre-wrap;
+            }
 
             & > .alert-actions
             {

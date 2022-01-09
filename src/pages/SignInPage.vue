@@ -43,32 +43,54 @@
 
 <script lang="ts" setup>
     import { ref } from "vue";
+    import { useRouter } from "vue-router";
 
+    import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
+    const router = useRouter();
+
+    const uiStore = useUiStore();
     const userStore = useUserStore();
 
     const username = ref("");
     const password = ref("");
 
-    const onSubmit = (): void =>
+    const onSubmit = async () =>
     {
         const signInPayload = {
             username: username.value,
             password: password.value
         };
 
-        userStore.signIn(signInPayload)
-            .then(() => alert("Login avvenuto con successo!"))
-            .catch((exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
+        try
+        {
+            await userStore.signIn(signInPayload);
 
-                alert("Si è verificato un errore!");
+            uiStore.alert({
+                type: "success",
+                icon: "check-circle",
+                message: "Authentication successful!\n",
+                timeout: 2500
             });
+
+            router.push({ name: "home" });
+        }
+        catch (exc)
+        {
+            // eslint-disable-next-line no-console
+            console.error(exc);
+
+            uiStore.alert({
+                type: "danger",
+                icon: "times-circle",
+                title: "An unexpected error occurred!",
+                message: `${exc}`,
+                dismissable: true
+            });
+        }
     };
 </script>
 
