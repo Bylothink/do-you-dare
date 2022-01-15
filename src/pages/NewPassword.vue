@@ -39,46 +39,33 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+    import { ref } from "vue";
 
-    import { useStore } from "@/store";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    export default defineComponent({
-        name: "NewPasswordPage",
-        components: { CenteredLayout },
+    const userStore = useUserStore();
 
-        setup: () =>
-        {
-            const store = useStore();
+    const password = ref("");
+    const confirm = ("");
 
-            const password = ref("");
-            const confirm = ("");
-
-            const onSubmit = (): void =>
+    const onSubmit = (): void =>
+    {
+        userStore.newPassword({ password: password.value })
+            .then(() => alert("Password reimpostata con successo!"))
+            .then(() => console.log(""))
+            .catch((exc) =>
             {
-                const newPasswordPayload = {
-                    password: password.value
-                };
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                store.dispatch("user/newPassword", newPasswordPayload)
-                    .then(() => alert("Password reimpostata con successo!"))
-                    .then(() => console.log(""))
-                    .catch((exc) =>
-                    {
-                        // eslint-disable-next-line no-console
-                        console.error(exc);
-
-                        alert("Si è verificato un errore!");
-                    });
-            };
-
-            return { password, confirm, onSubmit };
-        }
-    });
+                alert("Si è verificato un errore!");
+            });
+    };
 </script>
+
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 

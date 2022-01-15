@@ -29,46 +29,37 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+    import { ref } from "vue";
 
-    import { useStore } from "@/store";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    export default defineComponent({
-        name: "ResetPage",
-        components: { CenteredLayout },
+    const userStore = useUserStore();
 
-        setup: () =>
-        {
-            const store = useStore();
+    const email = ref("");
+    const codice = ref("");
 
-            const email = ref("");
-            const codice = ref("");
+    const onSubmit = (): void =>
+    {
+        const resetPayload = {
+            email: email.value,
+            codice: codice.value
+        };
 
-            const onSubmit = (): void =>
+        userStore.reset(resetPayload)
+            .then(() => alert("Email inviata con successo!"))
+            .catch((exc) =>
             {
-                const resetPayload = {
-                    email: email.value,
-                    codice: codice.value
-                };
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                store.dispatch("user/reset", resetPayload)
-                    .then(() => alert("Email inviata con successo!"))
-                    .catch((exc) =>
-                    {
-                        // eslint-disable-next-line no-console
-                        console.error(exc);
-
-                        alert("Si è verificato un errore!");
-                    });
-            };
-
-            return { email, onSubmit };
-        }
-    });
+                alert("Si è verificato un errore!");
+            });
+    };
 </script>
+
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
