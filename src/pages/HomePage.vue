@@ -1,23 +1,27 @@
 <template>
     <CenteredLayout id="home-page">
-        <Card id="background-card" facedown />
+        <GameCard id="background-card" facedown />
         <h1 class="title">
             Do you dare?
         </h1>
         <RouterLink id="play-now-btn"
                     class="btn btn-primary btn-lg"
-                    :to="{ name: 'match' }">
+                    :to="{ name: 'game' }">
             Play now!
         </RouterLink>
-        <button id="game-modes-btn" class="btn btn-secondary btn-lg">
+        <button id="game-modes-btn"
+                class="btn btn-secondary btn-lg"
+                @click="underConstruction">
             Game modes
         </button>
-        <RoundButton id="settings-btn" class="btn btn-primary btn-lg">
+        <RoundButton id="settings-btn"
+                     class="btn btn-primary btn-lg"
+                     @click="underConstruction">
             <span class="fas fa-cogs"></span>
         </RoundButton>
         <RouterLink v-slot="{ href, navigate }"
                     custom
-                    :to="{ name: 'sign-up' }">
+                    :to="{ name: 'sign-in' }">
             <RoundButton id="user-btn"
                          class="btn btn-primary btn-lg"
                          :href="href"
@@ -28,33 +32,69 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
+<script lang="ts" setup>
+    // import config from "@/config";
+    import useUiStore from "@/stores/ui";
 
-    import config, { PageOptions } from "@/config";
-
-    import RoundButton from "@/components/ui/RoundButton.vue";
-    import Card from "@/components/Card.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    export default defineComponent({
-        name: "HomePage",
-        components: { Card, CenteredLayout, RoundButton },
+    import RoundButton from "@/components/ui/RoundButton.vue";
+    import GameCard from "@/components/GameCard.vue";
 
-        setup: () =>
-        {
-            const pages: PageOptions[] = config.pages.filter((page) => page.name !== "index");
+    // const pages = config.pages.filter((page) => page.name !== "home");
 
-            return { pages };
-        }
-    });
+    const uiStore = useUiStore();
+    const underConstruction = () =>
+    {
+        uiStore.alert({
+            type: "info",
+            icon: "tools",
+            title: "We still working on it!",
+            message: "We're so sorry but, at the moment, this feature is not implemented yet.\n" +
+                "Please, come back and try again later.\n\n" +
+                "--\n" +
+                `The "Do you Dare?" team. ❤`,
+            dismissable: true
+        });
+    };
 </script>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
+    @keyframes slide-down
+    {
+        0%, 50% { transform: translateY(137px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes first-fade-in
+    {
+        0%, 50% { transform: translateY(-73px); }
+        0%, 75% { opacity: 0; }
+        100% { transform: translateY(0px); opacity: 1; }
+    }
+    @keyframes second-fade-in
+    {
+        0%, 50% { transform: translateY(-73px); }
+        0%, 75% { opacity: 0; }
+        100% { transform: translateY(0px); opacity: 1; }
+    }
+
+    @keyframes enter-right
+    {
+        0%, 75% { transform: translateX(200%); }
+        100% { transform: translateX(0px); }
+    }
+    @keyframes enter-left
+    {
+        0%, 75% { transform: translateX(-200%); }
+        100% { transform: translateX(0px); }
+    }
+
     #home-page
     {
+        overflow: hidden;
         text-align: center;
 
         & > ul
@@ -72,6 +112,7 @@
 
         & > .title
         {
+            animation: slide-down 2000ms ease-in-out;
             font-size: 6.666em;
             font-weight: 100;
             margin: 0px;
@@ -87,8 +128,13 @@
         }
         & > #play-now-btn
         {
+            animation: first-fade-in 2000ms ease-in-out;
             font-size: 2.5em;
             margin-bottom: 1em;
+        }
+        & > #game-modes-btn
+        {
+            animation: second-fade-in 2200ms ease-in-out;
         }
 
         & > #settings-btn,
@@ -100,10 +146,12 @@
         }
         & > #settings-btn
         {
+            animation: enter-left 2600ms ease-in-out;
             left: 1em;
         }
         & > #user-btn
         {
+            animation: enter-right 2400ms ease-in-out;
             right: 1em;
         }
     }

@@ -1,9 +1,9 @@
 declare module "*.vue"
 {
-  import type { DefineComponent } from "vue";
+    import { DefineComponent } from "vue";
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const component: DefineComponent<{ }, { }, any>;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const component: DefineComponent<{}, {}, any>;
 
-  export default component;
+    export default component;
 }

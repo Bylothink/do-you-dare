@@ -4,16 +4,6 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
+<script lang="ts" setup>
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
-
-    export default defineComponent({
-        name: "AboutPage",
-        components: { CenteredLayout }
-    });
 </script>
-
-<style lang="scss" scoped>
-</style>

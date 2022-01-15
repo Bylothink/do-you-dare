@@ -32,6 +32,7 @@
                            v-model="username"
                            class="form-control form-control-lg mb-3"
                            type="text"
+                           autocomplete="username"
                            required />
                 </div>
             </div>
@@ -52,6 +53,7 @@
                            v-model="password"
                            class="form-control form-control-lg mb-3"
                            type="password"
+                           autocomplete="new-password"
                            required />
                 </div>
             </div>
@@ -69,51 +71,63 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+    import { ref } from "vue";
+    import { useRouter } from "vue-router";
 
-    import { useStore } from "@/store";
+    import useUiStore from "@/stores/ui";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    export default defineComponent({
-        name: "SignUpPage",
-        components: { CenteredLayout },
+    const router = useRouter();
 
-        setup: () =>
+    const uiStore = useUiStore();
+    const userStore = useUserStore();
+
+    const firstName = ref("");
+    const lastName = ref("");
+    const username = ref("");
+    const password = ref("");
+    const email = ref("");
+
+    const onSubmit = async () =>
+    {
+        const signUpPayload = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            username: username.value,
+            password: password.value,
+            email: email.value
+        };
+
+        try
         {
-            const store = useStore();
+            await userStore.signUp(signUpPayload);
 
-            const firstName = ref("");
-            const lastName = ref("");
-            const username = ref("");
-            const password = ref("");
-            const email = ref("");
+            uiStore.alert({
+                type: "success",
+                icon: "check-circle",
+                message: "Account created successfully!\n",
+                timeout: 2500
+            });
 
-            const onSubmit = () =>
-            {
-                const signUpPayload = {
-                    firstName: firstName.value,
-                    lastName: lastName.value,
-                    username: username.value,
-                    password: password.value,
-                    email: email.value
-                };
-
-                store.dispatch("user/signUp", signUpPayload)
-                    .then(() => alert("Registrazione avvenuta con successo!"))
-                    .catch((exc) =>
-                    {
-                        // eslint-disable-next-line no-console
-                        console.error(exc);
-
-                        alert("Si è verificato un errore!");
-                    });
-            };
-
-            return { firstName, lastName, username, password, email, onSubmit };
+            router.push({ name: "sign-in" });
         }
-    });
+        catch (exc)
+        {
+            // eslint-disable-next-line no-console
+            console.error(exc);
+
+            uiStore.alert({
+                type: "danger",
+                icon: "times-circle",
+                title: "An unexpected error occurred!",
+                message: `${exc}`,
+                dismissable: true
+            });
+        }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -1,4 +1,5 @@
 # Do you Dare? 🎴
+## Frontend project
 
 A web-game based on the original game of "Truth or Dare?" with different game modes.
 
@@ -9,7 +10,7 @@ A web-game based on the original game of "Truth or Dare?" with different game mo
 To install all the dependencies required by this project, you need to run:
 
 ```bash
-$ yarn
+$ yarn install
 ```
 
 ### Develop
@@ -17,7 +18,7 @@ $ yarn
 To run this project in `development` mode with also the auto-refresh feature, you need to run:
 
 ```bash
-$ yarn serve
+$ yarn dev
 ```
 
 ### Contribute
@@ -45,11 +46,19 @@ Copy those files directly to your web-server to simply serve this project as sta
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [GraphQL](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql)
-- [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur)
+- [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
 ### Used technologies
 
 - [Vue.js 3](https://v3.vuejs.org/guide/introduction.html)
     - [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)
+    - [SFC `<script setup>` syntax](https://v3.vuejs.org/api/sfc-script-setup.html)
+- [Vue Router](https://next.router.vuejs.org/guide/)
+- [Vuex](https://next.vuex.vuejs.org/guide/)
 - [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [ESLint](https://eslint.org/docs/user-guide/getting-started)
+- [GraphQL](https://graphql.org/code/#javascript)
 - [SASS](https://sass-lang.com/guide)
+- [Bootstrap](https://getbootstrap.com/docs/5.1/getting-started/introduction/)
+- [FontAwesome](https://fontawesome.com/v5.15/icons?m=free)
+- [Vite.js](https://vitejs.dev/guide/)

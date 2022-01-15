@@ -19,10 +19,12 @@ export default class JsonStorage
             }
             catch (err)
             {
-                if (process.env.NODE_ENV !== "production")
+                if (import.meta.env.DEV)
                 {
                     // eslint-disable-next-line no-console
-                    console.warn(`The "${propertyValue}" value for "${propertyName}" property cannot be parsed. Cleaning the storage...`);
+                    console.warn(
+                        `The "${propertyValue}" value for "${propertyName}"` +
+                        " property cannot be parsed. Cleaning the storage...");
                 }
 
                 this._storage.removeItem(propertyName);

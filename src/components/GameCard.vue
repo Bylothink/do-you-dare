@@ -1,5 +1,5 @@
 <template>
-    <div class="card" :class="classes">
+    <div class="game-card" :class="classes">
         <div class="spacer"></div>
         <div class="face back">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
@@ -10,31 +10,23 @@
     </div>
 </template>
 
-<script lang="ts">
-    import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+    import { computed } from "vue";
 
-    export default defineComponent({
-        name: "Card",
-        props: {
-            facedown: {
-                default: false,
-                type: Boolean
-            }
-        },
-
-        setup: (props) =>
-        {
-            const classes = computed((): Record<string, boolean> => ({ "facedown": props.facedown }));
-
-            return { classes };
+    const props = defineProps({
+        facedown: {
+            default: false,
+            type: Boolean
         }
     });
+
+    const classes = computed((): Record<string, boolean> => ({ "facedown": props.facedown }));
 </script>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    .card
+    .game-card
     {
         background-color: variables.$not-quite-black;
         border: 1px solid rgba(0, 0, 0, 0.5);

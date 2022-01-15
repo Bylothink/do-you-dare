@@ -13,6 +13,7 @@ export type PageOptions = RouteRecordRaw &
 
 export interface ConfigOptions
 {
+    backendUrl: string;
     title: string;
     author: string;
     pages: PageOptions[];
@@ -23,6 +24,7 @@ class Config implements ConfigOptions
 {
     protected _options: ConfigOptions;
 
+    public get backendUrl(): string { return this._options.backendUrl; }
     public get title(): string { return this._options.title; }
     public get author(): string { return this._options.author; }
     public get pages(): PageOptions[] { return this._options.pages; }
@@ -35,12 +37,14 @@ class Config implements ConfigOptions
 }
 
 export default new Config({
+    backendUrl: import.meta.env.VITE_BACKEND_URL,
+
     title: "Do you Dare?",
     author: "Matteo Bilotta",
     pages: [
         {
             id: 0x1,
-            name: "index",
+            name: "home",
             path: "/",
             component: HomePage,
             title: "Home",
@@ -48,10 +52,10 @@ export default new Config({
         },
         {
             id: 0x2,
-            name: "match",
-            path: "/match",
-            component: () => import(/* webpackChunkName: "match-page" */ "./pages/MatchPage.vue"),
-            title: "Match",
+            name: "game",
+            path: "/game",
+            component: () => import(/* webpackChunkName: "game-page" */ "./pages/GamePage.vue"),
+            title: "Game",
             topLevel: true
         },
         {

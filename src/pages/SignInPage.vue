@@ -12,6 +12,7 @@
                            v-model="username"
                            class="form-control form-control-lg mb-3"
                            type="text"
+                           autocomplete="username"
                            required />
                 </div>
             </div>
@@ -22,6 +23,7 @@
                            v-model="password"
                            class="form-control form-control-lg mb-3"
                            type="password"
+                           autocomplete="current-password"
                            required />
                 </div>
             </div>
@@ -39,45 +41,57 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts">
-    import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+    import { ref } from "vue";
+    import { useRouter } from "vue-router";
 
-    import { useStore } from "@/store";
+    import useUiStore from "@/stores/ui";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    export default defineComponent({
-        name: "SignInPage",
-        components: { CenteredLayout },
+    const router = useRouter();
 
-        setup: () =>
+    const uiStore = useUiStore();
+    const userStore = useUserStore();
+
+    const username = ref("");
+    const password = ref("");
+
+    const onSubmit = async () =>
+    {
+        const signInPayload = {
+            username: username.value,
+            password: password.value
+        };
+
+        try
         {
-            const store = useStore();
+            await userStore.signIn(signInPayload);
 
-            const username = ref("");
-            const password = ref("");
+            uiStore.alert({
+                type: "success",
+                icon: "check-circle",
+                message: "Authentication successful!\n",
+                timeout: 2500
+            });
 
-            const onSubmit = (): void =>
-            {
-                const signInPayload = {
-                    username: username.value,
-                    password: password.value
-                };
-
-                store.dispatch("user/signIn", signInPayload)
-                    .then(() => alert("Login avvenuto con successo!"))
-                    .catch((exc) =>
-                    {
-                        // eslint-disable-next-line no-console
-                        console.error(exc);
-
-                        alert("Si è verificato un errore!");
-                    });
-            };
-
-            return { username, password, onSubmit };
+            router.push({ name: "home" });
         }
-    });
+        catch (exc)
+        {
+            // eslint-disable-next-line no-console
+            console.error(exc);
+
+            uiStore.alert({
+                type: "danger",
+                icon: "times-circle",
+                title: "An unexpected error occurred!",
+                message: `${exc}`,
+                dismissable: true
+            });
+        }
+    };
 </script>
 
 <style lang="scss" scoped>

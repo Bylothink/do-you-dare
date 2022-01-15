@@ -4,17 +4,19 @@ module.exports = {
     "@byloth/eslint-config-typescript",
     "@byloth/eslint-config-vue"
   ],
+  globals: {
+    defineProps: true,
+    defineEmits: true,
+    defineExpose: true
+  },
   overrides: [
+    {
+      files: ["*.vue"],
+      rules: { "vue/no-v-model-argument": "off" }
+    },
     {
       files: ["*.ts"],
       rules: { "no-unused-vars": "off" }
-    },
-    {
-      files: ["*.vue"],
-      rules: {
-        "vue/no-multiple-template-root": "off",
-        "vue/no-v-model-argument": "off"
-      }
     }
   ]
 };

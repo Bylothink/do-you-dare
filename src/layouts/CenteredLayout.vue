@@ -1,19 +1,14 @@
 <template>
-    <component :is="tag" class="centered-layout">
+    <Component :is="tag" class="centered-layout">
         <slot></slot>
-    </component>
+    </Component>
 </template>
 
-<script lang="ts">
-    import { defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "CenteredLayout",
-        props: {
-            tag: {
-                default: "main",
-                type: String
-            }
+<script lang="ts" setup>
+    defineProps({
+        tag: {
+            default: "main",
+            type: String
         }
     });
 </script>
