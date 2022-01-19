@@ -3,10 +3,10 @@
         <GameCard facedown />
         <InteractiveCard v-model:x="cardPosition.x"
                          v-model:y="cardPosition.y"
+                         :class="classes"
                          :draggable="isCardDraggable"
                          :drawn="hasCardBeenDrawn"
                          :facedown="isCardFacedown"
-                         :inanimate="isCardInanimate"
                          :style="styles"
                          @click:inside="onClickInside"
                          @click:outside="onClickOutside"
@@ -48,23 +48,28 @@
 
     const cardPosition = reactive({ x: 0, y: 0 });
 
+    const classes = computed((): Record<string, boolean> => ({ "inanimate": isCardInanimate.value }));
     const styles = computed((): Record<string, string> =>
     {
-        let transform = "";
-
         if (!isCardFacedown.value)
         {
-            transform += `scale(1.25)`;
+            let transform = `scale(1.25)`;
+
+            if (isCardBeingDragged.value)
+            {
+                let filter = `brightness(${(cardPosition.y / 12.5) + 100}%)`;
+
+                transform += `rotateX(${cardPosition.y / 25}deg) ` +
+                    `rotateY(${-cardPosition.x / 25}deg)` +
+                    `rotateZ(${cardPosition.x / 50}deg)`;
+
+                return { filter, transform };
+            }
+
+            return { transform };
         }
 
-        if (isCardBeingDragged.value)
-        {
-            transform += `rotateX(${cardPosition.y / 25}deg) ` +
-                `rotateY(${cardPosition.x / 25}deg)` +
-                `rotateZ(${cardPosition.x / 50}deg)`;
-        }
-
-        return { transform };
+        return { };
     });
 
     const reset = async () =>
@@ -153,6 +158,7 @@
 
     .game-deck
     {
+        perspective: 1024px;
         position: relative;
 
         & > .game-card,
@@ -163,6 +169,21 @@
 
         & > .interactive-card
         {
+            transition: left 200ms ease-in-out,
+                        top 200ms ease-in-out,
+                        filter 200ms ease-in-out,
+                        transform 200ms ease-in-out;
+
+            .content
+            {
+                padding: 0.5em 1em;
+            }
+
+            &:deep(.game-card)
+            {
+                transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
+            }
+
             &.disabled
             {
                 cursor: pointer;
@@ -171,10 +192,20 @@
             {
                 transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
             }
-
-            .content
+            &.moving,
+            &.inanimate
             {
-                padding: 0.5em 1em;
+                transition: none;
+
+                &:deep(.game-card)
+                {
+                    transition: none;
+
+                    & > .face
+                    {
+                        transition: none;
+                    }
+                }
             }
         }
     }

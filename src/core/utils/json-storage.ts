@@ -17,7 +17,7 @@ export default class JsonStorage
             {
                 return JSON.parse(propertyValue);
             }
-            catch (err)
+            catch (error)
             {
                 if (import.meta.env.DEV)
                 {

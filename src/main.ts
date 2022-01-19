@@ -5,7 +5,13 @@ import App from "./App.vue";
 import router from "./router";
 import pinia from "./pinia";
 
-createApp(App)
-    .use(pinia)
-    .use(router)
-    .mount("#app");
+import errorsHandler from "./plugins/errors-handler";
+
+const app = createApp(App);
+
+app.use(pinia);
+app.use(router);
+
+app.use(errorsHandler);
+
+export default app.mount("#app");

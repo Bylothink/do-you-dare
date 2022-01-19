@@ -58,17 +58,17 @@ export class GraphQLService
 
             return response.data.data;
         }
-        catch (exc)
+        catch (error)
         {
-            if (axios.isAxiosError(exc))
+            if (axios.isAxiosError(error))
             {
-                const axiosExc = exc as AxiosError<GraphQLResponse>;
+                const axiosError = error as AxiosError<GraphQLResponse>;
 
-                throw new GraphQLException(axiosExc.response!.data);
+                throw new GraphQLException(axiosError.response!.data);
             }
             else
             {
-                throw exc;
+                throw error;
             }
         }
     }
@@ -91,17 +91,17 @@ export class GraphQLService
 
             return response.data.data;
         }
-        catch (exc)
+        catch (error)
         {
-            if (axios.isAxiosError(exc))
+            if (axios.isAxiosError(error))
             {
-                const axiosExc = exc as AxiosError<GraphQLResponse>;
+                const axiosError = error as AxiosError<GraphQLResponse>;
 
-                throw new GraphQLException(axiosExc.response!.data);
+                throw new GraphQLException(axiosError.response!.data);
             }
             else
             {
-                throw exc;
+                throw error;
             }
         }
     }

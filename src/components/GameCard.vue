@@ -33,6 +33,7 @@
         border-radius: 1em;
         box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.25);
         position: relative;
+        transform-style: preserve-3d;
         user-select: none;
 
         & > .spacer

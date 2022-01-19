@@ -44,10 +44,6 @@
         facedown: {
             default: false,
             type: Boolean
-        },
-        inanimate: {
-            default: false,
-            type: Boolean
         }
     });
     const emit = defineEmits([
@@ -61,10 +57,7 @@
         "update:y"
     ]);
 
-    const classes = computed((): Record<string, boolean> => ({
-        "drawn": props.drawn,
-        "inanimate": props.inanimate
-    }));
+    const classes = computed((): Record<string, boolean> => ({ "drawn": props.drawn }));
 
     const onClick = (evt: MouseEvent) => emit("click:inside", evt);
 
@@ -98,12 +91,10 @@
     .interactive-card
     {
         border-radius: 1em;
-        transition: left 200ms ease-in-out, top 200ms ease-in-out, transform 200ms ease-in-out;
 
         .game-card
         {
             box-shadow: none;
-            transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
         }
 
         &.drawn
@@ -112,23 +103,6 @@
             {
                 box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
             }
-        }
-        &.inanimate
-        {
-            .game-card
-            {
-                transition: none;
-
-                &:deep(.face)
-                {
-                    transition: none;
-                }
-            }
-        }
-        &.inanimate,
-        &.moving
-        {
-            transition: none;
         }
     }
 </style>

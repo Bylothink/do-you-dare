@@ -45,6 +45,8 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
+    import Exception from "@/core/exceptions/core";
+
     import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
 
@@ -78,18 +80,20 @@
 
             router.push({ name: "home" });
         }
-        catch (exc)
+        catch (error)
         {
-            // eslint-disable-next-line no-console
-            console.error(exc);
+            const exc = Exception.FromUnknown(error);
 
             uiStore.alert({
                 type: "danger",
                 icon: "times-circle",
-                title: "An unexpected error occurred!",
-                message: `${exc}`,
+                title: "Authentication failed!",
+                message: exc.message,
                 dismissable: true
             });
+
+            // eslint-disable-next-line no-console
+            console.error(exc);
         }
     };
 </script>

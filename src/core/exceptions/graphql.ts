@@ -7,7 +7,7 @@ export default class GraphQLException extends Exception
 {
     public static PrintError(error: GraphQLError): string
     {
-        let errorMessage = GraphQLError.prototype.toString.call(error);
+        let errorMessage = GraphQLError.prototype.toString.call(error).trim();
 
         if (!errorMessage.endsWith("."))
         {
@@ -43,6 +43,6 @@ export default class GraphQLException extends Exception
             message = "An unknown error has occurred; the body of the response is empty.";
         }
 
-        super(message);
+        super(message, undefined, "GraphQLException");
     }
 }
