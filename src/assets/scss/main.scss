@@ -5,8 +5,12 @@
 html,
 body
 {
+    // TODO!
+    //
     height: 100%;
-    overflow: hidden;
+    overscroll-behavior-x: none;    // In linea teorica, tutte le interattività dovute allo swipe dovrebbero
+                                    //  essere disabilitate solo in caso di interazione con la Card.
+    overflow: hidden;               // Questo causa l'impossibilità di usare lo swipe-to-refresh su mobile.
 }
 
 body
