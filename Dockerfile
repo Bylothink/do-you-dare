@@ -1,4 +1,4 @@
-FROM node:17.3 as builder
+FROM node:17.4-alpine as builder
 
 ARG VITE_BACKEND_URL
 
@@ -10,7 +10,7 @@ RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
  && yarn ci \
  && yarn build
 
-FROM nginx:1.21
+FROM nginx:1.21-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /opt/arderco/frontend/dist/ /usr/share/nginx/html
