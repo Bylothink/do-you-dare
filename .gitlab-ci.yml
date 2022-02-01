@@ -4,8 +4,8 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   BUILDER_IMAGE_REF: "${CI_REGISTRY_IMAGE}/builder:${CI_COMMIT_SHORT_SHA}"
   BUILDER_IMAGE_TAG: "${CI_REGISTRY_IMAGE}/builder:${CI_COMMIT_REF_SLUG}"
-  COMPILER_IMAGE_REF: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}"
-  COMPILER_IMAGE_TAG: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+  DOCKER_IMAGE_REF: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHORT_SHA}"
+  DOCKER_IMAGE_TAG: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
   DOCKER_IMAGE_LATEST: "${CI_REGISTRY_IMAGE}:latest"
 
 services:
@@ -13,7 +13,6 @@ services:
 
 stages:
   - build
-  - compile
   - release
   - deploy
 
@@ -41,17 +40,17 @@ build:
     - docker push "${BUILDER_IMAGE_TAG}"
 
     - |-
-      if docker pull "${COMPILER_IMAGE_REF}" &> /dev/null
+      if docker pull "${DOCKER_IMAGE_REF}" &> /dev/null
       then
-        docker tag "${COMPILER_IMAGE_REF}" "${COMPILER_IMAGE_TAG}"
+        docker tag "${DOCKER_IMAGE_REF}" "${DOCKER_IMAGE_TAG}"
       else
-        docker pull "${COMPILER_IMAGE_TAG}" &> /dev/null || true
+        docker pull "${DOCKER_IMAGE_TAG}" &> /dev/null || true
       fi
     - docker build
         --cache-from "${BUILDER_IMAGE_TAG}"
-        --cache-from "${COMPILER_IMAGE_TAG}"
-        --tag "${COMPILER_IMAGE_REF}"
-        --tag "${COMPILER_IMAGE_TAG}"
+        --cache-from "${DOCKER_IMAGE_TAG}"
+        --tag "${DOCKER_IMAGE_REF}"
+        --tag "${DOCKER_IMAGE_TAG}"
         --build-arg VITE_BACKEND_URL="${APPLICATION_URL}"
         --build-arg AUTHOR="${GITLAB_USER_NAME}"
         --build-arg COMMIT_REF="${CI_COMMIT_REF}"
@@ -59,8 +58,8 @@ build:
         --build-arg CREATE_DATE="${CI_PIPELINE_CREATED_AT}"
         .
 
-    - docker push "${COMPILER_IMAGE_REF}"
-    - docker push "${COMPILER_IMAGE_TAG}"
+    - docker push "${DOCKER_IMAGE_REF}"
+    - docker push "${DOCKER_IMAGE_TAG}"
 
   rules:
     - exists:
@@ -75,8 +74,8 @@ release:
     - build
 
   script:
-    - docker pull "${COMPILER_IMAGE_REF}"
-    - docker tag "${COMPILER_IMAGE_REF}" "${DOCKER_IMAGE_LATEST}"
+    - docker pull "${DOCKER_IMAGE_REF}"
+    - docker tag "${DOCKER_IMAGE_REF}" "${DOCKER_IMAGE_LATEST}"
     - docker push "${DOCKER_IMAGE_LATEST}"
 
   only:

@@ -12,14 +12,14 @@ RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
 
 FROM nginx:1.21-alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /opt/arderco/frontend/dist/ /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-ARG NAME="Do you Dare? - Frontend" \
-    AUTHOR="Bilotta Matteo" \
-    COMMIT_REF \
-    COMMIT_SHA \
-    CREATE_DATE
+ARG NAME="Do you Dare? - Frontend"
+ARG AUTHOR="Bilotta Matteo"
+ARG COMMIT_REF
+ARG COMMIT_SHA
+ARG CREATE_DATE
 
 LABEL "net.byloth.doyoudare.frontend.image.name"="${NAME}"
 LABEL "net.byloth.doyoudare.frontend.image.author"="${AUTHOR}"
