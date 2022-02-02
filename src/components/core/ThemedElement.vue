@@ -1,5 +1,5 @@
 <template>
-    <Component :is="tag" :class="classes">
+    <Component :is="is" :class="classes">
         <slot></slot>
     </Component>
 </template>
@@ -8,9 +8,9 @@
     import { computed } from "vue";
 
     const props = defineProps({
-        tag: {
+        is: {
             default: "div",
-            type: String
+            type: [String, Object]
         },
 
         name: {

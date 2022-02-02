@@ -1,5 +1,5 @@
 <template>
-    <div class="game-deck">
+    <div class="deck">
         <GameCard facedown />
         <InteractiveCard v-model:x="cardPosition.x"
                          v-model:y="cardPosition.y"
@@ -156,52 +156,41 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    .game-deck
+    .deck
     {
         perspective: 1024px;
         position: relative;
 
-        & > .game-card,
-        & > .interactive-card
+        & > .card
         {
             width: variables.$card-width;
-        }
-
-        & > .interactive-card
-        {
-            transition: left 200ms ease-in-out,
-                        top 200ms ease-in-out,
-                        filter 200ms ease-in-out,
-                        transform 200ms ease-in-out;
-
-            .content
+            &.interactive
             {
-                padding: 0.5em 1em;
-            }
+                transition: box-shadow 200ms ease-in-out,
+                            left 200ms ease-in-out,
+                            top 200ms ease-in-out,
+                            filter 200ms ease-in-out,
+                            transform 200ms ease-in-out;
 
-            &:deep(.game-card)
-            {
-                transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
-            }
+                .content
+                {
+                    padding: 0.5em 1em;
+                }
 
-            &.disabled
-            {
-                cursor: pointer;
-            }
-            &.drawn
-            {
-                transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg);
-            }
-            &.moving,
-            &.inanimate
-            {
-                transition: none;
-
-                &:deep(.game-card)
+                &.disabled
+                {
+                    cursor: pointer;
+                }
+                &.drawn
+                {
+                    transform: translateX(5px) translateY(-7.5px) rotateZ(-1deg) rotateY(180deg);
+                }
+                &.moving,
+                &.inanimate
                 {
                     transition: none;
 
-                    & > .face
+                    &:deep(.face)
                     {
                         transition: none;
                     }

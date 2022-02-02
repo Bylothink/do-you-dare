@@ -1,11 +1,12 @@
 <template>
-    <div class="draggable-element"
-         :class="classes"
-         :style="styles"
-         @mousedown.passive="onMouseDown"
-         @touchstart.passive="onTouchStart">
+    <Component :is="is"
+               class="draggable"
+               :class="classes"
+               :style="styles"
+               @mousedown.passive="onMouseDown"
+               @touchstart.passive="onTouchStart">
         <slot></slot>
-    </div>
+    </Component>
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +17,11 @@
     import { syncWithFrame } from "@/core/utils";
 
     const props = defineProps({
+        is: {
+            default: "div",
+            type: [String, Object]
+        },
+
         x: {
             default: 0,
             type: Number
@@ -172,7 +178,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .draggable-element
+    .draggable
     {
         cursor: grab;
         position: absolute;

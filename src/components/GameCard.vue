@@ -1,5 +1,5 @@
 <template>
-    <div class="game-card" :class="classes">
+    <div class="card" :class="classes">
         <div class="spacer"></div>
         <div class="face back">
             <img alt="Vue logo" src="@/assets/images/logo.png" />
@@ -26,7 +26,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    .game-card
+    .card
     {
         background-color: variables.$not-quite-black;
         border: 1px solid rgba(0, 0, 0, 0.5);

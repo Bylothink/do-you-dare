@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="about-page">
+    <CenteredLayout id="about">
         <h1>This is an about page</h1>
     </CenteredLayout>
 </template>

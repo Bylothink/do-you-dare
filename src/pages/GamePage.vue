@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="game-page">
+    <CenteredLayout id="game">
         <GameDeck :card="card"
                   @draw="createNewDraw"
                   @fold="getNewCard" />
@@ -29,7 +29,7 @@
 </script>
 
 <style lang="scss" scoped>
-    #game-page
+    #game
     {
         overflow: hidden;
 

@@ -1,21 +1,27 @@
 <template>
-    <CenteredLayout id="home-page">
+    <CenteredLayout id="home">
         <GameCard id="background-card" facedown />
         <h1 class="title">
             Do you dare?
         </h1>
-        <RouterLink id="play-now-btn"
-                    class="btn btn-primary btn-lg"
+        <RouterLink v-slot="{ href, navigate }"
+                    custom
                     :to="{ name: 'game' }">
-            Play now!
+            <AppButton id="play-now-btn"
+                       large
+                       :href="href"
+                       @click="navigate">
+                Play now!
+            </AppButton>
         </RouterLink>
-        <button id="game-modes-btn"
-                class="btn btn-secondary btn-lg"
-                @click="underConstruction">
+        <AppButton id="game-modes-btn"
+                   large
+                   theme="secondary"
+                   @click="underConstruction">
             Game modes
-        </button>
+        </AppButton>
         <RoundButton id="settings-btn"
-                     class="btn btn-primary btn-lg"
+                     large
                      @click="underConstruction">
             <span class="fas fa-cogs"></span>
         </RoundButton>
@@ -23,7 +29,7 @@
                     custom
                     :to="{ name: 'sign-in' }">
             <RoundButton id="user-btn"
-                         class="btn btn-primary btn-lg"
+                         large
                          :href="href"
                          @click="navigate">
                 <span class="fas fa-user"></span>
@@ -38,6 +44,7 @@
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
+    import AppButton from "@/components/ui/AppButton.vue";
     import RoundButton from "@/components/ui/RoundButton.vue";
     import GameCard from "@/components/GameCard.vue";
 
@@ -92,7 +99,7 @@
         100% { transform: translateX(0px); }
     }
 
-    #home-page
+    #home
     {
         overflow: hidden;
         text-align: center;

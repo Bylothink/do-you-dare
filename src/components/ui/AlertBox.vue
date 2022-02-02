@@ -1,7 +1,6 @@
 <template>
-    <ThemedElement class="alert-box alert flex"
+    <ThemedElement class="alert flex"
                    :class="classes"
-                   :theme="type"
                    name="alert"
                    role="alert">
         <h3 v-if="title" class="alert-heading">
@@ -17,9 +16,9 @@
         </span>
         <slot></slot>
         <button v-if="dismissable"
-                type="button"
                 class="btn btn-close"
                 aria-label="Close"
+                type="button"
                 @click="$emit('dismiss', $event)">
         </button>
     </ThemedElement>
@@ -31,11 +30,6 @@
     import ThemedElement from "@/components/core/ThemedElement.vue";
 
     const props = defineProps({
-        type: {
-            default: "primary",
-            type: String
-        },
-
         title: {
             default: "",
             type: String
@@ -62,7 +56,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    .alert-box
+    .alert
     {
         & > .alert-heading > .fas
         {

@@ -1,5 +1,5 @@
 <template>
-    <CenteredLayout id="sign-in-page">
+    <CenteredLayout id="sign-in">
         <h1>Do you dare?</h1>
         <h3 class="mb-4">
             Sign in
@@ -31,10 +31,10 @@
                 <span></span>
                 <div class="form-cell">
                     <hr />
-                    <button class="form-control form-control-lg btn btn-primary" type="submit">
+                    <AppButton class="form-control form-control-lg" type="submit">
                         <span class="fas fa-key"></span>
                         Sign in
-                    </button>
+                    </AppButton>
                 </div>
             </div>
         </form>
@@ -51,6 +51,7 @@
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import AppButton from "@/components/ui/AppButton.vue";
 
     const router = useRouter();
 
@@ -101,7 +102,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #sign-in-page
+    #sign-in
     {
         @media (max-width: variables.$max-mobile-size)
         {

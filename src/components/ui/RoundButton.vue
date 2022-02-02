@@ -1,38 +1,18 @@
 <template>
-    <Component :is="tag"
-               class="round-button"
-               v-bind="properties">
+    <AppButton class="round">
         <span class="spacer"></span>
         <div class="content">
             <slot></slot>
         </div>
-    </Component>
+    </AppButton>
 </template>
 
-<script lang="ts">
-    import { computed, defineComponent } from "vue";
-
-    export default defineComponent({
-        name: "RoundButton",
-        props: {
-            href: {
-                default: "",
-                type: String
-            }
-        },
-
-        setup: (props) =>
-        {
-            const tag = computed((): string => props.href ? "a" : "button");
-            const properties = computed((): Record<string, string> => props.href ? { "href": props.href } : { });
-
-            return { tag, properties };
-        }
-    });
+<script lang="ts" setup>
+    import AppButton from "./AppButton.vue";
 </script>
 
 <style lang="scss" scoped>
-    .round-button
+    .round
     {
         border-radius: 100%;
         padding: 0px;

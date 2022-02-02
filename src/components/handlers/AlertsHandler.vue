@@ -5,7 +5,7 @@
                     @after-leave="onClosed">
             <AlertBox v-if="alert"
                       v-show="isOpen"
-                      :type="alert.type"
+                      :theme="alert.type"
                       :title="alert.title"
                       :icon="alert.icon"
                       :dismissable="alert.dismissable"
@@ -20,22 +20,20 @@
                                         :key="`lnk-${index}`"
                                         custom
                                         :to="action.location">
-                                <a :href="href"
-                                   class="btn btn-sm"
-                                   :class="`btn-${action.type}`"
-                                   style="margin-left: 0.5em;"
-                                   @click="handleNavigate($event, navigate)">
+                                <AppButton small
+                                           :href="href"
+                                           :theme="action.type"
+                                           @click="handleNavigate($event, navigate)">
                                     {{ action.label }}
-                                </a>
+                                </AppButton>
                             </RouterLink>
-                            <button v-else-if="action.callback"
-                                    :key="`btn-${index}`"
-                                    class="btn btn-sm"
-                                    :class="`btn-${action.type}`"
-                                    style="margin-left: 0.5em;"
-                                    @click="handleCallback(action.callback!)">
+                            <AppButton v-else-if="action.callback"
+                                       :key="`btn-${index}`"
+                                       small
+                                       :theme="action.type"
+                                       @click="handleCallback(action.callback!)">
                                 {{ action.label }}
-                            </button>
+                            </AppButton>
                         </template>
                     </div>
                 </template>
@@ -54,6 +52,7 @@
     import useUiStore from "@/stores/ui";
 
     import AlertBox from "@/components/ui/AlertBox.vue";
+    import AppButton from "@/components/ui/AppButton.vue";
 
     const uiStore = useUiStore();
 
@@ -141,7 +140,7 @@
         pointer-events: none;
         top: 1em;
 
-        & > .alert-box
+        & > .alert
         {
             pointer-events: auto;
 
@@ -156,6 +155,11 @@
             {
                 display: flex;
                 flex-direction: row-reverse;
+
+                & > .btn
+                {
+                    margin-left: 0.5em;
+                }
             }
 
             &.fade-enter-from,

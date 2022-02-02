@@ -1,14 +1,14 @@
 <template>
-    <Component :is="tag" class="centered-layout">
+    <Component :is="is" class="centered-layout">
         <slot></slot>
     </Component>
 </template>
 
 <script lang="ts" setup>
     defineProps({
-        tag: {
+        is: {
             default: "main",
-            type: String
+            type: [String, Object]
         }
     });
 </script>

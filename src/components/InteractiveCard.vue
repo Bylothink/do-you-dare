@@ -1,5 +1,6 @@
 <template>
-    <DraggableElement class="interactive-card"
+    <DraggableElement :is="GameCard"
+                      class="interactive"
                       :class="classes"
                       :x="x"
                       :y="y"
@@ -10,9 +11,7 @@
                       @mousedown.stop
                       @update:x="$emit('update:x', $event)"
                       @update:y="$emit('update:y', $event)">
-        <GameCard :facedown="facedown">
-            <slot></slot>
-        </GameCard>
+        <slot></slot>
     </DraggableElement>
 </template>
 
@@ -38,10 +37,6 @@
             type: Boolean
         },
         drawn: {
-            default: false,
-            type: Boolean
-        },
-        facedown: {
             default: false,
             type: Boolean
         }
@@ -88,21 +83,14 @@
 </script>
 
 <style lang="scss" scoped>
-    .interactive-card
+    .interactive
     {
         border-radius: 1em;
-
-        .game-card
-        {
-            box-shadow: none;
-        }
+        box-shadow: none;
 
         &.drawn
         {
-            .game-card
-            {
-                box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
-            }
+            box-shadow: 0px 0px 50px 1px rgba(0, 0, 0, 0.25);
         }
     }
 </style>
