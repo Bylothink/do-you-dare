@@ -54,7 +54,7 @@ Copy those files directly to your web-server to simply serve this project as sta
     - [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)
     - [SFC `<script setup>` syntax](https://v3.vuejs.org/api/sfc-script-setup.html)
 - [Vue Router](https://next.router.vuejs.org/guide/)
-- [Vuex](https://next.vuex.vuejs.org/guide/)
+- [Pinia](https://pinia.vuejs.org/introduction.html)
 - [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [ESLint](https://eslint.org/docs/user-guide/getting-started)
 - [GraphQL](https://graphql.org/code/#javascript)
