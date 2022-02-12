@@ -42,7 +42,7 @@
                 <div class="form-cell">
                     <hr />
                     <AppButton class="form-control form-control-lg" type="submit">
-                        <span class="fas fa-id-card"></span>
+                        <span class="fa-solid fa-id-card"></span>
                         Sign up
                     </AppButton>
                 </div>
@@ -86,7 +86,7 @@
 
             uiStore.alert({
                 type: "success",
-                icon: "check-circle",
+                icon: "circle-check",
                 message: "Account created successfully!\n",
                 timeout: 2500
             });
@@ -99,7 +99,7 @@
 
             uiStore.alert({
                 type: "danger",
-                icon: "times-circle",
+                icon: "circle-xmark",
                 title: "Account creation failed!",
                 message: exc.message,
                 dismissable: true

@@ -6,7 +6,7 @@ import useUiStore from "@/stores/ui";
 
 const ERROR_ALERT: AlertOptions = {
     type: "danger",
-    icon: "times-circle",
+    icon: "circle-xmark",
     title: "On, no! 😱",
     message: "A mysterious error of an unknown nature just interrupted" +
         " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +

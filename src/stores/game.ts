@@ -2,7 +2,6 @@ import gql from "graphql-tag";
 import { defineStore } from "pinia";
 
 import Card, { CardData } from "@/models/card";
-import Draw, { DrawData } from "@/models/draw";
 
 import { graphql } from "@/services";
 
@@ -24,15 +23,7 @@ const GET_RANDOM_CARD = gql`query {
 }`;
 const CREATE_DRAW = gql`mutation createDraw($cardId: Int!) {
     createDraw(cardId: $cardId) {
-      draw {
-        card {
-          id
-        },
-        user {
-          id
-        },
-        createDate
-      }
+        result
     }
 }`;
 
@@ -43,10 +34,6 @@ interface AllCardsResponse
 interface GetRandomCardResponse
 {
     getRandomCard: CardData;
-}
-interface CreateDrawResponse
-{
-    createDraw: DrawData;
 }
 
 export default defineStore("game", {
@@ -73,21 +60,12 @@ export default defineStore("game", {
 
             return new Card(card);
         },
-        async createDraw(cardId: number): Promise<Draw>
+        async createDraw(cardId: number): Promise<void>
         {
             const userStore = useUserStore();
             const jwtToken = userStore.token;
 
-            const response = await graphql.mutation<CreateDrawResponse>(
-                GAME_SCHEMA,
-                CREATE_DRAW,
-                { cardId },
-                { jwtToken }
-            );
-
-            const draw = response.createDraw;
-
-            return new Draw(draw);
+            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId }, { jwtToken });
         }
     }
 });

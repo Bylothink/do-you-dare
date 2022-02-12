@@ -5,13 +5,13 @@
                    role="alert">
         <h3 v-if="title" class="alert-heading">
             <span v-if="icon"
-                  class="fas"
+                  class="fa-solid"
                   :class="`fa-${icon}`">
             </span>
             {{ title }}
         </h3>
         <span v-else-if="icon"
-              class="fas"
+              class="fa-solid"
               :class="`fa-${icon}`">
         </span>
         <slot></slot>
@@ -58,11 +58,11 @@
 
     .alert
     {
-        & > .alert-heading > .fas
+        & > .alert-heading > .fa-solid
         {
             margin-right: 0.25em;
         }
-        & > .fas
+        & > .fa-solid
         {
             margin-right: 0.5em;
             margin-top: 0.15em;

@@ -32,7 +32,7 @@
                 <div class="form-cell">
                     <hr />
                     <AppButton class="form-control form-control-lg" type="submit">
-                        <span class="fas fa-key"></span>
+                        <span class="fa-solid fa-key"></span>
                         Sign in
                     </AppButton>
                 </div>
@@ -74,7 +74,7 @@
 
             uiStore.alert({
                 type: "success",
-                icon: "check-circle",
+                icon: "circle-check",
                 message: "Authentication successful!\n",
                 timeout: 2500
             });
@@ -87,7 +87,7 @@
 
             uiStore.alert({
                 type: "danger",
-                icon: "times-circle",
+                icon: "circle-xmark",
                 title: "Authentication failed!",
                 message: exc.message,
                 dismissable: true

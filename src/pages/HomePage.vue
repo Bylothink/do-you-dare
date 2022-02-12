@@ -23,7 +23,7 @@
         <RoundButton id="settings-btn"
                      large
                      @click="underConstruction">
-            <span class="fas fa-cogs"></span>
+            <span class="fa-solid fa-cogs"></span>
         </RoundButton>
         <RouterLink v-slot="{ href, navigate }"
                     custom
@@ -32,7 +32,7 @@
                          large
                          :href="href"
                          @click="navigate">
-                <span class="fas fa-user"></span>
+                <span class="fa-solid fa-user"></span>
             </RoundButton>
         </RouterLink>
     </CenteredLayout>
@@ -55,7 +55,7 @@
     {
         uiStore.alert({
             type: "info",
-            icon: "tools",
+            icon: "screwdriver-wrench",
             title: "We still working on it!",
             message: "We're so sorry but, at the moment, this feature is not implemented yet.\n" +
                 "Please, come back and try again later.\n\n" +
