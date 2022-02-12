@@ -6,26 +6,6 @@
         </h3>
         <form class="mx-3 form-table" @submit.prevent="onSubmit">
             <div class="form-row">
-                <label for="first-name" class="form-cell col-form-label col-form-label-lg">First name</label>
-                <div class="form-cell">
-                    <input id="first-name"
-                           v-model="firstName"
-                           class="form-control form-control-lg mb-3"
-                           type="text"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="last-name" class="form-cell col-form-label col-form-label-lg">Last name</label>
-                <div class="form-cell">
-                    <input id="last-name"
-                           v-model="lastName"
-                           class="form-control form-control-lg mb-3"
-                           type="text"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
                 <label for="username" class="form-cell col-form-label col-form-label-lg">Username</label>
                 <div class="form-cell">
                     <input id="username"
@@ -88,8 +68,6 @@
     const uiStore = useUiStore();
     const userStore = useUserStore();
 
-    const firstName = ref("");
-    const lastName = ref("");
     const username = ref("");
     const password = ref("");
     const email = ref("");
@@ -97,8 +75,6 @@
     const onSubmit = async () =>
     {
         const signUpPayload = {
-            firstName: firstName.value,
-            lastName: lastName.value,
             username: username.value,
             password: password.value,
             email: email.value

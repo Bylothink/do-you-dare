@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import { jsonLocalStorage } from "@/core/utils";
 import graphql from "@/services/graphql";
 
-const AUTH_SCHEMA = "auth";
+const USER_SCHEMA = "user";
 
 const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) {
     getToken(username: $username, password: $password) {
@@ -13,17 +13,9 @@ const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) 
 }`;
 
 // eslint-disable-next-line max-len
-const CREATE_USER = gql`mutation createUser($firstName: String!, $lastName: String! $username: String!, $password: String!, $email: String!) {
-    createUser(firstName: $firstName, lastName: $lastName, username: $username, password: $password, email: $email) {
-        user {
-            id,
-            firstName,
-            lastName,
-            username,
-            email,
-            dateJoined,
-            lastLogin
-        }
+const CREATE_USER = gql`mutation createUser($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
+    createUser(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName) {
+        result
     }
 }`;
 
@@ -34,11 +26,11 @@ interface SignInVariables
 }
 interface SignUpVariables
 {
-    firstName: string;
-    lastName: string;
     username: string;
     password: string;
     email: string;
+    firstName?: string;
+    lastName?: string;
 }
 
 interface GetTokenResponse
@@ -46,40 +38,23 @@ interface GetTokenResponse
     getToken: { token: string };
 }
 
-interface User
-{
-    id: number;
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    dateJoined: string;
-    lastLogin: string | null;
-}
-interface CreateUserResponse
-{
-    createUser: { user: User };
-}
-
 export default defineStore("user", {
     state: () => ({ token: jsonLocalStorage.get<string>("user:token") }),
 
     getters: { isLogged(): boolean { return !!(this.token); } },
     actions: {
-        async signIn(signInVariables: SignInVariables) : Promise<void>
+        async signIn(signInVariables: SignInVariables): Promise<void>
         {
-            const response = await graphql.mutation<GetTokenResponse>(AUTH_SCHEMA, GET_TOKEN, signInVariables);
+            const response = await graphql.mutation<GetTokenResponse>(USER_SCHEMA, GET_TOKEN, signInVariables);
             const token = response.getToken.token;
 
             this.token = token;
 
             jsonLocalStorage.set("user:token", token);
         },
-        async signUp(signUpVariables: SignUpVariables) : Promise<User>
+        async signUp(signUpVariables: SignUpVariables): Promise<void>
         {
-            const response = await graphql.mutation<CreateUserResponse>(AUTH_SCHEMA, CREATE_USER, signUpVariables);
-
-            return response.createUser.user;
+            await graphql.mutation(USER_SCHEMA, CREATE_USER, signUpVariables);
         }
     }
 });
