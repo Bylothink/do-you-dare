@@ -4,7 +4,7 @@
                   @draw="createNewDraw"
                   @fold="getNewCard" />
         <h1 class="title">
-            Do you dare?
+            Do you Dare?
         </h1>
     </CenteredLayout>
 </template>

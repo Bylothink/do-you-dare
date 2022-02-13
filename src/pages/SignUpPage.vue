@@ -1,6 +1,6 @@
 <template>
     <CenteredLayout id="sign-up">
-        <h1>Do you dare?</h1>
+        <h1>Do you Dare?</h1>
         <h3 class="mb-4">
             Sign up
         </h3>

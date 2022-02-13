@@ -2,7 +2,7 @@
     <CenteredLayout id="home">
         <GameCard id="background-card" facedown />
         <h1 class="title">
-            Do you dare?
+            Do you Dare?
         </h1>
         <RouterLink v-slot="{ href, navigate }"
                     custom
