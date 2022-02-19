@@ -102,6 +102,7 @@
     #home
     {
         overflow: hidden;
+        position: relative;
         text-align: center;
 
         & > ul
