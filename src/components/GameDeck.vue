@@ -166,6 +166,7 @@
             width: variables.$card-width;
             &.interactive
             {
+                position: absolute;
                 transition: box-shadow 200ms ease-in-out,
                             left 200ms ease-in-out,
                             top 200ms ease-in-out,

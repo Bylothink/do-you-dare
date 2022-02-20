@@ -9,7 +9,6 @@
                       @drag="$emit('drag', $event)"
                       @drop="$emit('drop', $event)"
                       @mousedown.stop
-                      @touchstart.prevent="onClick"
                       @update:x="$emit('update:x', $event)"
                       @update:y="$emit('update:y', $event)">
         <slot></slot>

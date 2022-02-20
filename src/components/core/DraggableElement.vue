@@ -181,7 +181,7 @@
     .draggable
     {
         cursor: grab;
-        position: absolute;
+        touch-action: none;
 
         &.moving
         {
