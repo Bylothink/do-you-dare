@@ -19,11 +19,12 @@ const CREATE_USER = gql`mutation createUser($username: String!, $password: Strin
     }
 }`;
 
-interface SignInVariables
-{
-    username: string;
-    password: string;
-}
+const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
+    verifyEmail(email: $email, token: $token) {
+        token
+    }
+}`;
+
 interface SignUpVariables
 {
     username: string;
@@ -37,24 +38,39 @@ interface GetTokenResponse
 {
     getToken: { token: string };
 }
+interface VerifyEmailResponse
+{
+    verifyEmail: { token: string };
+}
 
 export default defineStore("user", {
     state: () => ({ token: jsonLocalStorage.get<string>("user:token") }),
 
     getters: { isLogged(): boolean { return !!(this.token); } },
     actions: {
-        async signIn(signInVariables: SignInVariables): Promise<void>
+        _setToken(token: string): void
         {
-            const response = await graphql.mutation<GetTokenResponse>(USER_SCHEMA, GET_TOKEN, signInVariables);
-            const token = response.getToken.token;
-
             this.token = token;
 
             jsonLocalStorage.set("user:token", token);
         },
+
+        async signIn(username: string, password: string): Promise<void>
+        {
+            const response = await graphql.mutation<GetTokenResponse>(USER_SCHEMA, GET_TOKEN, { username, password });
+
+            this._setToken(response.getToken.token);
+        },
         async signUp(signUpVariables: SignUpVariables): Promise<void>
         {
             await graphql.mutation(USER_SCHEMA, CREATE_USER, signUpVariables);
+        },
+
+        async verifyEmail(email: string, token: string): Promise<void>
+        {
+            const response = await graphql.mutation<VerifyEmailResponse>(USER_SCHEMA, VERIFY_EMAIL, { email, token });
+
+            this._setToken(response.verifyEmail.token);
         }
     }
 });

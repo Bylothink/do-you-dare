@@ -109,6 +109,13 @@ export default new Config({
             title: "Email sent"
         },
         {
+            id: 0x34,
+            name: "user-validate",
+            path: "/user/validate",
+            component: () => import(/* webpackChunkName: "user-validate-page" */ "@/pages/user/ValidatePage.vue"),
+            title: "Validate"
+        },
+        {
             id: 0x9,
             name: "about",
             path: "/about",

@@ -1,5 +1,5 @@
 <template>
-    <Component :is="is" class="centered-layout">
+    <Component :is="is" class="centered">
         <slot></slot>
     </Component>
 </template>
@@ -14,7 +14,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .centered-layout
+    .centered
     {
         align-items: center;
         display: flex;

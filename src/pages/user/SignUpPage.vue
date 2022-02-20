@@ -55,7 +55,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import Exception from "@/core/exceptions/core";
+    import Exception from "@/core/exceptions";
 
     import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";

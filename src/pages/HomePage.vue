@@ -9,6 +9,7 @@
                     :to="{ name: 'game' }">
             <AppButton id="play-now-btn"
                        large
+                       title="Start a new game"
                        :href="href"
                        @click="navigate">
                 Play now!
@@ -30,6 +31,7 @@
                     :to="{ name: 'user' }">
             <RoundButton id="user-btn"
                          large
+                         title="Go to your profile"
                          :href="href"
                          @click="navigate">
                 <span class="fa-solid fa-user"></span>

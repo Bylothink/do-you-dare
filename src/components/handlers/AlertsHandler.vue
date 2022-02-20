@@ -22,6 +22,7 @@
                                         :to="action.location">
                                 <AppButton small
                                            :href="href"
+                                           :title="action.label"
                                            :theme="action.type"
                                            @click="handleNavigate($event, navigate)">
                                     {{ action.label }}

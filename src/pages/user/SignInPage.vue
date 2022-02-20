@@ -45,7 +45,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import Exception from "@/core/exceptions/core";
+    import Exception from "@/core/exceptions";
 
     import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
@@ -66,14 +66,9 @@
         const route = router.currentRoute.value;
         const nextPath = route.query.next as string || "/";
 
-        const signInPayload = {
-            username: username.value,
-            password: password.value
-        };
-
         try
         {
-            await userStore.signIn(signInPayload);
+            await userStore.signIn(username.value, password.value);
 
             uiStore.alert({
                 type: "success",
