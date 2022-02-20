@@ -1,12 +1,12 @@
 <template>
-    <CenteredLayout id="sign-in">
+    <CenteredLayout id="sign-up">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Sign in
+            Sign up
         </h3>
         <form class="mx-3 form-table" @submit.prevent="onSubmit">
             <div class="form-row">
-                <label for="username" class="form-cell col-form-label col-form-label-lg">Nome utente</label>
+                <label for="username" class="form-cell col-form-label col-form-label-lg">Username</label>
                 <div class="form-cell">
                     <input id="username"
                            v-model="username"
@@ -17,13 +17,23 @@
                 </div>
             </div>
             <div class="form-row">
+                <label for="email" class="form-cell col-form-label col-form-label-lg">Email</label>
+                <div class="form-cell">
+                    <input id="email"
+                           v-model="email"
+                           class="form-control form-control-lg mb-3"
+                           type="email"
+                           required />
+                </div>
+            </div>
+            <div class="form-row">
                 <label for="password" class="form-cell col-form-label col-form-label-lg">Password</label>
                 <div class="form-cell">
                     <input id="password"
                            v-model="password"
                            class="form-control form-control-lg mb-3"
                            type="password"
-                           autocomplete="current-password"
+                           autocomplete="new-password"
                            required />
                 </div>
             </div>
@@ -32,8 +42,8 @@
                 <div class="form-cell">
                     <hr />
                     <AppButton class="form-control form-control-lg" type="submit">
-                        <span class="fa-solid fa-key"></span>
-                        Sign in
+                        <span class="fa-solid fa-id-card"></span>
+                        Sign up
                     </AppButton>
                 </div>
             </div>
@@ -60,26 +70,28 @@
 
     const username = ref("");
     const password = ref("");
+    const email = ref("");
 
     const onSubmit = async () =>
     {
-        const signInPayload = {
+        const signUpPayload = {
             username: username.value,
-            password: password.value
+            password: password.value,
+            email: email.value
         };
 
         try
         {
-            await userStore.signIn(signInPayload);
+            await userStore.signUp(signUpPayload);
 
             uiStore.alert({
                 type: "success",
                 icon: "circle-check",
-                message: "Authentication successful!\n",
+                message: "Account created successfully!\n",
                 timeout: 2500
             });
 
-            router.push({ name: "home" });
+            router.push({ name: "user-email_sent" });
         }
         catch (error)
         {
@@ -88,13 +100,13 @@
             uiStore.alert({
                 type: "danger",
                 icon: "circle-xmark",
-                title: "Authentication failed!",
+                title: "Account creation failed!",
                 message: exc.message,
                 dismissable: true
             });
 
             // eslint-disable-next-line no-console
-            console.error(exc);
+            console.error(error);
         }
     };
 </script>
@@ -102,7 +114,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #sign-in
+    #sign-up
     {
         @media (max-width: variables.$max-mobile-size)
         {
