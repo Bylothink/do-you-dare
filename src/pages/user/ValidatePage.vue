@@ -80,10 +80,8 @@
             // eslint-disable-next-line no-console
             console.error(error);
         }
-        finally
-        {
-            isValidating.value = false;
-        }
+
+        isValidating.value = false;
     };
 
     validate();

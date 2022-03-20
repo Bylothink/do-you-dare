@@ -48,7 +48,7 @@ export default defineStore("user", {
 
     getters: { isLogged(): boolean { return !!(this.token); } },
     actions: {
-        _setToken(token: string): void
+        _setToken(token?: string): void
         {
             this.token = token;
 
@@ -64,6 +64,11 @@ export default defineStore("user", {
         async signUp(signUpVariables: SignUpVariables): Promise<void>
         {
             await graphql.mutation(USER_SCHEMA, CREATE_USER, signUpVariables);
+        },
+
+        signOut(): void
+        {
+            this._setToken();
         },
 
         async verifyEmail(email: string, token: string): Promise<void>

@@ -64,7 +64,7 @@ export default new Config({
             id: 0x1,
             name: "home",
             path: "/",
-            component: () => import(/* webpackChunkName: "home-page" */ "./pages/HomePage.vue"),
+            component: () => import("./pages/HomePage.vue"),
             title: "Home",
             meta: { topLevel: true }
         },
@@ -72,7 +72,7 @@ export default new Config({
             id: 0x2,
             name: "game",
             path: "/game",
-            component: () => import(/* webpackChunkName: "game-page" */ "./pages/GamePage.vue"),
+            component: () => import("./pages/GamePage.vue"),
             title: "Game",
             meta: { topLevel: true }
         },
@@ -80,7 +80,7 @@ export default new Config({
             id: 0x30,
             name: "user",
             path: "/user",
-            component: () => import(/* webpackChunkName: "user-page" */ "@/pages/UserPage.vue"),
+            component: () => import("./pages/UserPage.vue"),
             title: "Profile",
             meta: {
                 requiresAuth: true,
@@ -91,35 +91,42 @@ export default new Config({
             id: 0x31,
             name: "user-sign_in",
             path: "/user/sign-in",
-            component: () => import(/* webpackChunkName: "user-sign_in-page" */ "@/pages/user/SignInPage.vue"),
+            component: () => import("./pages/user/SignInPage.vue"),
             title: "Sign in"
         },
         {
             id: 0x32,
             name: "user-sign_up",
             path: "/user/sign-up",
-            component: () => import(/* webpackChunkName: "user-sign_up-page" */ "@/pages/user/SignUpPage.vue"),
+            component: () => import("./pages/user/SignUpPage.vue"),
             title: "Sign up"
         },
         {
             id: 0x33,
             name: "user-email_sent",
             path: "/user/email-sent",
-            component: () => import(/* webpackChunkName: "user-email_sent-page" */ "@/pages/user/EmailSentPage.vue"),
+            component: () => import("./pages/user/EmailSentPage.vue"),
             title: "Email sent"
         },
         {
             id: 0x34,
             name: "user-validate",
             path: "/user/validate",
-            component: () => import(/* webpackChunkName: "user-validate-page" */ "@/pages/user/ValidatePage.vue"),
+            component: () => import("./pages/user/ValidatePage.vue"),
             title: "Validate"
+        },
+        {
+            id: 0x3f,
+            name: "user-sign_out",
+            path: "/user/sign-out",
+            component: () => import("./pages/user/SignOutPage.vue"),
+            title: "Sign out"
         },
         {
             id: 0x9,
             name: "about",
             path: "/about",
-            component: () => import(/* webpackChunkName: "about-page" */ "@/pages/AboutPage.vue"),
+            component: () => import("./pages/AboutPage.vue"),
             title: "About",
             meta: { topLevel: true }
         }

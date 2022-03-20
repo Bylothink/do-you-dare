@@ -12,7 +12,13 @@ router.beforeEach((to, from) =>
 {
     const nextPage = config.pages.getByRoute(to);
 
-    if (nextPage?.meta?.requiresAuth)
+    if (nextPage?.name === "user-sign_out")
+    {
+        const userStore = useUserStore();
+
+        userStore.signOut();
+    }
+    else if (nextPage?.meta?.requiresAuth)
     {
         const userStore = useUserStore();
 
