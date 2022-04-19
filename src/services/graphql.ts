@@ -35,7 +35,7 @@ export class GraphQLService
 
         if (options?.jwtToken)
         {
-            configs.headers.Authorization = `JWT ${options.jwtToken}`;
+            configs.headers.Authorization = `Bearer ${options.jwtToken}`;
         }
 
         return configs;
