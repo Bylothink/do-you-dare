@@ -13,7 +13,6 @@
     "strictNullChecks": true,
     "jsx": "preserve",
     "noEmit": true,
-    "noUnusedLocals": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -21,9 +20,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
+    "paths": { "@/*": ["src/*"] },
     "types": ["vite/client"]
   },
   "exclude": [

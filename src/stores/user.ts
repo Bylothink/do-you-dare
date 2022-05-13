@@ -11,6 +11,11 @@ const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) 
         token
     }
 }`;
+const REFRESH_TOKEN = gql`mutation refreshToken {
+    refreshToken {
+        token
+    }
+}`;
 
 // eslint-disable-next-line max-len
 const CREATE_USER = gql`mutation createUser($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
@@ -38,6 +43,10 @@ interface GetTokenResponse
 {
     getToken: { token: string };
 }
+interface RefreshTokenResponse
+{
+    refreshToken: { token: string };
+}
 interface VerifyEmailResponse
 {
     verifyEmail: { token: string };
@@ -53,6 +62,15 @@ export default defineStore("user", {
             this.token = token;
 
             jsonLocalStorage.set("user:token", token);
+        },
+
+        async newSession(): Promise<void>
+        {
+            const response = await graphql.query<RefreshTokenResponse>(USER_SCHEMA, REFRESH_TOKEN, {
+                authorization: this.token
+            });
+
+            this._setToken(response.refreshToken.token);
         },
 
         async signIn(username: string, password: string): Promise<void>

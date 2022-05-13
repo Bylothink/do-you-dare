@@ -8,7 +8,18 @@
 </template>
 
 <script lang="ts" setup>
+    import useUserStore from "./stores/user";
+
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
+
+    const userStore = useUserStore();
+
+    const onCreated = () =>
+    {
+        userStore.newSession();
+    };
+
+    onCreated();
 </script>
 
 <style lang="scss">

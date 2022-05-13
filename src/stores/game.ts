@@ -44,18 +44,20 @@ export default defineStore("game", {
         async getAllCards(): Promise<Card[]>
         {
             const userStore = useUserStore();
-            const jwtToken = userStore.token;
 
-            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS, { jwtToken });
+            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS, {
+                authorization: userStore.token
+            });
 
             return response.allCards.map((card) => new Card(card));
         },
         async getRandomCard(): Promise<Card>
         {
             const userStore = useUserStore();
-            const jwtToken = userStore.token;
 
-            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD, { jwtToken });
+            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD, {
+                authorization: userStore.token
+            });
             const card = response.getRandomCard;
 
             return new Card(card);
@@ -63,9 +65,8 @@ export default defineStore("game", {
         async createDraw(cardId: number): Promise<void>
         {
             const userStore = useUserStore();
-            const jwtToken = userStore.token;
 
-            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId }, { jwtToken });
+            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId }, { authorization: userStore.token });
         }
     }
 });

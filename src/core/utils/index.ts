@@ -7,10 +7,7 @@ export const jsonSessionStorage = new JsonStorage(window.sessionStorage);
 
 export function nextFrame(): Promise<void>
 {
-    return new Promise<void>((resolve, reject) =>
-    {
-        requestAnimationFrame(() => resolve());
-    });
+    return new Promise<void>((resolve, reject) => requestAnimationFrame(() => resolve()));
 }
 
 export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void

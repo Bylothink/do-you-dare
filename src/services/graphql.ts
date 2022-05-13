@@ -7,7 +7,7 @@ import { GraphQLException } from "@/core/exceptions";
 
 export interface GraphQLOptions
 {
-    jwtToken?: string;
+    authorization?: string;
 }
 export interface GraphQLConfigs
 {
@@ -33,9 +33,9 @@ export class GraphQLService
     {
         const configs: GraphQLConfigs = { headers: { } };
 
-        if (options?.jwtToken)
+        if (options?.authorization)
         {
-            configs.headers.Authorization = `Bearer ${options.jwtToken}`;
+            configs.headers.Authorization = `Bearer ${options.authorization}`;
         }
 
         return configs;
