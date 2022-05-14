@@ -20,9 +20,9 @@ const errorsHandler: Plugin = {
     {
         app.config.errorHandler = (error: unknown, instance: ComponentPublicInstance | null, info: string) =>
         {
-            const uiStore = useUiStore();
+            const ui = useUiStore();
 
-            uiStore.alert(ERROR_ALERT);
+            ui.alert(ERROR_ALERT);
 
             // eslint-disable-next-line no-console
             console.error(error);
@@ -30,9 +30,9 @@ const errorsHandler: Plugin = {
 
         window.addEventListener("unhandledrejection", (evt: PromiseRejectionEvent) =>
         {
-            const uiStore = useUiStore();
+            const ui = useUiStore();
 
-            uiStore.alert(ERROR_ALERT);
+            ui.alert(ERROR_ALERT);
         });
     }
 };

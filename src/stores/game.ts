@@ -43,30 +43,33 @@ export default defineStore("game", {
     actions: {
         async getAllCards(): Promise<Card[]>
         {
-            const userStore = useUserStore();
+            const user = useUserStore();
+            const jsonWebToken = user.token;
 
-            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS, {
-                authorization: userStore.token
-            });
+            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS,
+                { jsonWebToken });
 
             return response.allCards.map((card) => new Card(card));
         },
         async getRandomCard(): Promise<Card>
         {
-            const userStore = useUserStore();
+            const user = useUserStore();
+            const jsonWebToken = user.token;
 
-            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD, {
-                authorization: userStore.token
-            });
+            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD,
+                { jsonWebToken });
+
             const card = response.getRandomCard;
 
             return new Card(card);
         },
         async createDraw(cardId: number): Promise<void>
         {
-            const userStore = useUserStore();
+            const user = useUserStore();
+            const jsonWebToken = user.token;
 
-            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId }, { authorization: userStore.token });
+            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId },
+                { jsonWebToken });
         }
     }
 });

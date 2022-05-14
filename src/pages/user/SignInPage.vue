@@ -55,8 +55,8 @@
 
     const router = useRouter();
 
-    const uiStore = useUiStore();
-    const userStore = useUserStore();
+    const ui = useUiStore();
+    const user = useUserStore();
 
     const username = ref("");
     const password = ref("");
@@ -68,9 +68,9 @@
 
         try
         {
-            await userStore.signIn(username.value, password.value);
+            await user.signIn(username.value, password.value);
 
-            uiStore.alert({
+            ui.alert({
                 type: "success",
                 icon: "circle-check",
                 message: "Authentication successful!\n",
@@ -83,7 +83,7 @@
         {
             const exc = Exception.FromUnknown(error);
 
-            uiStore.alert({
+            ui.alert({
                 type: "danger",
                 icon: "circle-xmark",
                 title: "Authentication failed!",

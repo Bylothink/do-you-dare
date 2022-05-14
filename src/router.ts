@@ -14,15 +14,15 @@ router.beforeEach((to, from) =>
 
     if (nextPage?.name === "user-sign_out")
     {
-        const userStore = useUserStore();
+        const user = useUserStore();
 
-        userStore.signOut();
+        user.signOut();
     }
     else if (nextPage?.meta?.requiresAuth)
     {
-        const userStore = useUserStore();
+        const user = useUserStore();
 
-        if (!userStore.isLogged)
+        if (!user.isLogged)
         {
             router.push({ name: "user-sign_in", query: { next: to.path } });
         }

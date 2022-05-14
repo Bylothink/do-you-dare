@@ -55,7 +55,7 @@
     import AlertBox from "@/components/ui/AlertBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
-    const uiStore = useUiStore();
+    const ui = useUiStore();
 
     const isOpen = ref(false);
     const alerts = reactive<AlertOptions[]>([]);
@@ -119,7 +119,7 @@
         close();
     };
 
-    onAction(uiStore, "alert", (alert) =>
+    onAction(ui, "alert", (alert) =>
     {
         alerts.push(alert);
 

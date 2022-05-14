@@ -12,11 +12,14 @@
 
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
-    const userStore = useUserStore();
+    const user = useUserStore();
 
     const onCreated = () =>
     {
-        userStore.newSession();
+        if (user.isLogged)
+        {
+            user.newSession();
+        }
     };
 
     onCreated();

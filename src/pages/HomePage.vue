@@ -52,10 +52,10 @@
 
     // const pages = config.pages.filter((page) => page.name !== "home");
 
-    const uiStore = useUiStore();
+    const ui = useUiStore();
     const underConstruction = () =>
     {
-        uiStore.alert({
+        ui.alert({
             type: "info",
             icon: "screwdriver-wrench",
             title: "We still working on it!",

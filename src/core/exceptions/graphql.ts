@@ -3,13 +3,15 @@ import { GraphQLResponse } from "@/services/graphql";
 
 import Exception from "./core";
 
+const PUNCTUATION_REGEX = /[.!?]$/;
+
 export default class GraphQLException extends Exception
 {
     public static PrintError(error: GraphQLError): string
     {
         let errorMessage = GraphQLError.prototype.toString.call(error).trim();
 
-        if (!errorMessage.endsWith("."))
+        if (!PUNCTUATION_REGEX.test(errorMessage))
         {
             errorMessage += ".";
         }

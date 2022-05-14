@@ -25,8 +25,9 @@
   "license": "CC-BY-NC-SA-4.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
+    "check:types": "vue-tsc",
     "lint": "eslint --ext .js,.json,.ts,.vue --ignore-path .gitignore .",
     "lint:prod": "export NODE_ENV=\"production\" && yarn lint",
     "ci": "yarn install --frozen-lockfile"

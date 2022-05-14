@@ -65,8 +65,8 @@
 
     const router = useRouter();
 
-    const uiStore = useUiStore();
-    const userStore = useUserStore();
+    const ui = useUiStore();
+    const user = useUserStore();
 
     const username = ref("");
     const password = ref("");
@@ -82,9 +82,9 @@
 
         try
         {
-            await userStore.signUp(signUpPayload);
+            await user.signUp(signUpPayload);
 
-            uiStore.alert({
+            ui.alert({
                 type: "success",
                 icon: "circle-check",
                 message: "Account created successfully!\n",
@@ -97,7 +97,7 @@
         {
             const exc = Exception.FromUnknown(error);
 
-            uiStore.alert({
+            ui.alert({
                 type: "danger",
                 icon: "circle-xmark",
                 title: "Account creation failed!",

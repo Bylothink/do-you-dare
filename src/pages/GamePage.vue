@@ -19,11 +19,11 @@
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    const gameStore = useGameStore();
+    const game = useGameStore();
     const card = ref<Card>();
 
-    const getNewCard = async () => { card.value = await gameStore.getRandomCard(); };
-    const createNewDraw = () => gameStore.createDraw(card.value!.id);
+    const getNewCard = async () => { card.value = await game.getRandomCard(); };
+    const createNewDraw = () => game.createDraw(card.value!.id);
 
     getNewCard();
 </script>

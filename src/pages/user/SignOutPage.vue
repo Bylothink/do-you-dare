@@ -25,7 +25,7 @@
     //       In caso di utente non loggato, presentare un messaggio di errore.
     //
 
-    const userStore = useUserStore();
+    const user = useUserStore();
 
-    userStore.signOut();
+    user.signOut();
 </script>

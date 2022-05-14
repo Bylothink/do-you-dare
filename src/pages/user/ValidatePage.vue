@@ -54,7 +54,7 @@
     import AppButton from "@/components/ui/AppButton.vue";
 
     const route = useRoute();
-    const userStore = useUserStore();
+    const user = useUserStore();
 
     const isValidating = ref(true);
     const hasFailed = ref(true);
@@ -71,7 +71,7 @@
                 throw new ValueException("One or both of the `email` or `token` URL query parameters are missing.");
             }
 
-            await userStore.verifyEmail(email, token);
+            await user.verifyEmail(email, token);
 
             hasFailed.value = false;
         }

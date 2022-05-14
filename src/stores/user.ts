@@ -6,22 +6,20 @@ import graphql from "@/services/graphql";
 
 const USER_SCHEMA = "user";
 
-const GET_TOKEN = gql`mutation getToken($username: String!, $password: String!) {
-    getToken(username: $username, password: $password) {
+const CREATE_SESSION = gql`mutation createSession($username: String!, $password: String!) {
+    createSession(username: $username, password: $password) {
         token
     }
 }`;
-const REFRESH_TOKEN = gql`mutation refreshToken {
-    refreshToken {
+const REFRESH_SESSION = gql`mutation {
+    refreshSession {
         token
     }
 }`;
 
 // eslint-disable-next-line max-len
 const CREATE_USER = gql`mutation createUser($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
-    createUser(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName) {
-        result
-    }
+    createUser(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName)
 }`;
 
 const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
@@ -39,17 +37,17 @@ interface SignUpVariables
     lastName?: string;
 }
 
-interface GetTokenResponse
+interface CreateSessionResponse
 {
-    getToken: { token: string };
+    createSession: { token: string; };
 }
-interface RefreshTokenResponse
+interface RefreshSessionResponse
 {
-    refreshToken: { token: string };
+    refreshSession: { token: string; };
 }
 interface VerifyEmailResponse
 {
-    verifyEmail: { token: string };
+    verifyEmail: { token: string; };
 }
 
 export default defineStore("user", {
@@ -66,18 +64,19 @@ export default defineStore("user", {
 
         async newSession(): Promise<void>
         {
-            const response = await graphql.query<RefreshTokenResponse>(USER_SCHEMA, REFRESH_TOKEN, {
-                authorization: this.token
-            });
+            const jsonWebToken = this.token;
+            const response = await graphql.query<RefreshSessionResponse>(USER_SCHEMA, REFRESH_SESSION,
+                { jsonWebToken });
 
-            this._setToken(response.refreshToken.token);
+            this._setToken(response.refreshSession.token);
         },
 
         async signIn(username: string, password: string): Promise<void>
         {
-            const response = await graphql.mutation<GetTokenResponse>(USER_SCHEMA, GET_TOKEN, { username, password });
+            const response = await graphql.mutation<CreateSessionResponse>(USER_SCHEMA, CREATE_SESSION,
+                { username, password });
 
-            this._setToken(response.getToken.token);
+            this._setToken(response.createSession.token);
         },
         async signUp(signUpVariables: SignUpVariables): Promise<void>
         {
