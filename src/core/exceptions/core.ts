@@ -2,6 +2,11 @@ export default class Exception extends Error
 {
     public static FromUnknown(error: unknown): Exception
     {
+        if (error instanceof Exception)
+        {
+            return error;
+        }
+
         const exc = new Exception("");
 
         if (error instanceof Error)

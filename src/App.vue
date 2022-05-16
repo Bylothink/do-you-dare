@@ -8,17 +8,43 @@
 </template>
 
 <script lang="ts" setup>
+    import { NetworkException } from "./core/exceptions";
+
+    import useUiStore from "./stores/ui";
     import useUserStore from "./stores/user";
 
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
+    const ui = useUiStore();
     const user = useUserStore();
 
     const onCreated = () =>
     {
         if (user.isLogged)
         {
-            user.newSession();
+            user.newSession()
+                .catch((reason) =>
+                {
+                    const exc = NetworkException.FromUnknown(reason);
+
+                    if (exc instanceof NetworkException)
+                    {
+                        ui.alert({
+                            type: "danger",
+                            icon: "link-slash",
+                            title: "Network error!",
+                            message: exc.message,
+                            dismissable: true
+                        });
+
+                        // eslint-disable-next-line no-console
+                        console.error(exc);
+                    }
+                    else
+                    {
+                        throw exc;
+                    }
+                });
         }
     };
 

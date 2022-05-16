@@ -3,7 +3,7 @@ import { DocumentNode, GraphQLError, print } from "graphql";
 
 import config from "@/config";
 
-import { GraphQLException } from "@/core/exceptions";
+import { GraphQLException, NetworkException } from "@/core/exceptions";
 
 export interface GraphQLOptions
 {
@@ -64,7 +64,14 @@ export class GraphQLService
             {
                 const axiosError = error as AxiosError<GraphQLResponse>;
 
-                throw new GraphQLException(axiosError.response!.data);
+                if (axiosError.response)
+                {
+                    throw new GraphQLException(axiosError.response.data);
+                }
+                else
+                {
+                    throw new NetworkException("Unable to establish a connection to the server.", axiosError);
+                }
             }
             else
             {
@@ -97,7 +104,14 @@ export class GraphQLService
             {
                 const axiosError = error as AxiosError<GraphQLResponse>;
 
-                throw new GraphQLException(axiosError.response!.data);
+                if (axiosError.response)
+                {
+                    throw new GraphQLException(axiosError.response.data);
+                }
+                else
+                {
+                    throw new NetworkException("Unable to establish a connection to the server.", axiosError);
+                }
             }
             else
             {
