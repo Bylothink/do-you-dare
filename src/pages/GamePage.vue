@@ -44,11 +44,11 @@
             }
         }
     };
-    const createNewDraw = () =>
+    const createNewDraw = async () =>
     {
         try
         {
-            game.createDraw(card.value!.id);
+            await game.createDraw(card.value!.id);
         }
         catch (error)
         {

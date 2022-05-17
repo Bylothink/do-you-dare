@@ -1,8 +1,8 @@
 <template>
-    <CenteredLayout id="sign-up">
+    <CenteredLayout id="register">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Sign up
+            Register
         </h3>
         <form class="mx-3 form-table" @submit.prevent="onSubmit">
             <div class="form-row">
@@ -43,7 +43,7 @@
                     <hr />
                     <AppButton class="form-control form-control-lg" type="submit">
                         <span class="fa-solid fa-id-card"></span>
-                        Sign up
+                        Register
                     </AppButton>
                 </div>
             </div>
@@ -74,7 +74,7 @@
 
     const onSubmit = async () =>
     {
-        const signUpPayload = {
+        const registerPayload = {
             username: username.value,
             password: password.value,
             email: email.value
@@ -82,7 +82,7 @@
 
         try
         {
-            await user.signUp(signUpPayload);
+            await user.register(registerPayload);
 
             ui.alert({
                 type: "success",
@@ -91,7 +91,7 @@
                 timeout: 2500
             });
 
-            router.push({ name: "user-email_sent" });
+            router.replace({ name: "user-email_sent" });
         }
         catch (error)
         {
@@ -122,7 +122,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #sign-up
+    #register
     {
         @media (max-width: variables.$max-mobile-size)
         {

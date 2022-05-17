@@ -89,17 +89,17 @@ export default new Config({
         },
         {
             id: 0x31,
-            name: "user-sign_in",
-            path: "/user/sign-in",
-            component: () => import("./pages/user/SignInPage.vue"),
-            title: "Sign in"
+            name: "user-log_in",
+            path: "/user/log-in",
+            component: () => import("./pages/user/LogInPage.vue"),
+            title: "Log in"
         },
         {
             id: 0x32,
-            name: "user-sign_up",
-            path: "/user/sign-up",
-            component: () => import("./pages/user/SignUpPage.vue"),
-            title: "Sign up"
+            name: "user-register",
+            path: "/user/register",
+            component: () => import("./pages/user/RegisterPage.vue"),
+            title: "Log up"
         },
         {
             id: 0x33,
@@ -117,10 +117,10 @@ export default new Config({
         },
         {
             id: 0x3f,
-            name: "user-sign_out",
-            path: "/user/sign-out",
-            component: () => import("./pages/user/SignOutPage.vue"),
-            title: "Sign out"
+            name: "user-log_out",
+            path: "/user/log-out",
+            component: () => import("./pages/user/LogOutPage.vue"),
+            title: "Log out"
         },
         {
             id: 0x9,

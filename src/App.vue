@@ -16,13 +16,13 @@
 
     const user = useUserStore();
 
-    const onCreated = () =>
+    const initialize = async () =>
     {
         if (user.isLogged)
         {
             try
             {
-                user.newSession();
+                await user.renewToken();
             }
             catch (error)
             {
@@ -41,7 +41,7 @@
         }
     };
 
-    onCreated();
+    initialize();
 </script>
 
 <style lang="scss">

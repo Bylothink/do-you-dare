@@ -1,8 +1,8 @@
 <template>
-    <CenteredLayout id="sign-in">
+    <CenteredLayout id="log-in">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Sign in
+            Log in
         </h3>
         <form class="mx-3 form-table" @submit.prevent="onSubmit">
             <div class="form-row">
@@ -33,7 +33,7 @@
                     <hr />
                     <AppButton class="form-control form-control-lg" type="submit">
                         <span class="fa-solid fa-key"></span>
-                        Sign in
+                        Log in
                     </AppButton>
                 </div>
             </div>
@@ -68,7 +68,7 @@
 
         try
         {
-            await user.signIn(username.value, password.value);
+            await user.logIn(username.value, password.value);
 
             ui.alert({
                 type: "success",
@@ -77,7 +77,7 @@
                 timeout: 2500
             });
 
-            router.push({ path: nextPath });
+            router.replace({ path: nextPath });
         }
         catch (error)
         {
@@ -108,7 +108,7 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #sign-in
+    #log-in
     {
         @media (max-width: variables.$max-mobile-size)
         {
