@@ -24,7 +24,7 @@ export interface GraphQLResponse<T = unknown>
 
 export class GraphQLService
 {
-    public static HandleError(error: unknown): void
+    public static HandleError(error: unknown): unknown
     {
         if (axios.isAxiosError(error))
         {
@@ -42,13 +42,13 @@ export class GraphQLService
                     dismissable: true
                 });
 
-                throw new HandledException(exc);
+                return new HandledException(exc);
             }
 
-            throw new GraphQLException(axiosError.response.data);
+            return new GraphQLException(axiosError.response.data);
         }
 
-        throw error;
+        return error;
     }
 
     private readonly _endpoint: string;
@@ -89,7 +89,7 @@ export class GraphQLService
         }
         catch (error)
         {
-            GraphQLService.HandleError(error);
+            throw GraphQLService.HandleError(error);
         }
     }
 
@@ -113,7 +113,7 @@ export class GraphQLService
         }
         catch (error)
         {
-            GraphQLService.HandleError(error);
+            throw GraphQLService.HandleError(error);
         }
     }
 }
