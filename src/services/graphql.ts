@@ -3,7 +3,9 @@ import { DocumentNode, GraphQLError, print } from "graphql";
 
 import config from "@/config";
 
-import { GraphQLException, NetworkException } from "@/core/exceptions";
+import { GraphQLException, HandledException, NetworkException } from "@/core/exceptions";
+
+import useUiStore from "@/stores/ui";
 
 export interface GraphQLOptions
 {
@@ -70,7 +72,18 @@ export class GraphQLService
                 }
                 else
                 {
-                    throw new NetworkException("Unable to establish a connection to the server.", axiosError);
+                    const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
+                    const ui = useUiStore();
+
+                    ui.alert({
+                        type: "danger",
+                        icon: "link-slash",
+                        title: "Network error!",
+                        message: `${exc.message} Please, try again later.`,
+                        dismissable: true
+                    });
+
+                    throw new HandledException(exc);
                 }
             }
             else

@@ -45,7 +45,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import Exception from "@/core/exceptions";
+    import { HandledException } from "@/core/exceptions";
 
     import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
@@ -81,18 +81,26 @@
         }
         catch (error)
         {
-            const exc = Exception.FromUnknown(error);
+            const exc = HandledException.FromUnknown(error);
 
-            ui.alert({
-                type: "danger",
-                icon: "circle-xmark",
-                title: "Authentication failed!",
-                message: exc.message,
-                dismissable: true
-            });
+            if (exc instanceof HandledException)
+            {
+                // eslint-disable-next-line no-console
+                console.warn(exc);
+            }
+            else
+            {
+                ui.alert({
+                    type: "danger",
+                    icon: "circle-xmark",
+                    title: "Authentication failed!",
+                    message: exc.message,
+                    dismissable: true
+                });
 
-            // eslint-disable-next-line no-console
-            console.error(exc);
+                // eslint-disable-next-line no-console
+                console.error(exc);
+            }
         }
     };
 </script>

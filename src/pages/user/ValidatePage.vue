@@ -45,7 +45,7 @@
     import { ref } from "vue";
     import { useRoute } from "vue-router";
 
-    import { ValueException } from "@/core/exceptions";
+    import { HandledException, ValueException } from "@/core/exceptions";
 
     import useUserStore from "@/stores/user";
 
@@ -77,8 +77,17 @@
         }
         catch (error)
         {
-            // eslint-disable-next-line no-console
-            console.error(error);
+            const exc = HandledException.FromUnknown(error);
+
+            if (exc instanceof HandledException)
+            {
+                // eslint-disable-next-line no-console
+                console.warn(exc);
+            }
+            else
+            {
+                throw exc;
+            }
         }
 
         isValidating.value = false;

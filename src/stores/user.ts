@@ -90,7 +90,8 @@ export default defineStore("user", {
 
         async verifyEmail(email: string, token: string): Promise<void>
         {
-            const response = await graphql.mutation<VerifyEmailResponse>(USER_SCHEMA, VERIFY_EMAIL, { email, token });
+            const response = await graphql.mutation<VerifyEmailResponse>(USER_SCHEMA, VERIFY_EMAIL,
+                { email, token });
 
             this._setToken(response.verifyEmail.token);
         }

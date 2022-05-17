@@ -1,4 +1,4 @@
-import Exception from "./core";
+import Exception, { HandledException } from "./core";
 import GraphQLException from "./graphql";
 
 export class NetworkException extends Exception
@@ -16,5 +16,5 @@ export class ValueException extends Exception
     }
 }
 
-export { GraphQLException };
+export { GraphQLException, HandledException };
 export default Exception;
