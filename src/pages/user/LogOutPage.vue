@@ -28,17 +28,7 @@
                 }))
                 .catch((reason) =>
                 {
-                    const exc = HandledException.FromUnknown(reason);
-
-                    if (exc instanceof HandledException)
-                    {
-                        // eslint-disable-next-line no-console
-                        console.warn(exc);
-                    }
-                    else
-                    {
-                        throw exc;
-                    }
+                    HandledException.CatchUnhandled(reason);
                 });
         }
 

@@ -24,11 +24,38 @@ export interface GraphQLResponse<T = unknown>
 
 export class GraphQLService
 {
+    public static HandleError(error: unknown): void
+    {
+        if (axios.isAxiosError(error))
+        {
+            const axiosError = error as AxiosError<GraphQLResponse>;
+            if (!axiosError.response)
+            {
+                const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
+                const ui = useUiStore();
+
+                ui.alert({
+                    type: "danger",
+                    icon: "link-slash",
+                    title: "Network error!",
+                    message: `${exc.message} Please, try again later.`,
+                    dismissable: true
+                });
+
+                throw new HandledException(exc);
+            }
+
+            throw new GraphQLException(axiosError.response.data);
+        }
+
+        throw error;
+    }
+
     private readonly _endpoint: string;
 
-    public constructor(endpopint: string)
+    public constructor(endpoint: string)
     {
-        this._endpoint = endpopint;
+        this._endpoint = endpoint;
     }
 
     protected _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
@@ -62,34 +89,7 @@ export class GraphQLService
         }
         catch (error)
         {
-            if (axios.isAxiosError(error))
-            {
-                const axiosError = error as AxiosError<GraphQLResponse>;
-
-                if (axiosError.response)
-                {
-                    throw new GraphQLException(axiosError.response.data);
-                }
-                else
-                {
-                    const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
-                    const ui = useUiStore();
-
-                    ui.alert({
-                        type: "danger",
-                        icon: "link-slash",
-                        title: "Network error!",
-                        message: `${exc.message} Please, try again later.`,
-                        dismissable: true
-                    });
-
-                    throw new HandledException(exc);
-                }
-            }
-            else
-            {
-                throw error;
-            }
+            GraphQLService.HandleError(error);
         }
     }
 
@@ -113,23 +113,7 @@ export class GraphQLService
         }
         catch (error)
         {
-            if (axios.isAxiosError(error))
-            {
-                const axiosError = error as AxiosError<GraphQLResponse>;
-
-                if (axiosError.response)
-                {
-                    throw new GraphQLException(axiosError.response.data);
-                }
-                else
-                {
-                    throw new NetworkException("Unable to establish a connection to the server.", axiosError);
-                }
-            }
-            else
-            {
-                throw error;
-            }
+            GraphQLService.HandleError(error);
         }
     }
 }

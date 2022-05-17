@@ -31,17 +31,7 @@
         }
         catch (error)
         {
-            const exc = HandledException.FromUnknown(error);
-
-            if (exc instanceof HandledException)
-            {
-                // eslint-disable-next-line no-console
-                console.warn(exc);
-            }
-            else
-            {
-                throw exc;
-            }
+            HandledException.CatchUnhandled(error);
         }
     };
     const createNewDraw = async () =>
@@ -52,17 +42,7 @@
         }
         catch (error)
         {
-            const exc = HandledException.FromUnknown(error);
-
-            if (exc instanceof HandledException)
-            {
-                // eslint-disable-next-line no-console
-                console.warn(exc);
-            }
-            else
-            {
-                throw exc;
-            }
+            HandledException.CatchUnhandled(error);
         }
     };
 

@@ -81,14 +81,7 @@
         }
         catch (error)
         {
-            const exc = HandledException.FromUnknown(error);
-
-            if (exc instanceof HandledException)
-            {
-                // eslint-disable-next-line no-console
-                console.warn(exc);
-            }
-            else
+            HandledException.CatchUnhandled(error, (exc) =>
             {
                 ui.alert({
                     type: "danger",
@@ -100,7 +93,7 @@
 
                 // eslint-disable-next-line no-console
                 console.error(exc);
-            }
+            });
         }
     };
 </script>

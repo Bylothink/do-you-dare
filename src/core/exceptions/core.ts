@@ -1,3 +1,5 @@
+import { MaybePromise } from "@/core/types";
+
 export default class Exception extends Error
 {
     public static FromUnknown(error: unknown): Exception
@@ -45,6 +47,25 @@ export default class Exception extends Error
 
 export class HandledException extends Exception
 {
+    public static async CatchUnhandled(error: unknown, catcher?: (exc: Exception) => MaybePromise<void>): Promise<void>
+    {
+        const exc = Exception.FromUnknown(error);
+
+        if (exc instanceof HandledException)
+        {
+            // eslint-disable-next-line no-console
+            console.warn(exc);
+        }
+        else if (catcher)
+        {
+            await catcher(exc);
+        }
+        else
+        {
+            throw exc;
+        }
+    }
+
     public readonly exception: Exception;
 
     public constructor(exc: Exception, name = "HandledException")

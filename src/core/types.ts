@@ -30,3 +30,5 @@ export interface DragEvent
     mouse: Point;
     offset: Point;
 }
+
+export type MaybePromise<T> = T | Promise<T>;
