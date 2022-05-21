@@ -16,8 +16,8 @@ const RENEW_SESSION = gql`mutation {
         token
     }
 }`;
-const CLOSE_SESSION = gql`mutation {
-    closeSession
+const DISCONNECT = gql`mutation {
+    disconnect
 }`;
 
 // eslint-disable-next-line max-len
@@ -92,7 +92,7 @@ export default defineStore("user", {
 
             this._setToken();
 
-            return graphql.query(USER_SCHEMA, CLOSE_SESSION, { jsonWebToken });
+            return graphql.query(USER_SCHEMA, DISCONNECT, { jsonWebToken });
         },
 
         async verifyEmail(email: string, token: string): Promise<void>

@@ -73,6 +73,8 @@
 
             await user.verifyEmail(email, token);
 
+            // TODO: Rimandare direttamente alla home visualizzando un alert di successo?
+
             hasFailed.value = false;
         }
         catch (error)
