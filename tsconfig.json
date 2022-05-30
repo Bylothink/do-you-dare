@@ -10,7 +10,6 @@
       "WebWorker"
     ],
     "strict": true,
-    "strictNullChecks": true,
     "jsx": "preserve",
     "noEmit": true,
     "skipLibCheck": true,
@@ -23,6 +22,7 @@
     "paths": { "@/*": ["src/*"] },
     "types": ["vite/client"]
   },
+  "include": ["src"],
   "exclude": [
     "dist",
     "node_modules"
