@@ -16,7 +16,7 @@ export default class Card implements CardData
 
     public constructor({ id, text }: CardData)
     {
-        this.id = id;
+        this.id = Number(id);
         this.text = text;
     }
 }

@@ -21,8 +21,8 @@ const DISCONNECT = gql`mutation {
 }`;
 
 // eslint-disable-next-line max-len
-const CREATE_USER = gql`mutation createUser($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
-    createUser(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName)
+const REGISTER = gql`mutation register($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
+    register(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName)
 }`;
 
 const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
@@ -83,7 +83,7 @@ export default defineStore("user", {
         },
         async register(registerVariables: RegisterVariables): Promise<void>
         {
-            await graphql.mutation(USER_SCHEMA, CREATE_USER, registerVariables);
+            await graphql.mutation(USER_SCHEMA, REGISTER, registerVariables);
         },
 
         logOut(): Promise<void>

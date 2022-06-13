@@ -9,31 +9,29 @@ import useUserStore from "./user";
 
 const GAME_SCHEMA = "game";
 
-const GET_ALL_CARDS = gql`query {
+const ALL_CARDS = gql`query {
     allCards {
         id,
         text
     }
 }`;
-const GET_RANDOM_CARD = gql`query {
-    getRandomCard {
+const RANDOM_CARD = gql`query {
+    randomCard {
         id,
         text
     }
 }`;
-const CREATE_DRAW = gql`mutation createDraw($cardId: Int!) {
-    createDraw(cardId: $cardId) {
-        result
-    }
+const CARD_DRAWN = gql`mutation cardDrawn($cardId: Int!) {
+    cardDrawn(cardId: $cardId)
 }`;
 
 interface AllCardsResponse
 {
     allCards: CardData[];
 }
-interface GetRandomCardResponse
+interface RandomCardResponse
 {
-    getRandomCard: CardData;
+    randomCard: CardData;
 }
 
 export default defineStore("game", {
@@ -46,8 +44,7 @@ export default defineStore("game", {
             const user = useUserStore();
             const jsonWebToken = user.token;
 
-            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, GET_ALL_CARDS,
-                { jsonWebToken });
+            const response = await graphql.query<AllCardsResponse>(GAME_SCHEMA, ALL_CARDS, { jsonWebToken });
 
             return response.allCards.map((card) => new Card(card));
         },
@@ -56,19 +53,18 @@ export default defineStore("game", {
             const user = useUserStore();
             const jsonWebToken = user.token;
 
-            const response = await graphql.query<GetRandomCardResponse>(GAME_SCHEMA, GET_RANDOM_CARD,
-                { jsonWebToken });
+            const response = await graphql.query<RandomCardResponse>(GAME_SCHEMA, RANDOM_CARD, { jsonWebToken });
 
-            const card = response.getRandomCard;
+            const card = response.randomCard;
 
             return new Card(card);
         },
-        async createDraw(cardId: number): Promise<void>
+        async cardDrawn(cardId: number): Promise<void>
         {
             const user = useUserStore();
             const jsonWebToken = user.token;
 
-            await graphql.mutation(GAME_SCHEMA, CREATE_DRAW, { cardId },
+            await graphql.mutation(GAME_SCHEMA, CARD_DRAWN, { cardId },
                 { jsonWebToken });
         }
     }

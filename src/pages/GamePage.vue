@@ -38,7 +38,7 @@
     {
         try
         {
-            await game.createDraw(card.value!.id);
+            await game.cardDrawn(card.value!.id);
         }
         catch (error)
         {
