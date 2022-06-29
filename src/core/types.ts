@@ -8,6 +8,11 @@ export interface ActionOptions
 
     callback?: ActionCallback;
     location?: RouteLocationRaw;
+
+    // TODO #1: `close` oppure `autoClose` / `dismiss` / etc...
+    // TODO #2: Dedurre il valore dalle proprietà `dismissable` & `timeout`?
+    //
+    close?: boolean;
 }
 export interface AlertOptions
 {

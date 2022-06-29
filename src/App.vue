@@ -8,16 +8,49 @@
 </template>
 
 <script lang="ts" setup>
+    import { onMounted } from "vue";
+
     import { HandledException } from "./core/exceptions";
 
+    import useUiStore from "./stores/ui";
     import useUserStore from "./stores/user";
 
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
+    const ui = useUiStore();
     const user = useUserStore();
 
     const initialize = async () =>
     {
+        if (user.hasAcceptedCookies === undefined)
+        {
+            ui.alert({
+                type: "info",
+                icon: "cookie-bite",
+                title: "Cookie policy",
+                message: "This website uses cookies to ensure you get the best experience on our website.",
+                actions: [
+                    {
+                        type: "primary",
+                        label: "Accept",
+                        callback: () => user.acceptCookies(),
+                        close: true
+                    },
+                    {
+                        type: "secondary",
+                        label: "Decline",
+                        callback: () => user.declineCookies(),
+                        close: true
+                    },
+                    {
+                        type: "link",
+                        label: "Learn more",
+                        location: { name: "about" } // TODO: Dovrà rimandare alla pagina della cookie policy!
+                    }
+                ]
+            });
+        }
+
         if (user.isLogged)
         {
             try
@@ -31,7 +64,7 @@
         }
     };
 
-    initialize();
+    onMounted(initialize);
 </script>
 
 <style lang="scss">

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref } from "vue";
+    import { ref, onMounted } from "vue";
 
     import { HandledException } from "@/core/exceptions";
     import { Card } from "@/models";
@@ -46,7 +46,7 @@
         }
     };
 
-    getNewCard();
+    onMounted(getNewCard);
 </script>
 
 <style lang="scss" scoped>

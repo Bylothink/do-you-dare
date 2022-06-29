@@ -24,7 +24,7 @@
                                            :href="href"
                                            :title="action.label"
                                            :theme="action.type"
-                                           @click="handleNavigate($event, navigate)">
+                                           @click="handleNavigate.call(action, $event, navigate)">
                                     {{ action.label }}
                                 </AppButton>
                             </RouterLink>
@@ -32,7 +32,7 @@
                                        :key="`btn-${index}`"
                                        small
                                        :theme="action.type"
-                                       @click="handleCallback(action.callback!)">
+                                       @click="handleCallback.call(action, action.callback!)">
                                 {{ action.label }}
                             </AppButton>
                         </template>
@@ -48,7 +48,7 @@
     import { NavigationFailure } from "vue-router";
 
     import { onAction } from "@/core/utils/store";
-    import { ActionCallback, AlertOptions } from "@/core/types";
+    import { ActionCallback, ActionOptions, AlertOptions } from "@/core/types";
 
     import useUiStore from "@/stores/ui";
 
@@ -111,13 +111,30 @@
         });
     };
 
-    const handleCallback = (callback: ActionCallback) => callback.call(alert.value!, close);
-    const handleNavigate = (evt: MouseEvent, navigate: (e?: MouseEvent) => Promise<void | NavigationFailure>) =>
+    function handleCallback(this: ActionOptions, callback: ActionCallback): void
+    {
+        callback.call(alert.value!, close);
+
+        if (this.close)
+        {
+            close();
+        }
+    }
+
+    //
+    // TODO: Rivedere e sistemare un po' tutta questa logica.
+    //
+    type NavigationResult = Promise<void | NavigationFailure>;
+
+    function handleNavigate(this: ActionOptions, evt: MouseEvent, navigate: (e?: MouseEvent) => NavigationResult)
     {
         navigate(evt);
 
-        close();
-    };
+        if (this.close)
+        {
+            close();
+        }
+    }
 
     onAction(ui, "alert", (alert) =>
     {
