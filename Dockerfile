@@ -1,10 +1,9 @@
 FROM node:18.4-alpine as builder
 
-ARG VITE_BACKEND_URL
-
-WORKDIR /opt/arderco/frontend/
+WORKDIR "/opt/do-you-dare"
 COPY . ./
 
+ARG VITE_BACKEND_URL
 RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
  \
  && yarn ci \
@@ -12,7 +11,7 @@ RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
 
 FROM nginx:1.23-alpine
 
-COPY --from=builder /opt/arderco/frontend/dist/ /usr/share/nginx/html
+COPY --from=builder /opt/do-you-dare/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG NAME="Do you Dare? - Frontend"
