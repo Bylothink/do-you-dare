@@ -30,8 +30,25 @@
             <div class="form-row">
                 <span></span>
                 <div class="form-cell">
+                    <input type="checkbox" />
+                    Ricordami su questo dispositivo
+                </div>
+            </div>
+            <div class="form-row">
+                <span></span>
+                <div class="form-cell">
                     <hr />
-                    <AppButton class="form-control form-control-lg" type="submit">
+                    <span style="display: block;">
+                        Non hai ancora un'account?
+                        <RouterLink :to="{ name: 'user-register' }">
+                            Registrati
+                        </RouterLink>.
+                    </span>
+                    <span style="display: block;">
+                        Hai dimenticato la password?
+                        <a href="#">Ripristinala</a>.
+                    </span>
+                    <AppButton class="form-control form-control-lg" style="margin-top: 1em;" type="submit">
                         <span class="fa-solid fa-key"></span>
                         Log in
                     </AppButton>
