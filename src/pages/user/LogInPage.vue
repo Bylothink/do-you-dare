@@ -39,16 +39,16 @@
                 <div class="form-cell">
                     <hr />
                     <span style="display: block;">
-                        Non hai ancora un'account?
+                        Non hai ancora un account?
                         <RouterLink :to="{ name: 'user-register' }">
                             Registrati
-                        </RouterLink>.
+                        </RouterLink>
                     </span>
                     <span style="display: block;">
                         Hai dimenticato la password?
-                        <a href="#">Ripristinala</a>.
+                        <a href="#">Ripristinala</a>
                     </span>
-                    <AppButton class="form-control form-control-lg" style="margin-top: 1em;" type="submit">
+                    <AppButton class="form-control form-control-lg" type="submit">
                         <span class="fa-solid fa-key"></span>
                         Log in
                     </AppButton>
@@ -118,16 +118,23 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #log-in
+    #log-in > .form-table > .form-row > .form-cell
     {
+        & > span
+        {
+            display: block;
+        }
+
+        & > .btn
+        {
+            margin-top: 1em;
+        }
+
         @media (max-width: variables.$max-mobile-size)
         {
-            & > .form-table > .form-row > .form-cell
+            & > hr
             {
-                & > hr
-                {
-                    margin-top: 2em;
-                }
+                margin-top: 2em;
             }
         }
     }

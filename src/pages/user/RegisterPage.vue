@@ -38,9 +38,26 @@
                 </div>
             </div>
             <div class="form-row">
+                <label for="check_password" class="form-cell col-form-label col-form-label-lg">Conferma</label>
+                <div class="form-cell">
+                    <input id="check_password"
+                           v-model="check_password"
+                           class="form-control form-control-lg mb-3"
+                           type="password"
+                           autocomplete="new-password"
+                           required />
+                </div>
+            </div>
+            <div class="form-row">
                 <span></span>
                 <div class="form-cell">
                     <hr />
+                    <span>
+                        Possiedi già un account?
+                        <RouterLink :to="{ name: 'user-log_in' }">
+                            Accedi
+                        </RouterLink>
+                    </span>
                     <AppButton class="form-control form-control-lg" type="submit">
                         <span class="fa-solid fa-id-card"></span>
                         Register
@@ -70,10 +87,24 @@
 
     const username = ref("");
     const password = ref("");
+    const check_password = ref("");
     const email = ref("");
 
     const onSubmit = async () =>
     {
+        if (password.value !== check_password.value)
+        {
+            ui.alert({
+                type: "danger",
+                icon: "circle-xmark",
+                title: "Password mismatch!",
+                message: "The passwords you entered do not match.",
+                dismissable: true
+            });
+
+            return;
+        }
+
         const registerPayload = {
             username: username.value,
             password: password.value,
@@ -115,16 +146,23 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #register
+    #register > .form-table > .form-row > .form-cell
     {
+        & > span
+        {
+            display: block;
+        }
+
+        & > .btn
+        {
+            margin-top: 1em;
+        }
+
         @media (max-width: variables.$max-mobile-size)
         {
-            & > .form-table > .form-row > .form-cell
+            & > hr
             {
-                & > hr
-                {
-                    margin-top: 2em;
-                }
+                margin-top: 2em;
             }
         }
     }

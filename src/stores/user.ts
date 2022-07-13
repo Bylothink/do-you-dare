@@ -32,6 +32,10 @@ const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) 
     }
 }`;
 
+const ACCOUNT_VALIDATION_MAIL = gql`mutation accountValidationMail($email: String!) {
+    accountValidationMail(email: $email)
+}`;
+
 interface CookieAcknowledgement
 {
     value: boolean;
@@ -102,9 +106,9 @@ export default defineStore("user", {
 
             this._setToken(response.authenticate.token);
         },
-        async register(registerVariables: RegisterVariables): Promise<void>
+        register(registerVariables: RegisterVariables): Promise<void>
         {
-            await graphql.mutation(USER_SCHEMA, REGISTER, registerVariables);
+            return graphql.mutation(USER_SCHEMA, REGISTER, registerVariables);
         },
 
         async verifyEmail(email: string, token: string): Promise<void>
@@ -121,6 +125,11 @@ export default defineStore("user", {
                 { jsonWebToken });
 
             this._setToken(response.renewSession.token);
+        },
+
+        sendAccountValidationMail(email: string): Promise<void>
+        {
+            return graphql.mutation(USER_SCHEMA, ACCOUNT_VALIDATION_MAIL, { email });
         },
 
         logOut(): Promise<void>
