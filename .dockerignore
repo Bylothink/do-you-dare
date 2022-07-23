@@ -42,7 +42,7 @@ Desktop.ini
 /Dockerfile
 /docker-compose.yml
 
-# Useless project files
+# Other project files
 #
 /.editorconfig
 /LICENSE
