@@ -33,19 +33,18 @@
                     {
                         type: "primary",
                         label: "Accept",
-                        callback: () => user.acceptCookies(),
-                        close: true
+                        callback: () => user.acceptCookies()
                     },
                     {
                         type: "secondary",
                         label: "Decline",
-                        callback: () => user.declineCookies(),
-                        close: true
+                        callback: () => user.declineCookies()
                     },
                     {
                         type: "link",
                         label: "Learn more",
-                        location: { name: "about" } // TODO: Dovrà rimandare alla pagina della cookie policy!
+                        location: { name: "about" }, // TODO: Dovrà rimandare alla pagina della cookie policy!,
+                        triggerClosing: false
                     }
                 ]
             });

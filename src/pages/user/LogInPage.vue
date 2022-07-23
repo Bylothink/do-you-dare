@@ -4,56 +4,38 @@
         <h3 class="mb-4">
             Log in
         </h3>
-        <form class="mx-3 form-table" @submit.prevent="onSubmit">
-            <div class="form-row">
-                <label for="username" class="form-cell col-form-label col-form-label-lg">Nome utente</label>
-                <div class="form-cell">
-                    <input id="username"
-                           v-model="username"
-                           class="form-control form-control-lg mb-3"
-                           type="text"
-                           autocomplete="username"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="password" class="form-cell col-form-label col-form-label-lg">Password</label>
-                <div class="form-cell">
-                    <input id="password"
-                           v-model="password"
-                           class="form-control form-control-lg mb-3"
-                           type="password"
-                           autocomplete="current-password"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <span></span>
-                <div class="form-cell">
-                    <input type="checkbox" />
-                    Ricordami su questo dispositivo
-                </div>
-            </div>
-            <div class="form-row">
-                <span></span>
-                <div class="form-cell">
-                    <hr />
-                    <span style="display: block;">
-                        Non hai ancora un account?
-                        <RouterLink :to="{ name: 'user-register' }">
-                            Registrati
-                        </RouterLink>
-                    </span>
-                    <span style="display: block;">
-                        Hai dimenticato la password?
-                        <a href="#">Ripristinala</a>
-                    </span>
-                    <AppButton class="form-control form-control-lg" type="submit">
-                        <span class="fa-solid fa-key"></span>
-                        Log in
-                    </AppButton>
-                </div>
-            </div>
+        <form class="mx-3" @submit.prevent="onSubmit">
+            <TextBox id="username"
+                     v-model:value="username"
+                     class="mb-3"
+                     label="Username"
+                     type="text"
+                     autocomplete="username"
+                     required />
+            <TextBox id="password"
+                     v-model:value="password"
+                     class="mb-3"
+                     label="Password"
+                     type="password"
+                     autocomplete="current-password"
+                     required />
+            <input type="checkbox" />
+            Ricordami su questo dispositivo
+            <hr />
+            <span style="display: block;">
+                Non hai ancora un account?
+                <RouterLink :to="{ name: 'user_register' }">
+                    Registrati
+                </RouterLink>
+            </span>
+            <span style="display: block;">
+                Hai dimenticato la password?
+                <a href="#">Ripristinala</a>
+            </span>
+            <AppButton class="form-control form-control-lg mt-3" type="submit">
+                <span class="fa-solid fa-key"></span>
+                Log in
+            </AppButton>
         </form>
     </CenteredLayout>
 </template>
@@ -69,6 +51,7 @@
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+    import TextBox from "@/components/ui/TextBox.vue";
 
     const router = useRouter();
 

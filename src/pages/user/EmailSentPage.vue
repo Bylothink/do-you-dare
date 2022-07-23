@@ -8,21 +8,25 @@
                 To complete the registration process, you need to validate your email address.
             </p>
             <p>
-                An email has just been sent to the address you provided.<br />
-                Please, check your inbox and simply click on the link
-                contained in the message to validate your email address.
+                Check your inbox and simply click on the link contained in the<br />
+                message you should have received to validate your email address.
             </p>
             <p>
                 If you haven't received any emails, please also check your spam folder.<br />
-                If you still don't receive the email, wait a couple of minutes and then request a resend.
+                If you still don't receive the email, wait a minute and then request a resend.
             </p>
             <hr />
-            <AppButton :disabled="seconds > 0" @click="onClick">
-                Send a new email
-            </AppButton>
-            <span v-if="seconds > 0">
+            <div class="input-group">
+                <input class="form-control is-valid"
+                       :value="email"
+                       readonly />
+                <AppButton :disabled="seconds > 0" @click="onClick">
+                    Send a new email
+                </AppButton>
+            </div>
+            <div v-if="seconds > 0" class="feedback">
                 Potrai riprovare da {{ seconds }} secondi.
-            </span>
+            </div>
             <!-- TODO #1: Gestire il re-invio della mail in caso di non ricezione. -->
             <!-- TODO #2: Gestire il re-invio della mail in caso di scadenza token. -->
         </div>
@@ -31,19 +35,22 @@
 
 <script lang="ts" setup>
     import { ref } from "vue";
+    import { useRoute } from "vue-router";
 
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
+    const route = useRoute();
     const user = useUserStore();
 
+    const email = route.query.address as string;
     const seconds = ref(60);
 
     const onClick = () =>
     {
-        user.sendAccountValidationMail("email@example.com");
+        user.sendAccountValidationMail(email);
 
         seconds.value = 60;
     };
@@ -55,5 +62,23 @@
     #email-sent
     {
         text-align: center;
+
+        .input-group
+        {
+            margin: auto;
+            width: fit-content;
+
+            & > .form-control
+            {
+                flex: unset;
+                width: inherit;
+            }
+        }
+
+        .feedback
+        {
+            margin-top: 0.25rem;
+            font-size: 0.875em;
+        }
     }
 </style>

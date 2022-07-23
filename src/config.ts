@@ -89,35 +89,35 @@ export default new Config({
         },
         {
             id: 0x31,
-            name: "user-log_in",
+            name: "user_log-in",
             path: "/user/log-in",
             component: () => import("./pages/user/LogInPage.vue"),
             title: "Log in"
         },
         {
             id: 0x32,
-            name: "user-register",
+            name: "user_register",
             path: "/user/register",
             component: () => import("./pages/user/RegisterPage.vue"),
             title: "Log up"
         },
         {
             id: 0x33,
-            name: "user-email_sent",
+            name: "user_email-sent",
             path: "/user/email-sent",
             component: () => import("./pages/user/EmailSentPage.vue"),
             title: "Email sent"
         },
         {
             id: 0x34,
-            name: "user-validate",
+            name: "user_validate",
             path: "/user/validate",
             component: () => import("./pages/user/ValidatePage.vue"),
             title: "Validate"
         },
         {
             id: 0x3f,
-            name: "user-log_out",
+            name: "user_log-out",
             path: "/user/log-out",
             component: () => import("./pages/user/LogOutPage.vue"),
             title: "Log out"

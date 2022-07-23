@@ -1,19 +1,21 @@
 import { RouteLocationRaw } from "vue-router";
 
-export type ActionCallback = (this: AlertOptions, done: () => Promise<void>) => void;
-export interface ActionOptions
+export type CallbackOptions = {
+    callback: (this: AlertOptions) => void;
+    triggerClosing?: true;
+} | {
+    callback: (this: AlertOptions, done: () => Promise<void>) => void;
+    triggerClosing: false;
+};
+export interface LocationOptions
 {
+    location: RouteLocationRaw;
+    triggerClosing?: boolean;
+}
+export type ActionOptions = (CallbackOptions | LocationOptions) & {
     type: "primary" | "secondary" | "link";
     label: string;
-
-    callback?: ActionCallback;
-    location?: RouteLocationRaw;
-
-    // TODO #1: `close` oppure `autoClose` / `dismiss` / etc...
-    // TODO #2: Dedurre il valore dalle proprietà `dismissable` & `timeout`?
-    //
-    close?: boolean;
-}
+};
 export interface AlertOptions
 {
     type: "danger" | "warning" | "success" | "info";

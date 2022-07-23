@@ -3,7 +3,7 @@
         <h1>Your user information page</h1>
         <RouterLink v-slot="{ href, navigate }"
                     custom
-                    :to="{ name: 'user-log_out' }">
+                    :to="{ name: 'user_log-out' }">
             <AppButton large
                        title="Log out from your user account"
                        :href="href"

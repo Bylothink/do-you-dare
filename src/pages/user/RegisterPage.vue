@@ -5,65 +5,45 @@
             Register
         </h3>
         <form class="mx-3 form-table" @submit.prevent="onSubmit">
-            <div class="form-row">
-                <label for="username" class="form-cell col-form-label col-form-label-lg">Username</label>
-                <div class="form-cell">
-                    <input id="username"
-                           v-model="username"
-                           class="form-control form-control-lg mb-3"
-                           type="text"
-                           autocomplete="username"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="email" class="form-cell col-form-label col-form-label-lg">Email</label>
-                <div class="form-cell">
-                    <input id="email"
-                           v-model="email"
-                           class="form-control form-control-lg mb-3"
-                           type="email"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="password" class="form-cell col-form-label col-form-label-lg">Password</label>
-                <div class="form-cell">
-                    <input id="password"
-                           v-model="password"
-                           class="form-control form-control-lg mb-3"
-                           type="password"
-                           autocomplete="new-password"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <label for="check_password" class="form-cell col-form-label col-form-label-lg">Conferma</label>
-                <div class="form-cell">
-                    <input id="check_password"
-                           v-model="check_password"
-                           class="form-control form-control-lg mb-3"
-                           type="password"
-                           autocomplete="new-password"
-                           required />
-                </div>
-            </div>
-            <div class="form-row">
-                <span></span>
-                <div class="form-cell">
-                    <hr />
-                    <span>
-                        Possiedi già un account?
-                        <RouterLink :to="{ name: 'user-log_in' }">
-                            Accedi
-                        </RouterLink>
-                    </span>
-                    <AppButton class="form-control form-control-lg" type="submit">
-                        <span class="fa-solid fa-id-card"></span>
-                        Register
-                    </AppButton>
-                </div>
-            </div>
+            <TextBox id="username"
+                     v-model:value="username"
+                     class="mb-3"
+                     label="Username"
+                     type="text"
+                     autocomplete="username"
+                     required />
+            <TextBox id="email"
+                     v-model:value="email"
+                     class="mb-3"
+                     label="Email address"
+                     type="email"
+                     autocomplete="email"
+                     required />
+            <TextBox id="password"
+                     v-model:value="password"
+                     class="mb-3"
+                     label="Password"
+                     type="password"
+                     autocomplete="new-password"
+                     required />
+            <TextBox id="check-password"
+                     v-model:value="checkPassword"
+                     class="mb-3"
+                     label="Confirm password"
+                     type="password"
+                     autocomplete="new-password"
+                     required />
+            <hr />
+            <span>
+                Possiedi già un account?
+                <RouterLink :to="{ name: 'user_log-in' }">
+                    Accedi
+                </RouterLink>
+            </span>
+            <AppButton class="form-control form-control-lg mt-3" type="submit">
+                <span class="fa-solid fa-id-card"></span>
+                Register
+            </AppButton>
         </form>
     </CenteredLayout>
 </template>
@@ -79,6 +59,7 @@
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+    import TextBox from "@/components/ui/TextBox.vue";
 
     const router = useRouter();
 
@@ -87,12 +68,12 @@
 
     const username = ref("");
     const password = ref("");
-    const check_password = ref("");
+    const checkPassword = ref("");
     const email = ref("");
 
     const onSubmit = async () =>
     {
-        if (password.value !== check_password.value)
+        if (password.value !== checkPassword.value)
         {
             ui.alert({
                 type: "danger",
@@ -122,7 +103,10 @@
                 timeout: 2500
             });
 
-            router.replace({ name: "user-email_sent" });
+            router.replace({
+                name: "user_email-sent",
+                query: { address: email.value }
+            });
         }
         catch (error)
         {

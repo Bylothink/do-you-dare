@@ -15,7 +15,14 @@
                     <hr />
                     <div class="alert-actions">
                         <template v-for="action, index in alert.actions">
-                            <RouterLink v-if="action.location"
+                            <AppButton v-if="action.callback"
+                                       :key="`btn-${index}`"
+                                       small
+                                       :theme="action.type"
+                                       @click="handleCallback.call(action, action.callback!)">
+                                {{ action.label }}
+                            </AppButton>
+                            <RouterLink v-else-if="action.location"
                                         v-slot="{ href, navigate }"
                                         :key="`lnk-${index}`"
                                         custom
@@ -28,13 +35,6 @@
                                     {{ action.label }}
                                 </AppButton>
                             </RouterLink>
-                            <AppButton v-else-if="action.callback"
-                                       :key="`btn-${index}`"
-                                       small
-                                       :theme="action.type"
-                                       @click="handleCallback.call(action, action.callback!)">
-                                {{ action.label }}
-                            </AppButton>
                         </template>
                     </div>
                 </template>
@@ -48,7 +48,7 @@
     import { NavigationFailure } from "vue-router";
 
     import { onAction } from "@/core/utils/store";
-    import { ActionCallback, ActionOptions, AlertOptions } from "@/core/types";
+    import { ActionOptions, AlertOptions } from "@/core/types";
 
     import useUiStore from "@/stores/ui";
 
@@ -111,26 +111,26 @@
         });
     };
 
+    type ActionCallback = (this: AlertOptions, done?: () => Promise<void>) => void;
     function handleCallback(this: ActionOptions, callback: ActionCallback): void
     {
-        callback.call(alert.value!, close);
-
-        if (this.close)
+        if ((this.triggerClosing === undefined) || (this.triggerClosing))
         {
+            callback.call(alert.value!);
             close();
+        }
+        else
+        {
+            callback.call(alert.value!, close);
         }
     }
 
-    //
-    // TODO: Rivedere e sistemare un po' tutta questa logica.
-    //
     type NavigationResult = Promise<void | NavigationFailure>;
-
-    function handleNavigate(this: ActionOptions, evt: MouseEvent, navigate: (e?: MouseEvent) => NavigationResult)
+    function handleNavigate(this: ActionOptions, evt: MouseEvent, navigate: (e?: MouseEvent) => NavigationResult): void
     {
         navigate(evt);
 
-        if (this.close)
+        if ((this.triggerClosing === undefined) || (this.triggerClosing))
         {
             close();
         }

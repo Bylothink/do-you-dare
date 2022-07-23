@@ -116,3 +116,16 @@ a
         }
     }
 }
+
+.btn
+{
+    &:disabled
+    {
+        cursor: not-allowed;
+        pointer-events: auto;
+    }
+}
+.btn-link
+{
+    background-image: none;
+}
