@@ -73,7 +73,7 @@
             ui.alert({
                 type: "success",
                 icon: "circle-check",
-                message: "Authentication successful!\n",
+                message: `Authentication with user "${user.username}" successful!\n`,
                 timeout: 2500
             });
 

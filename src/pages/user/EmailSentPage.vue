@@ -18,7 +18,7 @@
             <hr />
             <div class="input-group">
                 <input class="form-control is-valid"
-                       :value="email"
+                       :value="user.email"
                        readonly />
                 <AppButton :disabled="seconds > 0" @click="onClick">
                     Send a new email
@@ -45,12 +45,11 @@
     const route = useRoute();
     const user = useUserStore();
 
-    const email = route.query.address as string;
     const seconds = ref(60);
 
     const onClick = () =>
     {
-        user.sendAccountValidationMail(email);
+        user.sendAccountValidationMail();
 
         seconds.value = 60;
     };

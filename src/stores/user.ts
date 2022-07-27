@@ -9,12 +9,24 @@ const USER_SCHEMA = "user";
 
 const AUTHENTICATE = gql`mutation authenticate($username: String!, $password: String!) {
     authenticate(username: $username, password: $password) {
-        token
+        token,
+        user {
+            id,
+            isActive,
+            username,
+            email
+        }
     }
 }`;
 const RENEW_SESSION = gql`mutation {
     renewSession {
-        token
+        token,
+        user {
+            id,
+            isActive,
+            username,
+            email
+        }
     }
 }`;
 const DISCONNECT = gql`mutation {
@@ -23,17 +35,23 @@ const DISCONNECT = gql`mutation {
 
 // eslint-disable-next-line max-len
 const REGISTER = gql`mutation register($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
-    register(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName)
-}`;
-
-const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
-    verifyEmail(email: $email, token: $token) {
-        token
+    register(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName) {
+        token,
+        user {
+            id,
+            isActive,
+            username,
+            email
+        }
     }
 }`;
 
-const ACCOUNT_VALIDATION_MAIL = gql`mutation accountValidationMail($email: String!) {
-    accountValidationMail(email: $email)
+const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
+    verifyEmail(email: $email, token: $token)
+}`;
+
+const ACCOUNT_VALIDATION_MAIL = gql`mutation {
+    accountValidationMail
 }`;
 
 interface CookieAcknowledgement
@@ -51,23 +69,47 @@ interface RegisterVariables
     lastName?: string;
 }
 
+interface User
+{
+    id: number;
+    active: boolean;
+    email: string;
+    username: string;
+}
+interface Session
+{
+    token: string;
+    user: User
+}
 interface AuthenticateResponse
 {
-    authenticate: { token: string; };
+    authenticate: Session;
+}
+interface RegisterResponse
+{
+    register: Session;
 }
 interface RenewSessionResponse
 {
-    renewSession: { token: string; };
+    renewSession: Session;
 }
-interface VerifyEmailResponse
+
+interface UserState
 {
-    verifyEmail: { token: string; };
+    cookieAck?: CookieAcknowledgement;
+    token?: string;
+
+    username?: string;
+    email?: string;
 }
 
 export default defineStore("user", {
-    state: () => ({
+    state: (): UserState => ({
         cookieAck: jsonLocalStorage.get<CookieAcknowledgement>("user:cookieAck"),
-        token: jsonLocalStorage.get<string>("user:token")
+        token: jsonLocalStorage.get<string>("user:token"),
+
+        username: undefined,
+        email: undefined
     }),
 
     getters: {
@@ -89,6 +131,11 @@ export default defineStore("user", {
 
             jsonLocalStorage.set("user:cookieAck", this.cookieAck);
         },
+        _setInfo(user?: User): void
+        {
+            this.username = user?.username;
+            this.email = user?.email;
+        },
         _setToken(token?: string): void
         {
             this.token = token;
@@ -105,18 +152,19 @@ export default defineStore("user", {
                 { username, password });
 
             this._setToken(response.authenticate.token);
+            this._setInfo(response.authenticate.user);
         },
-        register(registerVariables: RegisterVariables): Promise<void>
+        async register(registerVariables: RegisterVariables): Promise<void>
         {
-            return graphql.mutation(USER_SCHEMA, REGISTER, registerVariables);
+            const response = await graphql.mutation<RegisterResponse>(USER_SCHEMA, REGISTER, registerVariables);
+
+            this._setToken(response.register.token);
+            this._setInfo(response.register.user);
         },
 
-        async verifyEmail(email: string, token: string): Promise<void>
+        verifyEmail(email: string, token: string): Promise<void>
         {
-            const response = await graphql.mutation<VerifyEmailResponse>(USER_SCHEMA, VERIFY_EMAIL,
-                { email, token });
-
-            this._setToken(response.verifyEmail.token);
+            return graphql.mutation(USER_SCHEMA, VERIFY_EMAIL, { email, token });
         },
         async renewToken(): Promise<void>
         {
@@ -125,11 +173,14 @@ export default defineStore("user", {
                 { jsonWebToken });
 
             this._setToken(response.renewSession.token);
+            this._setInfo(response.renewSession.user);
         },
 
-        sendAccountValidationMail(email: string): Promise<void>
+        sendAccountValidationMail(): Promise<void>
         {
-            return graphql.mutation(USER_SCHEMA, ACCOUNT_VALIDATION_MAIL, { email });
+            const jsonWebToken = this.token;
+
+            return graphql.mutation(USER_SCHEMA, ACCOUNT_VALIDATION_MAIL, { }, { jsonWebToken });
         },
 
         logOut(): Promise<void>
@@ -137,8 +188,9 @@ export default defineStore("user", {
             const jsonWebToken = this.token;
 
             this._setToken();
+            this._setInfo();
 
-            return graphql.query(USER_SCHEMA, DISCONNECT, { jsonWebToken });
+            return graphql.mutation(USER_SCHEMA, DISCONNECT, { }, { jsonWebToken });
         }
     }
 });

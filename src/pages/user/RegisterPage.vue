@@ -99,14 +99,11 @@
             ui.alert({
                 type: "success",
                 icon: "circle-check",
-                message: "Account created successfully!\n",
+                message: `Account "${user.username}" created successfully!\n`,
                 timeout: 2500
             });
 
-            router.replace({
-                name: "user_email-sent",
-                query: { address: email.value }
-            });
+            router.replace({ name: "user_email-sent" });
         }
         catch (error)
         {
