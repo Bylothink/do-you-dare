@@ -49,7 +49,7 @@
 
     const onClick = () =>
     {
-        user.sendAccountValidationMail();
+        user.requestNewValidationMail();
 
         seconds.value = 60;
     };

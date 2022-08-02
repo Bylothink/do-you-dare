@@ -1,6 +1,7 @@
 export interface UserData
 {
     id: number;
+    isActive: boolean;
     username: string;
     email: string;
     firstName?: string;
@@ -12,6 +13,7 @@ export interface UserData
 export default class User implements UserData
 {
     public id: number;
+    public isActive: boolean;
     public username: string;
     public email: string;
     public firstName?: string;
@@ -19,9 +21,10 @@ export default class User implements UserData
     public dateJoined: string;
     public lastLogin?: string;
 
-    public constructor({ id, username, email, firstName, lastName, dateJoined, lastLogin }: UserData)
+    public constructor({ id, isActive, username, email, firstName, lastName, dateJoined, lastLogin }: UserData)
     {
         this.id = id;
+        this.isActive = isActive;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
