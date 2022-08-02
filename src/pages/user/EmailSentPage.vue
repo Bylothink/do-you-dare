@@ -8,11 +8,12 @@
                 To complete the registration process, you need to validate your email address.
             </p>
             <p>
-                Check your inbox and simply click on the link contained in the<br />
-                message you should have received to validate your email address.
+                An email has just been sent to the address you provided.<br />
+                Please, check your inbox and simply click on the link
+                contained in the message to validate your email address.
             </p>
             <p>
-                If you haven't received any emails, please also check your spam folder.<br />
+                If you haven't received any emails, please also check your spam folder too.<br />
                 If you still don't receive the email, wait a minute and then request a resend.
             </p>
             <hr />
@@ -20,41 +21,55 @@
                 <input class="form-control is-valid"
                        :value="user.email"
                        readonly />
-                <AppButton :disabled="seconds > 0" @click="onClick">
+                <AppButton :disabled="isDisabled" @click="onClick">
                     Send a new email
                 </AppButton>
             </div>
-            <div v-if="seconds > 0" class="feedback">
-                Potrai riprovare da {{ seconds }} secondi.
+            <div v-if="isDisabled" class="feedback">
+                Potrai riprovare da {{ timeRemaining }} secondi.
             </div>
-            <!-- TODO #1: Gestire il re-invio della mail in caso di non ricezione. -->
-            <!-- TODO #2: Gestire il re-invio della mail in caso di scadenza token. -->
         </div>
     </CenteredLayout>
 </template>
 
 <script lang="ts" setup>
-    import { ref } from "vue";
-    import { useRoute } from "vue-router";
+    import { computed, ref, onMounted } from "vue";
 
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
-    const route = useRoute();
-    const user = useUserStore();
+    const REQUEST_DELAY = 60;
 
-    const seconds = ref(60);
+    const user = useUserStore();
+    const timeRemaining = ref(REQUEST_DELAY);
+
+    const isDisabled = computed(() => timeRemaining.value > 0);
 
     const onClick = () =>
     {
-        user.requestNewValidationMail();
+        startCountdown();
 
-        seconds.value = 60;
+        user.requestNewValidationMail();
+    };
+    const startCountdown = () =>
+    {
+        timeRemaining.value = REQUEST_DELAY;
+
+        const intervalId = setInterval(() =>
+        {
+            timeRemaining.value -= 1;
+
+            if (timeRemaining.value <= 0)
+            {
+                clearInterval(intervalId);
+            }
+
+        }, 1000);
     };
 
-    setInterval(() => { seconds.value -= 1; }, 1000);
+    onMounted(startCountdown);
 </script>
 
 <style lang="scss" scoped>
