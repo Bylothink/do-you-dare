@@ -73,7 +73,16 @@
 
             await user.verifyEmail(email, token);
 
-            // TODO: Rimandare direttamente alla home visualizzando un alert di successo?
+            // TODO: Differenziare la gestione della verifica dell'utente.
+            //
+            //       L'utente potrà, a questo punto, essere sia loggato che non;
+            //        tutto dipende da come è avvenuto il flow di verifica dell'account.
+            //       Se l'utente sarà già loggato, rimandarlo alla home visualizzando un
+            //        messaggio di conferma di avvenuta verifica dell'account.
+            //       Viceversa, se l'utente non risulterà essere loggato, rimandarlo alla
+            //        pagina di login visualizzando, in ogni caso, il messaggio
+            //        di conferma di avvenuta verifica dell'account.
+            //
 
             hasFailed.value = false;
         }
