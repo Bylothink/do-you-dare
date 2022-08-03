@@ -96,20 +96,27 @@ export default new Config({
         },
         {
             id: 0x32,
-            name: "user_register",
-            path: "/user/register",
-            component: () => import("./pages/user/RegisterPage.vue"),
-            title: "Log up"
+            name: "user_reset-password",
+            path: "/user/reset-password",
+            component: () => import("./pages/user/ResetPasswordPage.vue"),
+            title: "Reset password"
         },
         {
             id: 0x33,
+            name: "user_register",
+            path: "/user/register",
+            component: () => import("./pages/user/RegisterPage.vue"),
+            title: "Register"
+        },
+        {
+            id: 0x34,
             name: "user_email-sent",
             path: "/user/email-sent",
             component: () => import("./pages/user/EmailSentPage.vue"),
             title: "Email sent"
         },
         {
-            id: 0x34,
+            id: 0x35,
             name: "user_validate",
             path: "/user/validate",
             component: () => import("./pages/user/ValidatePage.vue"),

@@ -30,7 +30,9 @@
             </span>
             <span style="display: block;">
                 Hai dimenticato la password?
-                <a href="#">Ripristinala</a>
+                <RouterLink :to="{ name: 'user_reset-password' }">
+                    Ripristinala
+                </RouterLink>
             </span>
             <AppButton class="form-control form-control-lg mt-3" type="submit">
                 <span class="fa-solid fa-key"></span>
@@ -73,7 +75,7 @@
             ui.alert({
                 type: "success",
                 icon: "circle-check",
-                message: `Authentication with user "${user.username}" successful!\n`,
+                message: `Authentication with user "${user.username}" successful!`,
                 timeout: 2500
             });
 

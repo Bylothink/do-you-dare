@@ -99,7 +99,7 @@
             ui.alert({
                 type: "success",
                 icon: "circle-check",
-                message: `Account "${user.username}" created successfully!\n`,
+                message: `Account "${user.username}" created successfully!`,
                 timeout: 2500
             });
 

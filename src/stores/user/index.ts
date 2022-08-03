@@ -63,6 +63,11 @@ export default defineStore("user", {
             this._setToken(response.authenticate.token);
             this._setInfo(response.authenticate.user);
         },
+        async requestResetPasswordMail(email: string): Promise<void>
+        {
+            return graphql.mutation(USER_SCHEMA, Mutations.REQUEST_RESET_PASSWORD_MAIL, { email });
+        },
+
         async register(registerArguments: Arguments.Register): Promise<void>
         {
             const response = await graphql.mutation<Responses.Register>(USER_SCHEMA, Mutations.REGISTER,
@@ -72,9 +77,9 @@ export default defineStore("user", {
             this._setInfo(response.register.user);
         },
 
-        verifyEmail(email: string, token: string): Promise<void>
+        verifyEmail(token: string): Promise<void>
         {
-            return graphql.mutation(USER_SCHEMA, Mutations.VERIFY_EMAIL, { email, token });
+            return graphql.mutation(USER_SCHEMA, Mutations.VERIFY_EMAIL, { token });
         },
         async renewToken(): Promise<void>
         {

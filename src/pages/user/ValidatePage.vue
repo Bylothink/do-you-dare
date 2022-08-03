@@ -63,15 +63,14 @@
     {
         try
         {
-            const email = route.query.email as string;
             const token = route.query.token as string;
 
-            if (!email || !token)
+            if (!token)
             {
-                throw new ValueException("One or both of the `email` or `token` URL query parameters are missing.");
+                throw new ValueException("The `token` URL query parameters is missing.");
             }
 
-            await user.verifyEmail(email, token);
+            await user.verifyEmail(token);
 
             // TODO: Differenziare la gestione della verifica dell'utente.
             //

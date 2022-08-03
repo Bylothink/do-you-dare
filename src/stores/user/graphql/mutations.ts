@@ -37,6 +37,9 @@ export const REGISTER = gql`mutation register($username: String!, $password: Str
     }
 }`;
 export const REQUEST_VALIDATION_MAIL = gql`mutation { requestValidationMail }`;
-export const VERIFY_EMAIL = gql`mutation verifyEmail($email: String!, $token: String!) {
-    verifyEmail(email: $email, token: $token)
+export const REQUEST_RESET_PASSWORD_MAIL = gql`mutation requestResetPasswordMail($email: String!) {
+    requestResetPasswordMail(email: $email)
+}`;
+export const VERIFY_EMAIL = gql`mutation verifyEmail($token: String!) {
+    verifyEmail(token: $token)
 }`;
