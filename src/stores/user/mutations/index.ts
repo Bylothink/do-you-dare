@@ -6,12 +6,5 @@ import RequestAccountValidationMail from "./request-account-validation-mail";
 import RequestPasswordResetMail from "./request-password-reset-mail";
 import VerifyEmail from "./verify-email";
 
-export {
-    Authenticate,
-    Disconnect,
-    Register,
-    RenewSession,
-    RequestAccountValidationMail,
-    RequestPasswordResetMail,
-    VerifyEmail
-};
+export { Authenticate, RequestPasswordResetMail, RenewSession, Disconnect };
+export { Register, RequestAccountValidationMail, VerifyEmail };
