@@ -65,7 +65,7 @@ export default new Config({
             name: "home",
             path: "/",
             component: () => import("./pages/HomePage.vue"),
-            title: "Home",
+            title: "Home page",
             meta: { topLevel: true }
         },
         {
@@ -73,7 +73,7 @@ export default new Config({
             name: "game",
             path: "/game",
             component: () => import("./pages/GamePage.vue"),
-            title: "Game",
+            title: "Play!",
             meta: { topLevel: true }
         },
         {
@@ -81,7 +81,7 @@ export default new Config({
             name: "user",
             path: "/user",
             component: () => import("./pages/UserPage.vue"),
-            title: "Profile",
+            title: "Your profile",
             meta: {
                 requiresAuth: true,
                 topLevel: true
@@ -96,31 +96,31 @@ export default new Config({
         },
         {
             id: 0x32,
-            name: "user_reset-password",
+            name: "user_password-reset",
             path: "/user/reset-password",
-            component: () => import("./pages/user/ResetPasswordPage.vue"),
-            title: "Reset password"
+            component: () => import("./pages/user/PasswordResetPage.vue"),
+            title: "Reset forgotten password"
         },
         {
-            id: 0x33,
+            id: 0x330,
             name: "user_register",
             path: "/user/register",
             component: () => import("./pages/user/RegisterPage.vue"),
             title: "Register"
         },
         {
-            id: 0x34,
-            name: "user_email-sent",
-            path: "/user/email-sent",
-            component: () => import("./pages/user/EmailSentPage.vue"),
-            title: "Email sent"
+            id: 0x331,
+            name: "user_register_email-sent",
+            path: "/user/register/email-sent",
+            component: () => import("./pages/user/register/EmailSentPage.vue"),
+            title: "Email sent!"
         },
         {
-            id: 0x35,
-            name: "user_validate",
-            path: "/user/validate",
-            component: () => import("./pages/user/ValidatePage.vue"),
-            title: "Validate"
+            id: 0x332,
+            name: "user_register_validate",
+            path: "/user/register/validate",
+            component: () => import("./pages/user/register/ValidatePage.vue"),
+            title: "Validate your account"
         },
         {
             id: 0x3f,

@@ -3,7 +3,7 @@ import Disconnect from "./disconnect";
 import Register from "./register";
 import RenewSession from "./renew-session";
 import RequestAccountValidationMail from "./request-account-validation-mail";
-import RequestResetPasswordMail from "./request-reset-password-mail";
+import RequestPasswordResetMail from "./request-password-reset-mail";
 import VerifyEmail from "./verify-email";
 
 export {
@@ -12,6 +12,6 @@ export {
     Register,
     RenewSession,
     RequestAccountValidationMail,
-    RequestResetPasswordMail,
+    RequestPasswordResetMail,
     VerifyEmail
 };
