@@ -2,18 +2,17 @@ import axios, { AxiosError } from "axios";
 import { DocumentNode, GraphQLError, print } from "graphql";
 
 import config from "@/config";
-
-import { GraphQLException, HandledException, NetworkException } from "@/core/exceptions";
-
 import useUiStore from "@/stores/ui";
 
-export interface GraphQLOptions
-{
-    jsonWebToken?: string;
-}
+import { GraphQLException, HandledException, NetworkException } from "./exceptions";
+
 export interface GraphQLConfigs
 {
     headers: Record<string, string>;
+}
+export interface GraphQLOptions
+{
+    jsonWebToken?: string;
 }
 
 export interface GraphQLResponse<T = unknown>
@@ -22,9 +21,9 @@ export interface GraphQLResponse<T = unknown>
     errors?: GraphQLError[];
 }
 
-export class GraphQLService
+export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
-    public static HandleError(error: unknown): unknown
+    protected static _HandleError(error: unknown): unknown
     {
         if (axios.isAxiosError(error))
         {
@@ -53,12 +52,12 @@ export class GraphQLService
 
     private readonly _endpoint: string;
 
-    public constructor(endpoint: string)
+    protected constructor(schema: string)
     {
-        this._endpoint = endpoint;
+        this._endpoint = `${config.backendUrl}/graphql/${schema}`;
     }
 
-    protected _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
+    private _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
     {
         const configs: GraphQLConfigs = { headers: { } };
 
@@ -70,15 +69,14 @@ export class GraphQLService
         return configs;
     }
 
-    public async query<R = unknown>(name: string, query: DocumentNode, options?: GraphQLOptions): Promise<R>
+    protected async _query(query: DocumentNode, options?: GraphQLOptions): Promise<R>
     {
-        const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query) };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<R>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -89,20 +87,18 @@ export class GraphQLService
         }
         catch (error)
         {
-            throw GraphQLService.HandleError(error);
+            throw GraphQLRequest._HandleError(error);
         }
     }
 
-    // eslint-disable-next-line max-len
-    public async mutation<R = unknown, V = unknown>(name: string, query: DocumentNode, variables: V, options?: GraphQLOptions) : Promise<R>
+    protected async _mutation(query: DocumentNode, variables: A, options?: GraphQLOptions) : Promise<R>
     {
-        const url = `${this._endpoint}/${name}/`;
         const data = { query: print(query), variables: variables };
         const configs = this._composeConfigs(options);
 
         try
         {
-            const response = await axios.post<GraphQLResponse<R>>(url, data, configs);
+            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
 
             if ((response.data.errors) || (!response.data.data))
             {
@@ -113,9 +109,7 @@ export class GraphQLService
         }
         catch (error)
         {
-            throw GraphQLService.HandleError(error);
+            throw GraphQLRequest._HandleError(error);
         }
     }
 }
-
-export default new GraphQLService(`${config.backendUrl}/graphql`);

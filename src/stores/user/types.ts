@@ -1,6 +1,3 @@
-export * as Arguments from "./arguments";
-export * as Responses from "./responses";
-
 export interface CookieAcknowledgement
 {
     value: boolean;

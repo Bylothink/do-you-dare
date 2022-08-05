@@ -3,14 +3,12 @@ import { defineStore } from "pinia";
 import { jsonLocalStorage } from "@/core/utils";
 import { UserData } from "@/models/user";
 
-import graphql from "@/services/graphql";
+import * as Mutations from "./mutations";
+import { RegisterData } from "./mutations/register";
 
-import { Mutations } from "./graphql";
-
-import UserState, { Arguments, CookieAcknowledgement, Responses } from "./types";
+import UserState, { CookieAcknowledgement } from "./types";
 
 const COOKIE_VERSION = 1;
-const USER_SCHEMA = "user";
 
 export default defineStore("user", {
     state: (): UserState => ({
@@ -57,55 +55,58 @@ export default defineStore("user", {
 
         async logIn(username: string, password: string): Promise<void>
         {
-            const response = await graphql.mutation<Responses.Authenticate>(USER_SCHEMA, Mutations.AUTHENTICATE,
-                { username, password });
+            const request = new Mutations.Authenticate({ username, password });
+            const response = await request.execute();
 
-            this._setToken(response.authenticate.token);
-            this._setInfo(response.authenticate.user);
+            this._setToken(response.token);
+            this._setInfo(response.user);
         },
-        async requestResetPasswordMail(email: string): Promise<void>
+        requestResetPasswordMail(email: string): Promise<void>
         {
-            return graphql.mutation(USER_SCHEMA, Mutations.REQUEST_RESET_PASSWORD_MAIL, { email });
+            const request = new Mutations.RequestResetPasswordMail({ email });
+
+            return request.execute();
         },
 
-        async register(registerArguments: Arguments.Register): Promise<void>
+        async register(args: RegisterData): Promise<void>
         {
-            const response = await graphql.mutation<Responses.Register>(USER_SCHEMA, Mutations.REGISTER,
-                registerArguments);
+            const request = new Mutations.Register(args);
+            const response = await request.execute();
 
-            this._setToken(response.register.token);
-            this._setInfo(response.register.user);
+            this._setToken(response.token);
+            this._setInfo(response.user);
         },
 
         verifyEmail(token: string): Promise<void>
         {
-            return graphql.mutation(USER_SCHEMA, Mutations.VERIFY_EMAIL, { token });
+            const request = new Mutations.VerifyEmail({ token });
+
+            return request.execute();
         },
         async renewToken(): Promise<void>
         {
-            const jsonWebToken = this.token;
-            const response = await graphql.query<Responses.RenewSession>(USER_SCHEMA, Mutations.RENEW_SESSION,
-                { jsonWebToken });
+            const request = new Mutations.RenewSession(this.token!);
+            const response = await request.execute();
 
-            this._setToken(response.renewSession.token);
-            this._setInfo(response.renewSession.user);
+            this._setToken(response.token);
+            this._setInfo(response.user);
         },
 
         requestNewValidationMail(): Promise<void>
         {
-            const jsonWebToken = this.token;
+            const request = new Mutations.RequestAccountValidationMail(this.token!);
 
-            return graphql.mutation(USER_SCHEMA, Mutations.REQUEST_VALIDATION_MAIL, { }, { jsonWebToken });
+            return request.execute();
         },
 
         logOut(): Promise<void>
         {
-            const jsonWebToken = this.token;
+            const request = new Mutations.Disconnect(this.token!);
 
             this._setToken();
             this._setInfo();
 
-            return graphql.mutation(USER_SCHEMA, Mutations.DISCONNECT, { }, { jsonWebToken });
+            return request.execute();
         }
     }
 });
