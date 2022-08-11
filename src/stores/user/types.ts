@@ -4,7 +4,7 @@ export interface CookieAcknowledgement
     version: number;
 }
 
-interface UserState
+export default interface UserState
 {
     cookieAck?: CookieAcknowledgement;
     token?: string;
@@ -12,5 +12,3 @@ interface UserState
     username?: string;
     email?: string;
 }
-
-export default UserState;

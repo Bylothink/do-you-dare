@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { GraphQLResponse } from "@/services/graphql";
+import { GraphQLResponse } from "@/core/graphql";
 
 import Exception from "./core";
 

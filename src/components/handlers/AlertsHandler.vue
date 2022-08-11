@@ -19,7 +19,7 @@
                                        :key="`btn-${index}`"
                                        small
                                        :theme="action.type"
-                                       @click="handleCallback.call(action, action.callback!)">
+                                       @click="handleCallback.call(action, action.callback)">
                                 {{ action.label }}
                             </AppButton>
                             <RouterLink v-else-if="action.location"

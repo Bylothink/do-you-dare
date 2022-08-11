@@ -2,16 +2,18 @@ import { RouteLocationRaw } from "vue-router";
 
 export type CallbackOptions = {
     callback: (this: AlertOptions) => void;
-    triggerClosing?: true;
+    location?: undefined;
+    triggerClosing: true;
 } | {
-    callback: (this: AlertOptions, done: () => Promise<void>) => void;
-    triggerClosing: false;
+    callback: (this: AlertOptions, done?: () => Promise<void>) => void;
+    location?: undefined;
+    triggerClosing?: false;
 };
-export interface LocationOptions
-{
+export type LocationOptions = {
+    callback?: undefined;
     location: RouteLocationRaw;
     triggerClosing?: boolean;
-}
+};
 export type ActionOptions = (CallbackOptions | LocationOptions) & {
     type: "primary" | "secondary" | "link";
     label: string;

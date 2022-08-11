@@ -58,7 +58,7 @@
 
         try
         {
-            await user.requestResetPasswordMail(email.value);
+            await user.requestPasswordResetMail(email.value);
 
             ui.alert({
                 type: "success",

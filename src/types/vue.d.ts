@@ -1,8 +1,9 @@
 declare module "*.vue"
 {
-    import type { ComponentOptions } from "vue";
+    import type { DefineComponent } from "vue";
 
-    const Component: ComponentOptions;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const Component: DefineComponent<{ }, { }, any>;
 
     export default Component;
 }

@@ -1,7 +1,8 @@
 <template>
-    <RouterView v-slot="{ Component, route }">
+    <RouterView v-slot="context">
         <Transition name="fade" mode="out-in">
-            <Component :is="Component" :key="route.meta.usePathKey ? route.path : undefined" />
+            <Component :is="context.Component"
+                       :key="context.route.meta.usePathKey ? context.route.path : undefined" />
         </Transition>
     </RouterView>
     <AlertsHandler />

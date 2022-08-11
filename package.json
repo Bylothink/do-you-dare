@@ -46,16 +46,16 @@
   "devDependencies": {
     "@byloth/eslint-config-typescript": "^2.3.0",
     "@byloth/eslint-config-vue": "^2.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.32.0",
-    "@typescript-eslint/parser": "^5.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
     "@vitejs/plugin-vue": "^3.0.1",
     "eslint": "^8.21.0",
     "eslint-plugin-vue": "^9.3.0",
-    "sass": "^1.54.3",
+    "sass": "^1.54.4",
     "typescript": "^4.7.4",
-    "vite": "^3.0.4",
+    "vite": "^3.0.5",
     "vue-eslint-parser": "^9.0.3",
-    "vue-tsc": "^0.39.4"
+    "vue-tsc": "^0.40.0"
   },
   "private": true
 }
