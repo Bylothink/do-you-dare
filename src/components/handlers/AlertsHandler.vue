@@ -111,7 +111,7 @@
         });
     };
 
-    type ActionCallback = (this: AlertOptions, done?: () => Promise<void>) => void;
+    type ActionCallback = (this: AlertOptions, close?: () => Promise<void>) => void;
     function handleCallback(this: ActionOptions, callback: ActionCallback): void
     {
         if ((this.triggerClosing === undefined) || (this.triggerClosing))

@@ -3,11 +3,11 @@ import { RouteLocationRaw } from "vue-router";
 export type CallbackOptions = {
     callback: (this: AlertOptions) => void;
     location?: undefined;
-    triggerClosing: true;
+    triggerClosing?: true;
 } | {
-    callback: (this: AlertOptions, done?: () => Promise<void>) => void;
+    callback: (this: AlertOptions, close?: () => Promise<void>) => void;
     location?: undefined;
-    triggerClosing?: false;
+    triggerClosing: false;
 };
 export type LocationOptions = {
     callback?: undefined;
