@@ -1,8 +1,6 @@
 <template>
-    <div class="alerts-handler container">
-        <Transition name="fade"
-                    mode="out-in"
-                    @after-leave="onClosed">
+    <BaseHandler v-slot="{ alert, close, isOpen }" class="alerts-handler container">
+        <Transition name="fade" mode="out-in">
             <AlertBox v-if="alert"
                       v-show="isOpen"
                       :theme="alert.type"
@@ -10,141 +8,34 @@
                       :icon="alert.icon"
                       :dismissable="alert.dismissable"
                       @dismiss="close">
-                <pre>{{ alert.message }}</pre>
+                <div v-if="alert.component">
+                    <Component :is="alert.component" :close="close" />
+                </div>
+                <pre v-else>{{ alert.message }}</pre>
                 <template v-if="alert.actions?.length">
                     <hr />
                     <div class="alert-actions">
-                        <template v-for="action, index in alert.actions">
-                            <AppButton v-if="action.callback"
-                                       :key="`btn-${index}`"
+                        <template v-for="action in alert.actions">
+                            <AppButton v-if="action.result"
+                                       :key="action.id"
                                        small
                                        :theme="action.type"
-                                       @click="handleCallback.call(action, action.callback)">
+                                       @click="close(action.result!())">
                                 {{ action.label }}
                             </AppButton>
-                            <RouterLink v-else-if="action.location"
-                                        v-slot="{ href, navigate }"
-                                        :key="`lnk-${index}`"
-                                        custom
-                                        :to="action.location">
-                                <AppButton small
-                                           :href="href"
-                                           :title="action.label"
-                                           :theme="action.type"
-                                           @click="handleNavigate.call(action, $event, navigate)">
-                                    {{ action.label }}
-                                </AppButton>
-                            </RouterLink>
                         </template>
                     </div>
                 </template>
             </AlertBox>
         </Transition>
-    </div>
+    </BaseHandler>
 </template>
 
 <script lang="ts" setup>
-    import { reactive, ref, computed } from "vue";
-    import { NavigationFailure } from "vue-router";
-
-    import { onAction } from "@/core/utils/store";
-    import { ActionOptions, AlertOptions } from "@/core/types";
-
-    import useUiStore from "@/stores/ui";
+    import { AlertHandler as BaseHandler } from "@byloth/vuert";
 
     import AlertBox from "@/components/ui/AlertBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
-
-    const ui = useUiStore();
-
-    const isOpen = ref(false);
-    const alerts = reactive<AlertOptions[]>([]);
-
-    const alert = computed((): AlertOptions | null =>
-    {
-        if (alerts.length)
-        {
-            return alerts[0];
-        }
-
-        return null;
-    });
-
-    let timeoutId: number | undefined;
-    const onClosed = ref<() => void>();
-
-    const open = () =>
-    {
-        isOpen.value = true;
-
-        if (alert.value?.timeout)
-        {
-            timeoutId = setTimeout(close, alert.value.timeout);
-        }
-    };
-    const close = () =>
-    {
-        if (timeoutId)
-        {
-            clearTimeout(timeoutId);
-
-            timeoutId = undefined;
-        }
-
-        isOpen.value = false;
-
-        return new Promise<void>((resolve, reject) =>
-        {
-            onClosed.value = () =>
-            {
-                alerts.shift();
-
-                if (alerts.length > 0)
-                {
-                    open();
-                }
-
-                resolve();
-
-                onClosed.value = undefined;
-            };
-        });
-    };
-
-    type ActionCallback = (this: AlertOptions, close?: () => Promise<void>) => void;
-    function handleCallback(this: ActionOptions, callback: ActionCallback): void
-    {
-        if ((this.triggerClosing === undefined) || (this.triggerClosing))
-        {
-            callback.call(alert.value!);
-            close();
-        }
-        else
-        {
-            callback.call(alert.value!, close);
-        }
-    }
-
-    type NavigationResult = Promise<void | NavigationFailure>;
-    function handleNavigate(this: ActionOptions, evt: MouseEvent, navigate: (e?: MouseEvent) => NavigationResult): void
-    {
-        navigate(evt);
-
-        if ((this.triggerClosing === undefined) || (this.triggerClosing))
-        {
-            close();
-        }
-    }
-
-    onAction(ui, "alert", (alert) =>
-    {
-        alerts.push(alert);
-
-        if (alerts.length === 1)
-        {
-            open();
-        }
-    });
 </script>
 
 <style lang="scss" scoped>

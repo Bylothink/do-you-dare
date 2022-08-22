@@ -11,44 +11,51 @@
 <script lang="ts" setup>
     import { onMounted } from "vue";
 
+    import { useVuert } from "@byloth/vuert";
+
     import { HandledException } from "./core/exceptions";
 
-    import useUiStore from "./stores/ui";
     import useUserStore from "./stores/user";
 
+    import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
-    const ui = useUiStore();
+    const vuert = useVuert();
     const user = useUserStore();
 
     const initialize = async () =>
     {
         if (user.hasAcceptedCookies === undefined)
         {
-            ui.alert({
+            const result = await vuert.emit({
                 type: "info",
-                icon: "cookie-bite",
-                title: "Cookie policy",
-                message: "This website uses cookies to ensure you get the best experience on our website.",
+                component: CookieAlert,
                 actions: [
                     {
+                        id: "cookie-accepted",
                         type: "primary",
                         label: "Accept",
-                        callback: () => user.acceptCookies()
+                        result: () => true
                     },
                     {
+                        id: "cookie-declined",
                         type: "secondary",
                         label: "Decline",
-                        callback: () => user.declineCookies()
-                    },
-                    {
-                        type: "link",
-                        label: "Learn more",
-                        location: { name: "about" }, // TODO: Dovrà rimandare alla pagina della cookie policy!,
-                        triggerClosing: false
+                        result: () => false
                     }
                 ]
             });
+
+            console.log(result);
+
+            // if (result)
+            // {
+            //     user.acceptCookies();
+            // }
+            // else
+            // {
+            //     user.declineCookies();
+            // }
         }
 
         if (user.isLogged)

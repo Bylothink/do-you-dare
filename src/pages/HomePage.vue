@@ -41,8 +41,9 @@
 </template>
 
 <script lang="ts" setup>
+    import { useVuert } from "@byloth/vuert";
+
     // import config from "@/config";
-    import useUiStore from "@/stores/ui";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
@@ -52,10 +53,10 @@
 
     // const pages = config.pages.filter((page) => page.name !== "home");
 
-    const ui = useUiStore();
+    const vuert = useVuert();
     const underConstruction = () =>
     {
-        ui.alert({
+        vuert.emit({
             type: "info",
             icon: "screwdriver-wrench",
             title: "We still working on it!",
