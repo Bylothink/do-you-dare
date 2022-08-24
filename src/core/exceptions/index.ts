@@ -1,4 +1,5 @@
-import Exception, { HandledException } from "./core";
+import { Exception } from "@byloth/exceptions";
+
 import GraphQLException from "./graphql";
 
 export class NetworkException extends Exception
@@ -16,5 +17,4 @@ export class ValueException extends Exception
     }
 }
 
-export { GraphQLException, HandledException };
-export default Exception;
+export { GraphQLException };

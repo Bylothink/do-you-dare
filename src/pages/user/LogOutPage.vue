@@ -5,14 +5,14 @@
 <script lang="ts" setup>
     import { useRouter } from "vue-router";
 
-    import { HandledException } from "@/core/exceptions";
+    import { handle } from "@byloth/exceptions";
+    import { useVuert } from "@byloth/vuert";
 
-    import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
 
     const router = useRouter();
+    const vuert = useVuert();
 
-    const ui = useUiStore();
     const user = useUserStore();
 
     const executeLogout = () =>
@@ -20,16 +20,13 @@
         if (user.isLogged)
         {
             user.logOut()
-                .then(() => ui.alert({
+                .then(() => vuert.emit({
                     type: "success",
                     icon: "circle-check",
                     message: "Successfully logged out!",
                     timeout: 2500
                 }))
-                .catch((reason) =>
-                {
-                    HandledException.CatchUnhandled(reason);
-                });
+                .catch(handle);
         }
 
         router.replace({ name: "home" });

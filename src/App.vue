@@ -11,9 +11,8 @@
 <script lang="ts" setup>
     import { onMounted } from "vue";
 
+    import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
-
-    import { HandledException } from "./core/exceptions";
 
     import useUserStore from "./stores/user";
 
@@ -29,6 +28,8 @@
         {
             const result = await vuert.emit({
                 type: "info",
+                icon: "cookie-bite",
+                title: "Cookie policy",
                 component: CookieAlert,
                 actions: [
                     {
@@ -46,16 +47,14 @@
                 ]
             });
 
-            console.log(result);
-
-            // if (result)
-            // {
-            //     user.acceptCookies();
-            // }
-            // else
-            // {
-            //     user.declineCookies();
-            // }
+            if (result)
+            {
+                user.acceptCookies();
+            }
+            else
+            {
+                user.declineCookies();
+            }
         }
 
         if (user.isLogged)
@@ -66,7 +65,7 @@
             }
             catch (error)
             {
-                HandledException.CatchUnhandled(error);
+                handle(error);
             }
         }
     };

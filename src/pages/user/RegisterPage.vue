@@ -52,9 +52,9 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { HandledException } from "@/core/exceptions";
+    import { handle } from "@byloth/exceptions";
+    import { useVuert } from "@byloth/vuert";
 
-    import useUiStore from "@/stores/ui";
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
@@ -62,8 +62,8 @@
     import TextBox from "@/components/ui/TextBox.vue";
 
     const router = useRouter();
+    const vuert = useVuert();
 
-    const ui = useUiStore();
     const user = useUserStore();
 
     const username = ref("");
@@ -75,8 +75,8 @@
     {
         if (password.value !== checkPassword.value)
         {
-            ui.alert({
-                type: "danger",
+            vuert.emit({
+                type: "error",
                 icon: "circle-xmark",
                 title: "Password mismatch!",
                 message: "The passwords you entered do not match.",
@@ -96,7 +96,7 @@
         {
             await user.register(registerPayload);
 
-            ui.alert({
+            vuert.emit({
                 type: "success",
                 icon: "circle-check",
                 message: `Account "${user.username}" created successfully!`,
@@ -107,19 +107,20 @@
         }
         catch (error)
         {
-            HandledException.CatchUnhandled(error, (exc) =>
-            {
-                ui.alert({
-                    type: "danger",
-                    icon: "circle-xmark",
-                    title: "Account creation failed!",
-                    message: exc.message,
-                    dismissable: true
-                });
+            handle(error)
+                .do((exc) =>
+                {
+                    vuert.emit({
+                        type: "error",
+                        icon: "circle-xmark",
+                        title: "Account creation failed!",
+                        message: `${exc}`,
+                        dismissable: true
+                    });
 
-                // eslint-disable-next-line no-console
-                console.error(exc);
-            });
+                    // eslint-disable-next-line no-console
+                    console.error(exc);
+                });
         }
     };
 </script>

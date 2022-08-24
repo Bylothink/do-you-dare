@@ -35,8 +35,9 @@
 
     import { computed, ref } from "vue";
 
-    import { HandledException } from "@/core/exceptions";
-    import useUiStore from "@/stores/ui";
+    import { handle } from "@byloth/exceptions";
+    import { useVuert } from "@byloth/vuert";
+
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
@@ -44,7 +45,7 @@
 
     const REQUEST_DELAY = 60;
 
-    const ui = useUiStore();
+    const vuert = useVuert();
     const user = useUserStore();
 
     const email = ref("");
@@ -60,7 +61,7 @@
         {
             await user.requestPasswordResetMail(email.value);
 
-            ui.alert({
+            vuert.emit({
                 type: "success",
                 icon: "circle-check",
                 message: "Successfully requested a new email to reset your password!",
@@ -69,7 +70,7 @@
         }
         catch (error)
         {
-            HandledException.CatchUnhandled(error);
+            handle(error);
 
             timeRemaining.value = 0;
         }

@@ -1,11 +1,12 @@
 import { App, ComponentPublicInstance, Plugin } from "vue";
 
-import { AlertOptions } from "@/core/types";
+import Vuert from "@byloth/vuert";
 
-import useUiStore from "@/stores/ui";
+// FIXME: Correggere questa esportazione!
+import { SimpleAlert } from "@byloth/vuert/src/types/alerts";
 
-const ERROR_ALERT: AlertOptions = {
-    type: "danger",
+const ERROR_ALERT: SimpleAlert = {
+    type: "error",
     icon: "circle-xmark",
     title: "On, no! 😱",
     message: "A mysterious error of an unknown nature just interrupted" +
@@ -20,9 +21,9 @@ const errorsHandler: Plugin = {
     {
         app.config.errorHandler = (error: unknown, instance: ComponentPublicInstance | null, info: string) =>
         {
-            const ui = useUiStore();
+            const vuert: Vuert = app.config.globalProperties.$vuert;
 
-            ui.alert(ERROR_ALERT);
+            vuert.emit(ERROR_ALERT);
 
             // eslint-disable-next-line no-console
             console.error(error);
@@ -30,9 +31,9 @@ const errorsHandler: Plugin = {
 
         window.addEventListener("unhandledrejection", (evt: PromiseRejectionEvent) =>
         {
-            const ui = useUiStore();
+            const vuert: Vuert = app.config.globalProperties.$vuert;
 
-            ui.alert(ERROR_ALERT);
+            vuert.emit(ERROR_ALERT);
         });
     }
 };

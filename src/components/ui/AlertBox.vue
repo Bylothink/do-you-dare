@@ -48,7 +48,8 @@
 
     const classes = computed((): Record<string, boolean> => ({
         "alert-dismissible": props.dismissable,
-        "flex-vertical": true
+        "flex-horizontal": !props.title,
+        "flex-vertical": !!props.title
     }));
 </script>
 

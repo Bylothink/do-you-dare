@@ -45,7 +45,9 @@
     import { ref } from "vue";
     import { useRoute } from "vue-router";
 
-    import { HandledException, ValueException } from "@/core/exceptions";
+    import { handle } from "@byloth/exceptions";
+
+    import { ValueException } from "@/core/exceptions";
 
     import useUserStore from "@/stores/user";
 
@@ -87,7 +89,7 @@
         }
         catch (error)
         {
-            HandledException.CatchUnhandled(error);
+            handle(error);
         }
 
         isValidating.value = false;

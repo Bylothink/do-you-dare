@@ -12,7 +12,8 @@
 <script lang="ts" setup>
     import { ref, onMounted } from "vue";
 
-    import { HandledException } from "@/core/exceptions";
+    import { handle } from "@byloth/exceptions";
+
     import { Card } from "@/models";
 
     import useGameStore from "@/stores/game";
@@ -31,7 +32,7 @@
         }
         catch (error)
         {
-            HandledException.CatchUnhandled(error);
+            handle(error);
         }
     };
     const createNewDraw = async () =>
@@ -42,7 +43,7 @@
         }
         catch (error)
         {
-            HandledException.CatchUnhandled(error);
+            handle(error);
         }
     };
 

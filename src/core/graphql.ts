@@ -1,10 +1,12 @@
 import axios, { AxiosError } from "axios";
 import { DocumentNode, GraphQLError, print } from "graphql";
 
-import config from "@/config";
-import useUiStore from "@/stores/ui";
+import { HandledException } from "@byloth/exceptions";
+import { useVuert } from "@byloth/vuert";
 
-import { GraphQLException, HandledException, NetworkException } from "./exceptions";
+import config from "@/config";
+
+import { GraphQLException, NetworkException } from "./exceptions";
 
 export interface GraphQLConfigs
 {
@@ -31,10 +33,10 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             if (!axiosError.response)
             {
                 const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
-                const ui = useUiStore();
+                const vuert = useVuert();
 
-                ui.alert({
-                    type: "danger",
+                vuert.emit({
+                    type: "error",
                     icon: "link-slash",
                     title: "Network error!",
                     message: `${exc.message} Please, try again later.`,

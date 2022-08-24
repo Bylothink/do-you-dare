@@ -1,7 +1,9 @@
 import { GraphQLError } from "graphql";
 import { GraphQLResponse } from "@/core/graphql";
 
-import Exception from "./core";
+// TODO: Riordinare in maniera sensata gli import...
+
+import { Exception } from "@byloth/exceptions";
 
 const PUNCTUATION_REGEX = /[.!?]$/;
 
