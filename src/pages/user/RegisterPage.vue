@@ -103,7 +103,7 @@
                 timeout: 2500
             });
 
-            router.replace({ name: "user_email-sent" });
+            router.replace({ name: "user_register_email-sent" });
         }
         catch (error)
         {

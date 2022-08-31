@@ -1,42 +1,28 @@
 <template>
-    <CenteredLayout id="log-in">
+    <CenteredLayout id="change-password">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Log in
+            Change forgotten password
         </h3>
         <form class="mx-3" @submit.prevent="onSubmit">
-            <TextBox id="username"
-                     v-model:value="username"
-                     class="mb-3"
-                     label="Username"
-                     type="text"
-                     autocomplete="username"
-                     required />
             <TextBox id="password"
                      v-model:value="password"
                      class="mb-3"
                      label="Password"
                      type="password"
-                     autocomplete="current-password"
+                     autocomplete="new-password"
                      required />
-            <input type="checkbox" />
-            Ricordami su questo dispositivo
+            <TextBox id="check-password"
+                     v-model:value="checkPassword"
+                     class="mb-3"
+                     label="Confirm password"
+                     type="password"
+                     autocomplete="new-password"
+                     required />
             <hr />
-            <span style="display: block;">
-                Non hai ancora un account?
-                <RouterLink :to="{ name: 'user_register' }">
-                    Registrati
-                </RouterLink>
-            </span>
-            <span style="display: block;">
-                Hai dimenticato la password?
-                <RouterLink :to="{ name: 'user_password-reset' }">
-                    Ripristinala
-                </RouterLink>
-            </span>
             <AppButton class="form-control form-control-lg mt-3" type="submit">
                 <span class="fa-solid fa-key"></span>
-                Log in
+                Change
             </AppButton>
         </form>
     </CenteredLayout>
@@ -49,6 +35,8 @@
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
+    import { ValueException } from "@/core/exceptions";
+
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
@@ -60,26 +48,49 @@
 
     const user = useUserStore();
 
-    const username = ref("");
     const password = ref("");
+    const checkPassword = ref("");
+
+    let token: string;
+
+    const checkToken = () =>
+    {
+        const route = router.currentRoute.value;
+
+        token = route.query.token as string;
+        if (!token)
+        {
+            throw new ValueException("The `token` URL query parameters is missing.");
+        }
+    };
 
     const onSubmit = async () =>
     {
-        const route = router.currentRoute.value;
-        const nextPath = route.query.next as string || "/";
+        if (password.value !== checkPassword.value)
+        {
+            vuert.emit({
+                type: "error",
+                icon: "circle-xmark",
+                title: "Password mismatch!",
+                message: "The passwords you entered do not match.",
+                dismissable: true
+            });
+
+            return;
+        }
 
         try
         {
-            await user.logIn(username.value, password.value);
+            await user.changePassword(token, password.value);
 
             vuert.emit({
                 type: "success",
                 icon: "circle-check",
-                message: `Authentication with user "${user.username}" successfully!`,
+                message: `Password changed successfully!`,
                 timeout: 2500
             });
 
-            router.replace({ path: nextPath });
+            router.replace({ name: "user_log-in" });
         }
         catch (error)
         {
@@ -89,7 +100,7 @@
                     vuert.emit({
                         type: "error",
                         icon: "circle-xmark",
-                        title: "Authentication failed!",
+                        title: "Password change failed!",
                         message: `${exc}`,
                         dismissable: true
                     });
@@ -99,13 +110,17 @@
                 });
         }
     };
+
+    checkToken();
 </script>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    #log-in > .form-table > .form-row > .form-cell
+    #change-password > .form-table > .form-row > .form-cell
     {
+        // TODO: Servono ancora, queste regole?
+        //
         & > span
         {
             display: block;

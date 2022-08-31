@@ -3,7 +3,7 @@
         <Transition name="fade" mode="out-in">
             <AlertBox v-if="alert"
                       v-show="isOpen"
-                      :theme="alert.type"
+                      :theme="getTheme(alert.type)"
                       :title="alert.title"
                       :icon="alert.icon"
                       :dismissable="alert.dismissable"
@@ -36,6 +36,8 @@
 
     import AlertBox from "@/components/ui/AlertBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+
+    const getTheme = (type: string) => (type != "error") ? type : "danger";
 </script>
 
 <style lang="scss" scoped>

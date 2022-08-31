@@ -7,7 +7,9 @@ export const jsonSessionStorage = new JsonStorage(window.sessionStorage);
 
 export function nextFrame(): Promise<void>
 {
-    return new Promise<void>((resolve, reject) => requestAnimationFrame(() => resolve()));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return new Promise<void>((resolve, reject) => requestAnimationFrame(resolve));
 }
 
 export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void

@@ -1,6 +1,5 @@
 import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 
-// SMELLS: interface PageOptions extends RouteRecordRaw
 export type PageOptions = RouteRecordRaw &
 {
     id: number;
@@ -101,22 +100,30 @@ export default new Config({
             component: () => import("./pages/user/PasswordResetPage.vue"),
             title: "Reset forgotten password"
         },
+        // TODO: Sistemare queste pagine!
         {
-            id: 0x330,
+            id: 0x33,
+            name: "user_change-password",
+            path: "/user/change-password",
+            component: () => import("./pages/user/ChangePasswordPage.vue"),
+            title: "Change forgotten password"
+        },
+        {
+            id: 0x340,
             name: "user_register",
             path: "/user/register",
             component: () => import("./pages/user/RegisterPage.vue"),
             title: "Register"
         },
         {
-            id: 0x331,
+            id: 0x341,
             name: "user_register_email-sent",
             path: "/user/register/email-sent",
             component: () => import("./pages/user/register/EmailSentPage.vue"),
             title: "Email sent!"
         },
         {
-            id: 0x332,
+            id: 0x342,
             name: "user_register_validate",
             path: "/user/register/validate",
             component: () => import("./pages/user/register/ValidatePage.vue"),

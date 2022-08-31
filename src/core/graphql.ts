@@ -56,7 +56,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
 
     protected constructor(schema: string)
     {
-        this._endpoint = `${config.backendUrl}/graphql/${schema}`;
+        this._endpoint = `${config.backendUrl}/graphql/${schema}/`;
     }
 
     private _composeConfigs(options?: GraphQLOptions): GraphQLConfigs
