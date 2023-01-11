@@ -6,7 +6,7 @@
                       :theme="getTheme(alert.type)"
                       :title="alert.title"
                       :icon="alert.icon"
-                      :dismissable="alert.dismissable"
+                      :dismissible="alert.dismissible"
                       @dismiss="close">
                 <div v-if="alert.component">
                     <Component :is="alert.component" :close="close" />

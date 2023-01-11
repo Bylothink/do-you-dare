@@ -15,7 +15,7 @@
               :class="`fa-${icon}`">
         </span>
         <slot></slot>
-        <button v-if="dismissable"
+        <button v-if="dismissible"
                 class="btn btn-close"
                 aria-label="Close"
                 type="button"
@@ -39,7 +39,7 @@
             type: String
         },
 
-        dismissable: {
+        dismissible: {
             default: false,
             type: Boolean
         }
@@ -47,7 +47,7 @@
     defineEmits(["dismiss"]);
 
     const classes = computed((): Record<string, boolean> => ({
-        "alert-dismissible": props.dismissable,
+        "alert-dismissible": props.dismissible,
         "flex-horizontal": !props.title,
         "flex-vertical": !!props.title
     }));

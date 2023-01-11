@@ -71,33 +71,32 @@
         try
         {
             await user.logIn(username.value, password.value);
-
-            vuert.emit({
-                type: "success",
-                icon: "circle-check",
-                message: `Authentication with user "${user.username}" successfully!`,
-                timeout: 2500
-            });
-
-            router.replace({ path: nextPath });
         }
         catch (error)
         {
-            handle(error)
-                .do((exc) =>
-                {
-                    vuert.emit({
-                        type: "error",
-                        icon: "circle-xmark",
-                        title: "Authentication failed!",
-                        message: `${exc}`,
-                        dismissable: true
-                    });
+            return handle(error, (exc) =>
+            {
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                    // eslint-disable-next-line no-console
-                    console.error(exc);
+                vuert.emit({
+                    type: "error",
+                    icon: "circle-xmark",
+                    title: "Authentication failed!",
+                    message: `${exc}`,
+                    dismissible: true
                 });
+            });
         }
+
+        vuert.emit({
+            type: "success",
+            icon: "circle-check",
+            message: `Authentication with user "${user.username}" successfully!`,
+            timeout: 2500
+        });
+
+        router.replace({ path: nextPath });
     };
 </script>
 

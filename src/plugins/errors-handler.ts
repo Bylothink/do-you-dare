@@ -1,11 +1,9 @@
 import { App, ComponentPublicInstance, Plugin } from "vue";
 
 import Vuert from "@byloth/vuert";
+import type { DismissibleAlert } from "@byloth/vuert";
 
-// FIXME: Correggere questa esportazione!
-import { SimpleAlert } from "@byloth/vuert/src/types/alerts";
-
-const ERROR_ALERT: SimpleAlert = {
+const ERROR_ALERT: DismissibleAlert = {
     type: "error",
     icon: "circle-xmark",
     title: "On, no! 😱",
@@ -13,7 +11,8 @@ const ERROR_ALERT: SimpleAlert = {
         " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +
         "As you may have already guessed, whatever you were doing" +
         " may have stopped working as intended; reload the page.",
-    dismissable: true
+
+    dismissible: true
 };
 
 const errorsHandler: Plugin = {

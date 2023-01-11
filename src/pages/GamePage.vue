@@ -26,25 +26,13 @@
 
     const getNewCard = async () =>
     {
-        try
-        {
-            card.value = await game.getRandomCard();
-        }
-        catch (error)
-        {
-            handle(error);
-        }
+        card.value = await game.getRandomCard()
+            .catch(handle);
     };
-    const createNewDraw = async () =>
+    const createNewDraw = () =>
     {
-        try
-        {
-            await game.cardDrawn(card.value!.id);
-        }
-        catch (error)
-        {
-            handle(error);
-        }
+        return game.cardDrawn(card.value!.id)
+            .catch(handle);
     };
 
     onMounted(getNewCard);

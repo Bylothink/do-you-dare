@@ -68,47 +68,44 @@
     {
         if (password.value !== checkPassword.value)
         {
-            vuert.emit({
+            return vuert.emit({
                 type: "error",
                 icon: "circle-xmark",
                 title: "Password mismatch!",
                 message: "The passwords you entered do not match.",
-                dismissable: true
+                dismissible: true
             });
-
-            return;
         }
 
         try
         {
             await user.changePassword(token, password.value);
-
-            vuert.emit({
-                type: "success",
-                icon: "circle-check",
-                message: `Password changed successfully!`,
-                timeout: 2500
-            });
-
-            router.replace({ name: "user_log-in" });
         }
         catch (error)
         {
-            handle(error)
-                .do((exc) =>
-                {
-                    vuert.emit({
-                        type: "error",
-                        icon: "circle-xmark",
-                        title: "Password change failed!",
-                        message: `${exc}`,
-                        dismissable: true
-                    });
+            return handle(error, (exc) =>
+            {
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                    // eslint-disable-next-line no-console
-                    console.error(exc);
+                vuert.emit({
+                    type: "error",
+                    icon: "circle-xmark",
+                    title: "Password change failed!",
+                    message: `${exc}`,
+                    dismissible: true
                 });
+            });
         }
+
+        vuert.emit({
+            type: "success",
+            icon: "circle-check",
+            message: `Password changed successfully!`,
+            timeout: 2500
+        });
+
+        router.replace({ name: "user_log-in" });
     };
 
     checkToken();

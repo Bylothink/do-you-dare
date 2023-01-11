@@ -80,7 +80,7 @@
                 icon: "circle-xmark",
                 title: "Password mismatch!",
                 message: "The passwords you entered do not match.",
-                dismissable: true
+                dismissible: true
             });
 
             return;
@@ -115,7 +115,7 @@
                         icon: "circle-xmark",
                         title: "Account creation failed!",
                         message: `${exc}`,
-                        dismissable: true
+                        dismissible: true
                     });
 
                     // eslint-disable-next-line no-console

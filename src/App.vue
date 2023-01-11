@@ -33,16 +33,14 @@
                 component: CookieAlert,
                 actions: [
                     {
-                        id: "cookie-accepted",
                         type: "primary",
                         label: "Accept",
-                        result: () => true
+                        callback: () => true
                     },
                     {
-                        id: "cookie-declined",
                         type: "secondary",
                         label: "Decline",
-                        result: () => false
+                        callback: () => false
                     }
                 ]
             });
@@ -59,14 +57,8 @@
 
         if (user.isLogged)
         {
-            try
-            {
-                await user.renewToken();
-            }
-            catch (error)
-            {
-                handle(error);
-            }
+            user.renewToken()
+                .catch(handle);
         }
     };
 

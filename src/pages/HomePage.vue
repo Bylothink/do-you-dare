@@ -64,7 +64,7 @@
                 "Please, come back and try again later.\n\n" +
                 "--\n" +
                 `The "Do you Dare?" team. ❤`,
-            dismissable: true
+            dismissible: true
         });
     };
 </script>

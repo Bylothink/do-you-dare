@@ -40,7 +40,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
                     icon: "link-slash",
                     title: "Network error!",
                     message: `${exc.message} Please, try again later.`,
-                    dismissable: true
+                    dismissible: true
                 });
 
                 return new HandledException(exc);
