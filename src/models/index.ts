@@ -1,4 +1,4 @@
-import Card from "./card";
-import User from "./user";
+import Card from "./card.js";
+import User from "./user.js";
 
 export { Card, User };

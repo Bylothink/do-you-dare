@@ -18,16 +18,13 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    // "preserveValueImports": true,
+    "preserveValueImports": true,
     "experimentalDecorators": true,
-    // "importsNotUsedAsValues": "error",
+    "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
-    "types": [
-      "vite/client"
-
-    ]
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

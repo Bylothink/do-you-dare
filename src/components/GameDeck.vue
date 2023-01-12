@@ -23,10 +23,10 @@
     import { computed, reactive, ref } from "vue";
     import { promiseTimeout } from "@vueuse/core";
 
-    import { nextFrame } from "@/core/utils";
-    import { DragEvent } from "@/core/types";
+    import { nextFrame } from "@/core/utils/index.js";
+    import type { DragEvent } from "@/core/types.js";
 
-    import { Card } from "@/models";
+    import { Card } from "@/models/index.js";
 
     import GameCard from "./GameCard.vue";
     import InteractiveCard from "./InteractiveCard.vue";

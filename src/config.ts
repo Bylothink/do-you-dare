@@ -1,4 +1,4 @@
-import { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
+import type { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 
 export type PageOptions = RouteRecordRaw &
 {

@@ -14,9 +14,9 @@
 
     import { handle } from "@byloth/exceptions";
 
-    import { Card } from "@/models";
+    import type { Card } from "@/models/index.js";
 
-    import useGameStore from "@/stores/game";
+    import useGameStore from "@/stores/game/index.js";
 
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
@@ -26,12 +26,22 @@
 
     const getNewCard = async () =>
     {
-        card.value = await game.getRandomCard()
-            .catch(handle);
+        let newCard: Card | undefined = undefined;
+
+        try
+        {
+            newCard = await game.getRandomCard();
+        }
+        catch (error)
+        {
+            handle(error);
+        }
+
+        card.value = newCard;
     };
     const createNewDraw = () =>
     {
-        return game.cardDrawn(card.value!.id)
+        game.cardDrawn(card.value!.id)
             .catch(handle);
     };
 

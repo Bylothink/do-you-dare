@@ -1,5 +1,5 @@
 <template>
-    <BaseHandler v-slot="{ alert, close, isOpen }" class="alerts-handler container">
+    <BaseHandler v-slot="{ alert, isOpen, resolve }" class="alerts-handler container">
         <Transition name="fade" mode="out-in">
             <AlertBox v-if="alert"
                       v-show="isOpen"
@@ -7,23 +7,21 @@
                       :title="alert.title"
                       :icon="alert.icon"
                       :dismissible="alert.dismissible"
-                      @dismiss="close">
+                      @dismiss="resolve">
                 <div v-if="alert.component">
-                    <Component :is="alert.component" :close="close" />
+                    <Component :is="alert.component" :close="resolve" />
                 </div>
                 <pre v-else>{{ alert.message }}</pre>
                 <template v-if="alert.actions?.length">
                     <hr />
                     <div class="alert-actions">
-                        <template v-for="action in alert.actions">
-                            <AppButton v-if="action.result"
-                                       :key="action.id"
-                                       small
-                                       :theme="action.type"
-                                       @click="close(action.result!())">
-                                {{ action.label }}
-                            </AppButton>
-                        </template>
+                        <AppButton v-for="action in alert.actions"
+                                   :key="action.id"
+                                   :theme="action.type"
+                                   small
+                                   @click="resolve(action)">
+                            {{ action.label }}
+                        </AppButton>
                     </div>
                 </template>
             </AlertBox>

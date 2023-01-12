@@ -14,7 +14,7 @@
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "./stores/user";
+    import useUserStore from "./stores/user/index.js";
 
     import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
@@ -57,8 +57,14 @@
 
         if (user.isLogged)
         {
-            user.renewToken()
-                .catch(handle);
+            try
+            {
+                user.renewToken();
+            }
+            catch (error)
+            {
+                handle(error);
+            }
         }
     };
 

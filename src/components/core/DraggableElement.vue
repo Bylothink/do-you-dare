@@ -13,8 +13,8 @@
     import { computed, reactive, ref } from "vue";
     import { useEventListener } from "@vueuse/core";
 
-    import { DragEvent, Point } from "@/core/types";
-    import { syncWithFrame } from "@/core/utils";
+    import type { DragEvent, Point } from "@/core/types.js";
+    import { syncWithFrame } from "@/core/utils/index.js";
 
     const props = defineProps({
         is: {

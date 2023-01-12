@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 
-import Card from "@/models/card";
+import Card from "@/models/card.js";
 
-import useUserStore from "../user";
-import * as Mutations from "./mutations";
-import * as Queries from "./queries";
+import useUserStore from "../user/index.js";
+import * as Mutations from "./mutations/index.js";
+import * as Queries from "./queries/index.js";
 
 export default defineStore("game", {
     state: () => ({ }),

@@ -1,6 +1,6 @@
 import { onScopeDispose } from "vue";
 
-import JsonStorage from "./json-storage";
+import JsonStorage from "./json-storage.js";
 
 export const jsonLocalStorage = new JsonStorage(window.localStorage);
 export const jsonSessionStorage = new JsonStorage(window.sessionStorage);

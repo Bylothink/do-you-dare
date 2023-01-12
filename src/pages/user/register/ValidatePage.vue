@@ -45,11 +45,9 @@
     import { ref } from "vue";
     import { useRoute } from "vue-router";
 
-    import { handle } from "@byloth/exceptions";
+    import { handle, ValueException } from "@byloth/exceptions";
 
-    import { ValueException } from "@/core/exceptions";
-
-    import useUserStore from "@/stores/user";
+    import useUserStore from "@/stores/user/index.js";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import SuspenseLayout from "@/layouts/SuspenseLayout.vue";
@@ -63,15 +61,14 @@
 
     const validate = async () =>
     {
+        const token = route.query.token as string;
+        if (!token)
+        {
+            throw new ValueException("The `token` URL query parameters is missing.");
+        }
+
         try
         {
-            const token = route.query.token as string;
-
-            if (!token)
-            {
-                throw new ValueException("The `token` URL query parameters is missing.");
-            }
-
             await user.verifyEmail(token);
 
             // TODO: Differenziare la gestione della verifica dell'utente.

@@ -38,7 +38,7 @@
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user";
+    import useUserStore from "@/stores/user/index.js";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
@@ -60,20 +60,20 @@
         try
         {
             await user.requestPasswordResetMail(email.value);
-
-            vuert.emit({
-                type: "success",
-                icon: "circle-check",
-                message: "Successfully requested a new email to reset your password!",
-                timeout: 2500
-            });
         }
         catch (error)
         {
-            handle(error);
-
             timeRemaining.value = 0;
+
+            return handle(error);
         }
+
+        vuert.emit({
+            type: "success",
+            icon: "circle-check",
+            message: "Successfully requested a new email to reset your password!",
+            timeout: 2500
+        });
     };
     const startCountdown = () =>
     {

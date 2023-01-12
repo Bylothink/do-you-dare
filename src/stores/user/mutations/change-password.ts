@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 
-import { GraphQLRequest } from "@/core";
+import { GraphQLRequest } from "@/core/index.js";
 
 export interface ChangePasswordData
 {

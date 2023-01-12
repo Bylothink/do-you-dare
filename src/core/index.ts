@@ -1,3 +1,3 @@
-import GraphQLRequest from "./graphql";
+import GraphQLRequest from "./graphql.js";
 
 export { GraphQLRequest };

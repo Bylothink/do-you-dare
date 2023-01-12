@@ -55,7 +55,7 @@
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user";
+    import useUserStore from "@/stores/user/index.js";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
@@ -95,33 +95,32 @@
         try
         {
             await user.register(registerPayload);
-
-            vuert.emit({
-                type: "success",
-                icon: "circle-check",
-                message: `Account "${user.username}" created successfully!`,
-                timeout: 2500
-            });
-
-            router.replace({ name: "user_register_email-sent" });
         }
         catch (error)
         {
-            handle(error)
-                .do((exc) =>
-                {
-                    vuert.emit({
-                        type: "error",
-                        icon: "circle-xmark",
-                        title: "Account creation failed!",
-                        message: `${exc}`,
-                        dismissible: true
-                    });
+            return handle(error, (exc) =>
+            {
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                    // eslint-disable-next-line no-console
-                    console.error(exc);
+                vuert.emit({
+                    type: "error",
+                    icon: "circle-xmark",
+                    title: "Account creation failed!",
+                    message: `${exc}`,
+                    dismissible: true
                 });
+            });
         }
+
+        vuert.emit({
+            type: "success",
+            icon: "circle-check",
+            message: `Account "${user.username}" created successfully!`,
+            timeout: 2500
+        });
+
+        router.replace({ name: "user_register_email-sent" });
     };
 </script>
 

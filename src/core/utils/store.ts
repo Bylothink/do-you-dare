@@ -1,5 +1,5 @@
-import { Store } from "pinia";
 import { onScopeDispose } from "vue";
+import type { Store } from "pinia";
 
 // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
 type ActionsTree<T> = T extends Store<infer Id, infer S, infer G, infer A> ? A : never;

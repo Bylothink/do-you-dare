@@ -1,3 +1,3 @@
-import RandomCard from "./random-card";
+import RandomCard from "./random-card.js";
 
 export { RandomCard };

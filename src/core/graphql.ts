@@ -1,12 +1,14 @@
 import axios, { AxiosError } from "axios";
-import { DocumentNode, GraphQLError, print } from "graphql";
 
-import { HandledException } from "@byloth/exceptions";
+import { GraphQLError, print } from "graphql";
+import type { DocumentNode } from "graphql";
+
+import { HandledException, NetworkException } from "@byloth/exceptions";
 import { useVuert } from "@byloth/vuert";
 
-import config from "@/config";
+import config from "@/config.js";
 
-import { GraphQLException, NetworkException } from "./exceptions";
+import { GraphQLException } from "./exceptions/index.js";
 
 export interface GraphQLConfigs
 {

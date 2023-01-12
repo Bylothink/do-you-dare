@@ -32,12 +32,10 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { handle } from "@byloth/exceptions";
+    import { handle, ValueException } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import { ValueException } from "@/core/exceptions";
-
-    import useUserStore from "@/stores/user";
+    import useUserStore from "@/stores/user/index.js";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";

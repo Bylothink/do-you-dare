@@ -1,6 +1,6 @@
-import { App, ComponentPublicInstance, Plugin } from "vue";
+import type { App, ComponentPublicInstance, Plugin } from "vue";
 
-import Vuert from "@byloth/vuert";
+import type Vuert from "@byloth/vuert";
 import type { DismissibleAlert } from "@byloth/vuert";
 
 const ERROR_ALERT: DismissibleAlert = {
@@ -22,10 +22,10 @@ const errorsHandler: Plugin = {
         {
             const vuert: Vuert = app.config.globalProperties.$vuert;
 
-            vuert.emit(ERROR_ALERT);
-
             // eslint-disable-next-line no-console
             console.error(error);
+
+            vuert.emit(ERROR_ALERT);
         };
 
         window.addEventListener("unhandledrejection", (evt: PromiseRejectionEvent) =>
