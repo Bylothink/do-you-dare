@@ -22,7 +22,6 @@ export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) =
         if (_requestId)
         {
             callback(... _args);
-
             _requestId = null;
         }
     };
@@ -32,9 +31,8 @@ export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) =
         if (_requestId)
         {
             cancelAnimationFrame(_requestId);
+            _requestId = null;
         }
-
-        _requestId = null;
     });
 
     return (...args: T) =>

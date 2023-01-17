@@ -21,55 +21,40 @@
                 <input class="form-control is-valid"
                        :value="user.email"
                        readonly />
-                <AppButton :disabled="isDisabled" @click="onClick">
+                <AppButton :disabled="countdown.isRunning" @click="onClick">
                     Send a new email
                 </AppButton>
             </div>
-            <div v-if="isDisabled" class="feedback">
-                Potrai riprovare da {{ timeRemaining }} secondi.
+            <div v-if="countdown.isRunning" class="feedback">
+                Potrai riprovare da {{ countdown.remainingTime }} secondi.
             </div>
         </div>
     </CenteredLayout>
 </template>
 
 <script lang="ts" setup>
-    import { computed, ref, onMounted } from "vue";
+    import { onMounted } from "vue";
 
     import useUserStore from "@/stores/user/index.js";
 
+    import Countdown from "@/core/utils/countdown.js";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
     const REQUEST_DELAY = 60;
 
     const user = useUserStore();
-    const timeRemaining = ref(REQUEST_DELAY);
 
-    const isDisabled = computed(() => timeRemaining.value > 0);
+    const countdown = new Countdown(REQUEST_DELAY);
 
     const onClick = () =>
     {
-        startCountdown();
+        countdown.start();
 
-        user.requestNewValidationMail();
-    };
-    const startCountdown = () =>
-    {
-        timeRemaining.value = REQUEST_DELAY;
-
-        const intervalId = setInterval(() =>
-        {
-            timeRemaining.value -= 1;
-
-            if (timeRemaining.value <= 0)
-            {
-                clearInterval(intervalId);
-            }
-
-        }, 1000);
+        user.requestNewValidationEmail();
     };
 
-    onMounted(startCountdown);
+    onMounted(countdown.start);
 </script>
 
 <style lang="scss" scoped>

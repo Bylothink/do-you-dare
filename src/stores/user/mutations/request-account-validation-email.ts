@@ -2,9 +2,9 @@ import { gql } from "graphql-tag";
 
 import { GraphQLRequest } from "@/core/index.js";
 
-export default class RequestAccountValidationMail extends GraphQLRequest<void, Record<string, never>>
+export default class RequestAccountValidationEmail extends GraphQLRequest<void, Record<string, never>>
 {
-    public static readonly Query = gql`mutation { requestAccountValidationMail }`;
+    public static readonly Query = gql`mutation { requestAccountValidationEmail }`;
 
     public jsonWebToken: string;
 
@@ -17,6 +17,6 @@ export default class RequestAccountValidationMail extends GraphQLRequest<void, R
 
     public execute(): Promise<void>
     {
-        return this._mutation(RequestAccountValidationMail.Query, { }, { jsonWebToken: this.jsonWebToken });
+        return this._mutation(RequestAccountValidationEmail.Query, { }, { jsonWebToken: this.jsonWebToken });
     }
 }

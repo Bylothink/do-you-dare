@@ -14,12 +14,12 @@
                        type="email"
                        autocomplete="email"
                        required />
-                <AppButton :disabled="isDisabled" @click="onClick">
+                <AppButton :disabled="countdown.isRunning" @click="onClick">
                     Reset
                 </AppButton>
             </div>
-            <div v-if="isDisabled" class="feedback">
-                Potrai riprovare da {{ timeRemaining }} secondi.
+            <div v-if="countdown.isRunning" class="feedback">
+                Potrai riprovare da {{ countdown.remainingTime }} secondi.
             </div>
         </div>
     </CenteredLayout>
@@ -33,13 +33,14 @@
     //        - RequestPasswordResetPage.vue
     //
 
-    import { computed, ref } from "vue";
+    import { ref } from "vue";
 
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
+    import Countdown from "@/core/utils/countdown.js";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
@@ -48,22 +49,21 @@
     const vuert = useVuert();
     const user = useUserStore();
 
-    const email = ref("");
-    const timeRemaining = ref(0);
+    const countdown = new Countdown(REQUEST_DELAY);
 
-    const isDisabled = computed(() => timeRemaining.value > 0);
+    const email = ref("");
 
     const onClick = async () =>
     {
-        startCountdown();
+        countdown.start();
 
         try
         {
-            await user.requestPasswordResetMail(email.value);
+            await user.requestPasswordResetEmail(email.value);
         }
         catch (error)
         {
-            timeRemaining.value = 0;
+            countdown.stop();
 
             return handle(error);
         }
@@ -74,21 +74,6 @@
             message: "Successfully requested a new email to reset your password!",
             timeout: 2500
         });
-    };
-    const startCountdown = () =>
-    {
-        timeRemaining.value = REQUEST_DELAY;
-
-        const intervalId = setInterval(() =>
-        {
-            timeRemaining.value -= 1;
-
-            if (timeRemaining.value <= 0)
-            {
-                clearInterval(intervalId);
-            }
-
-        }, 1000);
     };
 </script>
 

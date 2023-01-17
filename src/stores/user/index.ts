@@ -68,9 +68,9 @@ export default defineStore("user", {
 
             return request.execute();
         },
-        requestPasswordResetMail(email: string): Promise<void>
+        requestPasswordResetEmail(email: string): Promise<void>
         {
-            const request = new Mutations.RequestPasswordResetMail({ email });
+            const request = new Mutations.RequestPasswordResetEmail({ email });
 
             return request.execute();
         },
@@ -99,9 +99,9 @@ export default defineStore("user", {
             this._setInfo(response.user);
         },
 
-        requestNewValidationMail(): Promise<void>
+        requestNewValidationEmail(): Promise<void>
         {
-            const request = new Mutations.RequestAccountValidationMail(this.token!);
+            const request = new Mutations.RequestAccountValidationEmail(this.token!);
 
             return request.execute();
         },

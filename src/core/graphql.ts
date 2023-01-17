@@ -27,7 +27,7 @@ export interface GraphQLResponse<T = unknown>
 
 export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
-    protected static _HandleError(error: unknown): unknown
+    private static _HandleError(error: unknown): unknown
     {
         if (axios.isAxiosError(error))
         {
