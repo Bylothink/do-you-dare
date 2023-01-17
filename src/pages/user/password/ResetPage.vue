@@ -103,7 +103,7 @@
             timeout: 2500
         });
 
-        router.replace({ name: "user_log-in" });
+        router.replace({ name: "user-log_in" });
     };
 
     checkToken();

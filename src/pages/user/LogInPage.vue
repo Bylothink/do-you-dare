@@ -24,13 +24,13 @@
             <hr />
             <span style="display: block;">
                 Non hai ancora un account?
-                <RouterLink :to="{ name: 'user_register' }">
+                <RouterLink :to="{ name: 'user-register' }">
                     Registrati
                 </RouterLink>
             </span>
             <span style="display: block;">
                 Hai dimenticato la password?
-                <RouterLink :to="{ name: 'user_password-reset' }">
+                <RouterLink :to="{ name: 'user-password-reset' }">
                     Ripristinala
                 </RouterLink>
             </span>

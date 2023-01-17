@@ -18,7 +18,7 @@ router.beforeEach((to, from) =>
 
         if (!user.isLogged)
         {
-            router.push({ name: "user_log-in", query: { next: to.path } });
+            router.push({ name: "user-log_in", query: { next: to.path } });
         }
     }
 });

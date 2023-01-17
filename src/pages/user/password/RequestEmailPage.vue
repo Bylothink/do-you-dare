@@ -26,13 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-
-    //
-    // TODO: Valutare SE è necessario un nuovo nome per questa pagina!
-    //        - RequestPasswordChangePage.vue
-    //        - RequestPasswordResetPage.vue
-    //
-
     import { ref } from "vue";
 
     import { handle } from "@byloth/exceptions";

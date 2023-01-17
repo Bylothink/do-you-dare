@@ -36,7 +36,7 @@
             <hr />
             <span>
                 Possiedi già un account?
-                <RouterLink :to="{ name: 'user_log-in' }">
+                <RouterLink :to="{ name: 'user-log_in' }">
                     Accedi
                 </RouterLink>
             </span>
@@ -120,7 +120,7 @@
             timeout: 2500
         });
 
-        router.replace({ name: "user_register_email-sent" });
+        router.replace({ name: "user-register-email_sent" });
     };
 </script>
 
