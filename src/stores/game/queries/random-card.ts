@@ -9,7 +9,7 @@ export interface RandomCardResponse
 }
 export default class RandomCard extends GraphQLRequest<{ randomCard: RandomCardResponse }>
 {
-    public static readonly Query = gql`query {
+    public static readonly Mutation = gql`query {
         randomCard {
             id,
             text
@@ -27,7 +27,7 @@ export default class RandomCard extends GraphQLRequest<{ randomCard: RandomCardR
 
     public async execute(): Promise<RandomCardResponse>
     {
-        const response = await this._query(RandomCard.Query, { jsonWebToken: this.jsonWebToken });
+        const response = await this._query(RandomCard.Mutation, { jsonWebToken: this.jsonWebToken });
 
         return response.randomCard;
     }

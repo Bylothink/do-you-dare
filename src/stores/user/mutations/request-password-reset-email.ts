@@ -11,7 +11,7 @@ export default class RequestPasswordResetEmail
     extends GraphQLRequest<void, RequestPasswordResetEmailData>
     implements RequestPasswordResetEmailData
 {
-    public static readonly Query = gql`mutation requestPasswordResetEmail($email: String!) {
+    public static readonly Mutation = gql`mutation requestPasswordResetEmail($email: String!) {
         requestPasswordResetEmail(email: $email)
     }`;
 
@@ -26,6 +26,6 @@ export default class RequestPasswordResetEmail
 
     public execute(): Promise<void>
     {
-        return this._mutation(RequestPasswordResetEmail.Query, { email: this.email });
+        return this._mutation(RequestPasswordResetEmail.Mutation, { email: this.email });
     }
 }

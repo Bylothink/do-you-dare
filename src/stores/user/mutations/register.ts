@@ -25,7 +25,7 @@ export default class Register
     implements RegisterData
 {
     // eslint-disable-next-line max-len
-    public static readonly Query = gql`mutation register($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
+    public static readonly Mutation = gql`mutation register($username: String!, $password: String!, $email: String!, $firstName: String, $lastName: String) {
         register(username: $username, password: $password, email: $email, firstName: $firstName, lastName: $lastName) {
             token,
             user {
@@ -56,7 +56,7 @@ export default class Register
 
     public async execute(): Promise<RegisterResponse>
     {
-        const response = await this._mutation(Register.Query, {
+        const response = await this._mutation(Register.Mutation, {
             username: this.username,
             password: this.password,
             email: this.email,

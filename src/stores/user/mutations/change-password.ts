@@ -10,7 +10,7 @@ export interface ChangePasswordData
 
 export default class ChangePassword extends GraphQLRequest<void, ChangePasswordData> implements ChangePasswordData
 {
-    public static readonly Query = gql`mutation changePassword($token: String!, $newPassword: String!) {
+    public static readonly Mutation = gql`mutation changePassword($token: String!, $newPassword: String!) {
         changePassword(token: $token, newPassword: $newPassword)
     }`;
 
@@ -27,7 +27,7 @@ export default class ChangePassword extends GraphQLRequest<void, ChangePasswordD
 
     public execute(): Promise<void>
     {
-        return this._mutation(ChangePassword.Query, {
+        return this._mutation(ChangePassword.Mutation, {
             token: this.token,
             newPassword: this.newPassword
         });

@@ -9,7 +9,7 @@ export interface VerifyEmailData
 
 export default class VerifyEmail extends GraphQLRequest<void, VerifyEmailData> implements VerifyEmailData
 {
-    public static readonly Query = gql`mutation verifyEmail($token: String!) {
+    public static readonly Mutation = gql`mutation verifyEmail($token: String!) {
         verifyEmail(token: $token)
     }`;
 
@@ -24,6 +24,6 @@ export default class VerifyEmail extends GraphQLRequest<void, VerifyEmailData> i
 
     public execute(): Promise<void>
     {
-        return this._mutation(VerifyEmail.Query, { token: this.token });
+        return this._mutation(VerifyEmail.Mutation, { token: this.token });
     }
 }

@@ -4,7 +4,7 @@ import { GraphQLRequest } from "@/core/index.js";
 
 export default class Disconnect extends GraphQLRequest<void, Record<string, never>>
 {
-    public static readonly Query = gql`mutation { disconnect }`;
+    public static readonly Mutation = gql`mutation { disconnect }`;
 
     public jsonWebToken: string;
 
@@ -17,6 +17,6 @@ export default class Disconnect extends GraphQLRequest<void, Record<string, neve
 
     public execute(): Promise<void>
     {
-        return this._mutation(Disconnect.Query, { }, { jsonWebToken: this.jsonWebToken });
+        return this._mutation(Disconnect.Mutation, { }, { jsonWebToken: this.jsonWebToken });
     }
 }

@@ -21,7 +21,7 @@ export default class Authenticate
     extends GraphQLRequest<{ authenticate: AuthenticateResponse }, AuthenticateData>
     implements AuthenticateData
 {
-    public static readonly Query = gql`mutation authenticate($username: String!, $password: String!) {
+    public static readonly Mutation = gql`mutation authenticate($username: String!, $password: String!) {
         authenticate(username: $username, password: $password) {
             token,
             user {
@@ -45,7 +45,7 @@ export default class Authenticate
     }
     public async execute(): Promise<AuthenticateResponse>
     {
-        const response = await this._mutation(Authenticate.Query, {
+        const response = await this._mutation(Authenticate.Mutation, {
             username: this.username,
             password: this.password
         });

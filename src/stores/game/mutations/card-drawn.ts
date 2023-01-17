@@ -9,7 +9,7 @@ export interface CardDrawnData
 
 export default class CardDrawn extends GraphQLRequest<void, CardDrawnData> implements CardDrawnData
 {
-    public static readonly Query = gql`mutation cardDrawn($cardId: Int!) {
+    public static readonly Mutation = gql`mutation cardDrawn($cardId: Int!) {
         cardDrawn(cardId: $cardId)
     }`;
 
@@ -26,6 +26,6 @@ export default class CardDrawn extends GraphQLRequest<void, CardDrawnData> imple
 
     public execute(): Promise<void>
     {
-        return this._mutation(CardDrawn.Query, { cardId: this.cardId }, { jsonWebToken: this.jsonWebToken });
+        return this._mutation(CardDrawn.Mutation, { cardId: this.cardId }, { jsonWebToken: this.jsonWebToken });
     }
 }

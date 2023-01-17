@@ -14,7 +14,7 @@ export interface RenewSessionResponse
 }
 export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSessionResponse }, Record<string,never>>
 {
-    public static readonly Query = gql`mutation {
+    public static readonly Mutation = gql`mutation {
         renewSession {
             token,
             user {
@@ -37,7 +37,7 @@ export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSe
 
     public async execute(): Promise<RenewSessionResponse>
     {
-        const response = await this._mutation(RenewSession.Query, { }, { jsonWebToken: this.jsonWebToken });
+        const response = await this._mutation(RenewSession.Mutation, { }, { jsonWebToken: this.jsonWebToken });
 
         return response.renewSession;
     }
