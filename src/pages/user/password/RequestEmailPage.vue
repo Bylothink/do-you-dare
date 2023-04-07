@@ -14,12 +14,12 @@
                        type="email"
                        autocomplete="email"
                        required />
-                <AppButton :disabled="countdown.isRunning" @click="onClick">
+                <AppButton :disabled="isRunning" @click="onClick">
                     Reset
                 </AppButton>
             </div>
-            <div v-if="countdown.isRunning" class="feedback">
-                Potrai riprovare da {{ countdown.remainingTime }} secondi.
+            <div v-if="isRunning" class="feedback">
+                Potrai riprovare da {{ remainingTime }} secondi.
             </div>
         </div>
     </CenteredLayout>
@@ -43,6 +43,10 @@
     const user = useUserStore();
 
     const countdown = new Countdown(REQUEST_DELAY);
+    const isRunning = countdown.isRunning;
+    const remainingTime = countdown.remainingTime;
+
+    console.log(countdown);
 
     const email = ref("");
 

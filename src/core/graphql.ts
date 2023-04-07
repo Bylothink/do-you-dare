@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, isAxiosError } from "axios";
 
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
@@ -29,7 +29,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
     private static _HandleError(error: unknown): unknown
     {
-        if (axios.isAxiosError(error))
+        if (isAxiosError(error))
         {
             const axiosError = error as AxiosError<GraphQLResponse>;
             if (!axiosError.response)

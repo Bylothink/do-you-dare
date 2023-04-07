@@ -1,15 +1,15 @@
-import { GraphQLError } from "graphql";
+import type { GraphQLError } from "graphql";
 import { Exception } from "@byloth/exceptions";
 
 import type { GraphQLResponse } from "@/core/graphql.js";
 
-const PUNCTUATION_REGEX = /[.!?]$/;
+const PUNCTUATION_REGEX = /[.!?()]$/;
 
 export default class GraphQLException extends Exception
 {
     public static PrintError(error: GraphQLError): string
     {
-        let errorMessage = GraphQLError.prototype.toString.call(error).trim();
+        let errorMessage = error.message;
 
         if (!PUNCTUATION_REGEX.test(errorMessage))
         {

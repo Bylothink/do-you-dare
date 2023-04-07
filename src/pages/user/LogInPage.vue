@@ -30,7 +30,7 @@
             </span>
             <span style="display: block;">
                 Hai dimenticato la password?
-                <RouterLink :to="{ name: 'user-password-reset' }">
+                <RouterLink :to="{ name: 'user-password-request_email' }">
                     Ripristinala
                 </RouterLink>
             </span>

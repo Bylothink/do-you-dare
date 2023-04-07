@@ -12,7 +12,7 @@ export interface RenewSessionResponse
         email: string;
     };
 }
-export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSessionResponse }, Record<string,never>>
+export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSessionResponse }, Record<string, never>>
 {
     public static readonly Mutation = gql`mutation {
         renewSession {

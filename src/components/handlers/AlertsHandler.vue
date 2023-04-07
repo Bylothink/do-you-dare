@@ -1,6 +1,8 @@
 <template>
     <BaseHandler v-slot="{ alert, isOpen, resolve }" class="alerts-handler container">
-        <Transition name="fade" mode="out-in">
+        <Transition appear
+                    name="fade"
+                    mode="out-in">
             <AlertBox v-if="alert"
                       v-show="isOpen"
                       :theme="getTheme(alert.type)"

@@ -54,7 +54,7 @@
         user.requestNewValidationEmail();
     };
 
-    onMounted(countdown.start);
+    onMounted(() => countdown.start());
 </script>
 
 <style lang="scss" scoped>
