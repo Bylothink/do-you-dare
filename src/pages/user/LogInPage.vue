@@ -46,7 +46,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { handle } from "@byloth/exceptions";
+    import { HandlerBuilder, handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
@@ -54,9 +54,10 @@
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
     import TextBox from "@/components/ui/TextBox.vue";
+    import { VuertEmissionSignal } from "@/core/graphql.js";
 
-    const router = useRouter();
-    const vuert = useVuert();
+    const $router = useRouter();
+    const $vuert = useVuert();
 
     const user = useUserStore();
 
@@ -65,7 +66,7 @@
 
     const onSubmit = async () =>
     {
-        const route = router.currentRoute.value;
+        const route = $router.currentRoute.value;
         const nextPath = route.query.next as string || "/";
 
         try
@@ -74,29 +75,32 @@
         }
         catch (error)
         {
-            return handle(error, (exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
+            return new HandlerBuilder()
+                .on(VuertEmissionSignal, (signal) => signal.emit($vuert))
+                .default((exc) =>
+                {
+                    // eslint-disable-next-line no-console
+                    console.error(exc);
 
-                vuert.emit({
-                    type: "error",
-                    icon: "circle-xmark",
-                    title: "Authentication failed!",
-                    message: `${exc}`,
-                    dismissible: true
-                });
-            });
+                    $vuert.emit({
+                        type: "error",
+                        icon: "circle-xmark",
+                        title: "Authentication failed!",
+                        message: `${exc}`,
+                        dismissible: true
+                    });
+                })
+                .handle(error);
         }
 
-        vuert.emit({
+        $vuert.emit({
             type: "success",
             icon: "circle-check",
             message: `Authentication with user "${user.username}" successfully!`,
             timeout: 2500
         });
 
-        router.replace({ path: nextPath });
+        $router.replace({ path: nextPath });
     };
 </script>
 

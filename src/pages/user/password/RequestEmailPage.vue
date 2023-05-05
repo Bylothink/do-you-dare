@@ -39,7 +39,7 @@
 
     const REQUEST_DELAY = 60;
 
-    const vuert = useVuert();
+    const $vuert = useVuert();
     const user = useUserStore();
 
     const countdown = new Countdown(REQUEST_DELAY);
@@ -65,7 +65,7 @@
             return handle(error);
         }
 
-        vuert.emit({
+        $vuert.emit({
             type: "success",
             icon: "circle-check",
             message: "Successfully requested a new email to reset your password!",

@@ -53,7 +53,7 @@
     import SuspenseLayout from "@/layouts/SuspenseLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
-    const route = useRoute();
+    const $route = useRoute();
     const user = useUserStore();
 
     const isValidating = ref(true);
@@ -61,7 +61,7 @@
 
     const validate = async () =>
     {
-        const token = route.query.token as string;
+        const token = $route.query.token as string;
         if (!token)
         {
             throw new ValueException("The `token` URL query parameters is missing.");

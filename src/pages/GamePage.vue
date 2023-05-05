@@ -21,7 +21,7 @@
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 
-    const game = useGameStore();
+    const $game = useGameStore();
     const card = ref<Card>();
 
     const getNewCard = async () =>
@@ -30,7 +30,7 @@
 
         try
         {
-            newCard = await game.getRandomCard();
+            newCard = await $game.getRandomCard();
         }
         catch (error)
         {
@@ -41,7 +41,7 @@
     };
     const createNewDraw = () =>
     {
-        game.cardDrawn(card.value!.id)
+        $game.cardDrawn(card.value!.id)
             .catch(handle);
     };
 

@@ -4,11 +4,12 @@ import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
 import { HandledException, NetworkException } from "@byloth/exceptions";
-import { useVuert } from "@byloth/vuert";
+import Vuert, { useVuert } from "@byloth/vuert";
 
 import config from "@/config.js";
 
 import { GraphQLException } from "./exceptions/index.js";
+import type { Awaitable } from "./types.js";
 
 export interface GraphQLConfigs
 {
@@ -25,9 +26,26 @@ export interface GraphQLResponse<T = unknown>
     errors?: GraphQLError[];
 }
 
+export class VuertEmissionSignal<T = void> extends Error
+{
+    protected _callback: ($vuert: Vuert) => Awaitable<T>;
+
+    public constructor(callback: ($vuert: Vuert) => Awaitable<T>)
+    {
+        super();
+
+        this._callback = callback;
+    }
+
+    public emit($vuert: Vuert): Awaitable<T>
+    {
+        return this._callback($vuert);
+    }
+}
+
 export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
-    private static _HandleError(error: unknown): unknown
+    public static HandleError<R = unknown>(error: unknown): Promise<R>
     {
         if (isAxiosError(error))
         {
@@ -35,23 +53,23 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             if (!axiosError.response)
             {
                 const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
-                const vuert = useVuert();
 
-                vuert.emit({
-                    type: "error",
-                    icon: "link-slash",
-                    title: "Network error!",
-                    message: `${exc.message} Please, try again later.`,
-                    dismissible: true
+                throw new VuertEmissionSignal(async ($vuert: Vuert) =>
+                {
+                    return $vuert.emit({
+                        type: "error",
+                        icon: "link-slash",
+                        title: "Network error!",
+                        message: `${exc.message} Please, try again later.`,
+                        dismissible: true
+                    });
                 });
-
-                return new HandledException(exc);
             }
 
-            return new GraphQLException(axiosError.response.data);
+            throw new GraphQLException(axiosError.response.data);
         }
 
-        return error;
+        throw error;
     }
 
     private readonly _endpoint: string;
@@ -91,7 +109,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         }
         catch (error)
         {
-            throw GraphQLRequest._HandleError(error);
+            return GraphQLRequest.HandleError<R>(error);
         }
     }
 
@@ -113,7 +131,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         }
         catch (error)
         {
-            throw GraphQLRequest._HandleError(error);
+            return GraphQLRequest.HandleError<R>(error);
         }
     }
 }

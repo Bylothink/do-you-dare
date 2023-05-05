@@ -41,8 +41,8 @@
     import AppButton from "@/components/ui/AppButton.vue";
     import TextBox from "@/components/ui/TextBox.vue";
 
-    const router = useRouter();
-    const vuert = useVuert();
+    const $router = useRouter();
+    const $vuert = useVuert();
 
     const user = useUserStore();
 
@@ -53,7 +53,7 @@
 
     const checkToken = () =>
     {
-        const route = router.currentRoute.value;
+        const route = $router.currentRoute.value;
 
         token = route.query.token as string;
         if (!token)
@@ -66,7 +66,7 @@
     {
         if (password.value !== checkPassword.value)
         {
-            return vuert.emit({
+            return $vuert.emit({
                 type: "error",
                 icon: "circle-xmark",
                 title: "Password mismatch!",
@@ -86,7 +86,7 @@
                 // eslint-disable-next-line no-console
                 console.error(exc);
 
-                vuert.emit({
+                $vuert.emit({
                     type: "error",
                     icon: "circle-xmark",
                     title: "Password change failed!",
@@ -96,14 +96,14 @@
             });
         }
 
-        vuert.emit({
+        $vuert.emit({
             type: "success",
             icon: "circle-check",
             message: `Password changed successfully!`,
             timeout: 2500
         });
 
-        router.replace({ name: "user-log_in" });
+        $router.replace({ name: "user-log_in" });
     };
 
     checkToken();

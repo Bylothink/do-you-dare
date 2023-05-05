@@ -1,9 +1,8 @@
 import type { App, ComponentPublicInstance, Plugin } from "vue";
 
-import type Vuert from "@byloth/vuert";
-import type { DismissibleAlert } from "@byloth/vuert";
+import type { AlertOptions } from "@byloth/vuert";
 
-const ERROR_ALERT: DismissibleAlert = {
+const ERROR_ALERT: AlertOptions = {
     type: "error",
     icon: "circle-xmark",
     title: "On, no! 😱",
@@ -20,19 +19,19 @@ const errorsHandler: Plugin = {
     {
         app.config.errorHandler = (error: unknown, instance: ComponentPublicInstance | null, info: string) =>
         {
-            const vuert: Vuert = app.config.globalProperties.$vuert;
+            const $vuert = app.config.globalProperties.$vuert;
 
             // eslint-disable-next-line no-console
             console.error(error);
 
-            vuert.emit(ERROR_ALERT);
+            $vuert.emit(ERROR_ALERT);
         };
 
         window.addEventListener("unhandledrejection", (evt: PromiseRejectionEvent) =>
         {
-            const vuert: Vuert = app.config.globalProperties.$vuert;
+            const $vuert = app.config.globalProperties.$vuert;
 
-            vuert.emit(ERROR_ALERT);
+            $vuert.emit(ERROR_ALERT);
         });
     }
 };

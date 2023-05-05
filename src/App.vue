@@ -19,14 +19,15 @@
     import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
-    const vuert = useVuert();
+    const $vuert = useVuert();
+
     const user = useUserStore();
 
     const initialize = async () =>
     {
         if (user.hasAcceptedCookies === undefined)
         {
-            const result = await vuert.emit({
+            const result = await $vuert.emit({
                 type: "info",
                 icon: "cookie-bite",
                 title: "Cookie policy",

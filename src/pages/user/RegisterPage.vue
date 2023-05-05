@@ -61,8 +61,8 @@
     import AppButton from "@/components/ui/AppButton.vue";
     import TextBox from "@/components/ui/TextBox.vue";
 
-    const router = useRouter();
-    const vuert = useVuert();
+    const $router = useRouter();
+    const $vuert = useVuert();
 
     const user = useUserStore();
 
@@ -75,7 +75,7 @@
     {
         if (password.value !== checkPassword.value)
         {
-            vuert.emit({
+            $vuert.emit({
                 type: "error",
                 icon: "circle-xmark",
                 title: "Password mismatch!",
@@ -103,7 +103,7 @@
                 // eslint-disable-next-line no-console
                 console.error(exc);
 
-                vuert.emit({
+                $vuert.emit({
                     type: "error",
                     icon: "circle-xmark",
                     title: "Account creation failed!",
@@ -113,14 +113,14 @@
             });
         }
 
-        vuert.emit({
+        $vuert.emit({
             type: "success",
             icon: "circle-check",
             message: `Account "${user.username}" created successfully!`,
             timeout: 2500
         });
 
-        router.replace({ name: "user-register-email_sent" });
+        $router.replace({ name: "user-register-email_sent" });
     };
 </script>
 

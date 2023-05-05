@@ -10,8 +10,8 @@
 
     import useUserStore from "@/stores/user/index.js";
 
-    const router = useRouter();
-    const vuert = useVuert();
+    const $router = useRouter();
+    const $vuert = useVuert();
 
     const user = useUserStore();
 
@@ -20,7 +20,7 @@
         if (user.isLogged)
         {
             user.logOut()
-                .then(() => vuert.emit({
+                .then(() => $vuert.emit({
                     type: "success",
                     icon: "circle-check",
                     message: "Successfully logged out!",
@@ -29,7 +29,7 @@
                 .catch(handle);
         }
 
-        router.replace({ name: "home" });
+        $router.replace({ name: "home" });
     };
 
     executeLogout();

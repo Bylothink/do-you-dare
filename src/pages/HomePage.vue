@@ -53,10 +53,10 @@
 
     // const pages = config.pages.filter((page) => page.name !== "home");
 
-    const vuert = useVuert();
+    const $vuert = useVuert();
     const underConstruction = () =>
     {
-        vuert.emit({
+        $vuert.emit({
             type: "info",
             icon: "screwdriver-wrench",
             title: "We still working on it!",

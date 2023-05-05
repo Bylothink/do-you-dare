@@ -8,6 +8,8 @@ import type { RegisterData } from "./mutations/register.js";
 
 import type UserState from "./types.js";
 import type { CookieAcknowledgement } from "./types.js";
+import { useVuert } from "@byloth/vuert";
+import { getCurrentInstance } from "vue";
 
 const COOKIE_VERSION = 1;
 
