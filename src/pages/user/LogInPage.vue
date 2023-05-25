@@ -46,15 +46,13 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { HandlerBuilder, handle } from "@byloth/exceptions";
-    import { useVuert } from "@byloth/vuert";
+    import { useVuert, handle } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
     import TextBox from "@/components/ui/TextBox.vue";
-    import { VuertEmissionSignal } from "@/core/graphql.js";
 
     const $router = useRouter();
     const $vuert = useVuert();
@@ -75,22 +73,19 @@
         }
         catch (error)
         {
-            return new HandlerBuilder()
-                .on(VuertEmissionSignal, (signal) => signal.emit($vuert))
-                .default((exc) =>
-                {
-                    // eslint-disable-next-line no-console
-                    console.error(exc);
+            return handle($vuert, error, (exc) =>
+            {
+                // eslint-disable-next-line no-console
+                console.error(exc);
 
-                    $vuert.emit({
-                        type: "error",
-                        icon: "circle-xmark",
-                        title: "Authentication failed!",
-                        message: `${exc}`,
-                        dismissible: true
-                    });
-                })
-                .handle(error);
+                $vuert.emit({
+                    type: "error",
+                    icon: "circle-xmark",
+                    title: "Authentication failed!",
+                    message: `${exc}`,
+                    dismissible: true
+                });
+            });
         }
 
         $vuert.emit({

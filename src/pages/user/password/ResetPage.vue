@@ -32,8 +32,8 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { handle, ValueException } from "@byloth/exceptions";
-    import { useVuert } from "@byloth/vuert";
+    import { ValueException } from "@byloth/exceptions";
+    import { useVuert, handle } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -81,7 +81,7 @@
         }
         catch (error)
         {
-            return handle(error, (exc) =>
+            return handle($vuert, error, (exc) =>
             {
                 // eslint-disable-next-line no-console
                 console.error(exc);

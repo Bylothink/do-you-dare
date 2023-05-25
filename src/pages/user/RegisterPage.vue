@@ -52,8 +52,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { handle } from "@byloth/exceptions";
-    import { useVuert } from "@byloth/vuert";
+    import { useVuert, handle } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -75,15 +74,13 @@
     {
         if (password.value !== checkPassword.value)
         {
-            $vuert.emit({
+            return $vuert.emit({
                 type: "error",
                 icon: "circle-xmark",
                 title: "Password mismatch!",
                 message: "The passwords you entered do not match.",
                 dismissible: true
             });
-
-            return;
         }
 
         const registerPayload = {
@@ -98,7 +95,7 @@
         }
         catch (error)
         {
-            return handle(error, (exc) =>
+            return handle($vuert, error, (exc) =>
             {
                 // eslint-disable-next-line no-console
                 console.error(exc);

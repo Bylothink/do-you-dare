@@ -3,13 +3,12 @@ import axios, { AxiosError, isAxiosError } from "axios";
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
-import { HandledException, NetworkException } from "@byloth/exceptions";
-import Vuert, { useVuert } from "@byloth/vuert";
+import { NetworkException } from "@byloth/exceptions";
+import Vuert, { VuertAlertInterrupt } from "@byloth/vuert";
 
 import config from "@/config.js";
 
 import { GraphQLException } from "./exceptions/index.js";
-import type { Awaitable } from "./types.js";
 
 export interface GraphQLConfigs
 {
@@ -26,23 +25,6 @@ export interface GraphQLResponse<T = unknown>
     errors?: GraphQLError[];
 }
 
-export class VuertEmissionSignal<T = void> extends Error
-{
-    protected _callback: ($vuert: Vuert) => Awaitable<T>;
-
-    public constructor(callback: ($vuert: Vuert) => Awaitable<T>)
-    {
-        super();
-
-        this._callback = callback;
-    }
-
-    public emit($vuert: Vuert): Awaitable<T>
-    {
-        return this._callback($vuert);
-    }
-}
-
 export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
     public static HandleError<R = unknown>(error: unknown): Promise<R>
@@ -54,16 +36,13 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             {
                 const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
 
-                throw new VuertEmissionSignal(async ($vuert: Vuert) =>
-                {
-                    return $vuert.emit({
-                        type: "error",
-                        icon: "link-slash",
-                        title: "Network error!",
-                        message: `${exc.message} Please, try again later.`,
-                        dismissible: true
-                    });
-                });
+                throw new VuertAlertInterrupt({
+                    type: "error",
+                    icon: "link-slash",
+                    title: "Network error!",
+                    message: `${exc.message} Please, try again later.`,
+                    dismissible: true
+                }, exc);
             }
 
             throw new GraphQLException(axiosError.response.data);
