@@ -1,4 +1,5 @@
 import axios, { AxiosError, isAxiosError } from "axios";
+import type { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
@@ -27,30 +28,6 @@ export interface GraphQLResponse<T = unknown>
 
 export default abstract class GraphQLRequest<R = unknown, A = unknown>
 {
-    public static HandleError<R = unknown>(error: unknown): Promise<R>
-    {
-        if (isAxiosError(error))
-        {
-            const axiosError = error as AxiosError<GraphQLResponse>;
-            if (!axiosError.response)
-            {
-                const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
-
-                throw new AlertInterrupt(exc, {
-                    type: "error",
-                    icon: "link-slash",
-                    title: "Network error!",
-                    message: `${exc.message} Please, try again later.`,
-                    dismissible: true
-                });
-            }
-
-            throw new GraphQLException(axiosError.response.data);
-        }
-
-        throw error;
-    }
-
     private readonly _endpoint: string;
 
     protected constructor(schema: string)
@@ -70,47 +47,81 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         return configs;
     }
 
+    private _handleResponse<R = unknown>({ data }: AxiosResponse<GraphQLResponse<R>>): R
+    {
+        if ((data.errors) || (!data.data))
+        {
+            throw data;
+        }
+
+        return data.data;
+    }
+    private _handleError(error: unknown): unknown
+    {
+        if (isAxiosError(error))
+        {
+            const axiosError = error as AxiosError<GraphQLResponse>;
+            if (!axiosError.response)
+            {
+                return new AlertInterrupt(axiosError, {
+                    type: "error",
+                    icon: "link-slash",
+                    title: "Network error!",
+                    message: `Unable to establish a connection to the server. Please, try again later.`,
+                    dismissible: true
+                });
+            }
+
+            error = axiosError.response.data;
+        }
+
+        const response = error as GraphQLResponse;
+        if (response.errors)
+        {
+            if (response.errors.length > 1)
+            {
+                // SMELLS: Probabilmente non è un caso pratico da dover gestire.
+            }
+
+            const graphQlError = response.errors[0];
+
+            if (graphQlError.extensions)
+            {
+                // TODO: Continuare da qui!
+            }
+
+            return new GraphQLException(graphQlError);
+        }
+
+        return error;
+    }
+
+    private async _execute<R = unknown, D = unknown>(data: D, configs: AxiosRequestConfig<D>): Promise<R>
+    {
+        try
+        {
+            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
+
+            return this._handleResponse(response);
+        }
+        catch (error)
+        {
+            throw this._handleError(error);
+        }
+    }
+
     protected async _query(query: DocumentNode, options?: GraphQLOptions): Promise<R>
     {
         const data = { query: print(query) };
         const configs = this._composeConfigs(options);
 
-        try
-        {
-            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
-
-            if ((response.data.errors) || (!response.data.data))
-            {
-                throw new GraphQLException(response.data);
-            }
-
-            return response.data.data;
-        }
-        catch (error)
-        {
-            return GraphQLRequest.HandleError<R>(error);
-        }
+        return this._execute(data, configs);
     }
-
     protected async _mutation(query: DocumentNode, variables: A, options?: GraphQLOptions) : Promise<R>
     {
         const data = { query: print(query), variables: variables };
         const configs = this._composeConfigs(options);
 
-        try
-        {
-            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
-
-            if ((response.data.errors) || (!response.data.data))
-            {
-                throw new GraphQLException(response.data);
-            }
-
-            return response.data.data;
-        }
-        catch (error)
-        {
-            return GraphQLRequest.HandleError<R>(error);
-        }
+        return this._execute(data, configs);
     }
 }

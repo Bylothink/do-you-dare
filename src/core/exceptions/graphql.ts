@@ -1,50 +1,40 @@
 import type { GraphQLError } from "graphql";
 import { Exception } from "@byloth/exceptions";
 
-import type { GraphQLResponse } from "@/core/graphql.js";
-
 const PUNCTUATION_REGEX = /[.!?()]$/;
 
 export default class GraphQLException extends Exception
 {
-    public static PrintError(error: GraphQLError): string
+    public static PrintError({ message }: GraphQLError): string
     {
-        let errorMessage = error.message;
-
-        if (!PUNCTUATION_REGEX.test(errorMessage))
+        if (!PUNCTUATION_REGEX.test(message))
         {
-            errorMessage += ".";
+            message += ".";
         }
 
-        return errorMessage;
+        return message;
     }
 
-    public constructor(response: GraphQLResponse)
+    public readonly id?: string;
+    public readonly code?: string;
+    public readonly type?: string;
+
+    public constructor(error: GraphQLError, message?: string, name = "GraphQLException")
     {
-        let message: string;
-
-        const errors = response.errors;
-        if (errors)
+        if (message === undefined)
         {
-            if (errors.length > 1)
-            {
-                message = `Some errors occurred!`;
-
-                for (const error of errors)
-                {
-                    message += `\n - ${GraphQLException.PrintError(error)}`;
-                }
-            }
-            else
-            {
-                message = `${GraphQLException.PrintError(errors[0])}`;
-            }
-        }
-        else
-        {
-            message = "An unknown error has occurred; the body of the response is empty.";
+            message = GraphQLException.PrintError(error);
         }
 
-        super(message, undefined, "GraphQLException");
+        super(message, undefined, name);
+
+        if (error.extensions)
+        {
+            const { error_id, error_code, error_type } = error.extensions;
+
+            this.id = error_id as string;
+            this.code = error_code as string;
+            this.type = error_type as string;
+        }
     }
 }
