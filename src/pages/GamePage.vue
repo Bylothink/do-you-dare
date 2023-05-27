@@ -32,17 +32,18 @@
         {
             newCard = await $game.getRandomCard();
         }
-        catch (error)
+        finally
         {
-            handle(error);
+            card.value = newCard;
         }
-
-        card.value = newCard;
     };
     const createNewDraw = () =>
     {
-        $game.cardDrawn(card.value!.id)
-            .catch(handle);
+        if (card.value)
+        {
+            $game.cardDrawn(card.value.id)
+                .catch(handle);
+        }
     };
 
     onMounted(getNewCard);

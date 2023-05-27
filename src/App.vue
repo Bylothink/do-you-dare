@@ -58,14 +58,7 @@
 
         if (user.isLogged)
         {
-            try
-            {
-                user.renewToken();
-            }
-            catch (error)
-            {
-                handle(error);
-            }
+            user.renewToken();
         }
     };
 

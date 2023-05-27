@@ -28,7 +28,6 @@
 <script lang="ts" setup>
     import { ref } from "vue";
 
-    import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
@@ -58,11 +57,9 @@
         {
             await user.requestPasswordResetEmail(email.value);
         }
-        catch (error)
+        finally
         {
             countdown.stop();
-
-            return handle(error);
         }
 
         $vuert.emit({

@@ -46,7 +46,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { useVuert, handle } from "@byloth/vuert";
+    import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -67,26 +67,7 @@
         const route = $router.currentRoute.value;
         const nextPath = route.query.next as string || "/";
 
-        try
-        {
-            await user.logIn(username.value, password.value);
-        }
-        catch (error)
-        {
-            return handle($vuert, error, (exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
-
-                $vuert.emit({
-                    type: "error",
-                    icon: "circle-xmark",
-                    title: "Authentication failed!",
-                    message: `${exc}`,
-                    dismissible: true
-                });
-            });
-        }
+        await user.logIn(username.value, password.value);
 
         $vuert.emit({
             type: "success",

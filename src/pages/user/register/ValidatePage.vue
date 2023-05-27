@@ -45,7 +45,7 @@
     import { ref } from "vue";
     import { useRoute } from "vue-router";
 
-    import { handle, ValueException } from "@byloth/exceptions";
+    import { ValueException } from "@byloth/exceptions";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -84,12 +84,10 @@
 
             hasFailed.value = false;
         }
-        catch (error)
+        finally
         {
-            handle(error);
+            isValidating.value = false;
         }
-
-        isValidating.value = false;
     };
 
     validate();

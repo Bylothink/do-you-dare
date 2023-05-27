@@ -33,7 +33,7 @@
     import { useRouter } from "vue-router";
 
     import { ValueException } from "@byloth/exceptions";
-    import { useVuert, handle } from "@byloth/vuert";
+    import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -75,26 +75,7 @@
             });
         }
 
-        try
-        {
-            await user.changePassword(token, password.value);
-        }
-        catch (error)
-        {
-            return handle($vuert, error, (exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
-
-                $vuert.emit({
-                    type: "error",
-                    icon: "circle-xmark",
-                    title: "Password change failed!",
-                    message: `${exc}`,
-                    dismissible: true
-                });
-            });
-        }
+        await user.changePassword(token, password.value);
 
         $vuert.emit({
             type: "success",

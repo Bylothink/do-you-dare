@@ -4,7 +4,7 @@ import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
 import { NetworkException } from "@byloth/exceptions";
-import Vuert, { VuertAlertInterrupt } from "@byloth/vuert";
+import { AlertInterrupt } from "@byloth/vuert";
 
 import config from "@/config.js";
 
@@ -36,13 +36,13 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             {
                 const exc = new NetworkException("Unable to establish a connection to the server.", axiosError);
 
-                throw new VuertAlertInterrupt({
+                throw new AlertInterrupt(exc, {
                     type: "error",
                     icon: "link-slash",
                     title: "Network error!",
                     message: `${exc.message} Please, try again later.`,
                     dismissible: true
-                }, exc);
+                });
             }
 
             throw new GraphQLException(axiosError.response.data);

@@ -52,7 +52,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { useVuert, handle } from "@byloth/vuert";
+    import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user/index.js";
 
@@ -83,32 +83,11 @@
             });
         }
 
-        const registerPayload = {
+        await user.register({
             username: username.value,
             password: password.value,
             email: email.value
-        };
-
-        try
-        {
-            await user.register(registerPayload);
-        }
-        catch (error)
-        {
-            return handle($vuert, error, (exc) =>
-            {
-                // eslint-disable-next-line no-console
-                console.error(exc);
-
-                $vuert.emit({
-                    type: "error",
-                    icon: "circle-xmark",
-                    title: "Account creation failed!",
-                    message: `${exc}`,
-                    dismissible: true
-                });
-            });
-        }
+        });
 
         $vuert.emit({
             type: "success",
