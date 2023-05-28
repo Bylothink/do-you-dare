@@ -4,12 +4,12 @@ import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
-import { NetworkException } from "@byloth/exceptions";
 import { AlertInterrupt } from "@byloth/vuert";
 
 import config from "@/config.js";
 
-import { GraphQLException } from "./exceptions/index.js";
+import GraphQLException from "./exceptions/graphql.js";
+import * as GraphQLExceptions from "./exceptions/index.js";
 
 export interface GraphQLConfigs
 {
@@ -84,10 +84,26 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             }
 
             const graphQlError = response.errors[0];
-
             if (graphQlError.extensions)
             {
-                // TODO: Continuare da qui!
+                const { error_type } = graphQlError.extensions;
+
+                if (error_type === "AUTHENTICATION_ERROR")
+                {
+                    return new GraphQLExceptions.AuthenticationException(graphQlError);
+                }
+                if (error_type === "AUTHORIZATION_ERROR")
+                {
+                    return new GraphQLExceptions.AuthorizationException(graphQlError);
+                }
+                if (error_type === "TOO_MANY_REQUESTS_ERROR")
+                {
+                    return new GraphQLExceptions.TooManyRequestsException(graphQlError);
+                }
+                if (error_type === "VALIDATION_ERROR")
+                {
+                    return new GraphQLExceptions.ValidationException(graphQlError);
+                }
             }
 
             return new GraphQLException(graphQlError);
