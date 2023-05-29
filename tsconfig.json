@@ -1,29 +1,7 @@
 {
-  "compilerOptions": {
-    "composite": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "NodeNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "ScriptHost",
-      "WebWorker"
-    ],
-    "strict": true,
-    "jsx": "preserve",
-    "noEmit": true,
-    "noImplicitThis": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] },
-    "types": ["vite/client"]
-  },
-  "include": ["src"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.vue.json" }
+  ]
 }
