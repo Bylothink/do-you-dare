@@ -1,4 +1,4 @@
-FROM node:18.4-alpine as builder
+FROM node:20.3-alpine as builder
 
 WORKDIR "/opt/do-you-dare"
 COPY . ./
@@ -9,7 +9,7 @@ RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
  && yarn ci \
  && yarn build
 
-FROM nginx:1.23-alpine
+FROM nginx:1.25-alpine
 
 COPY --from=builder /opt/do-you-dare/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf

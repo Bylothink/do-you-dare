@@ -1,18 +1,6 @@
 import type { GraphQLError } from "graphql";
 import GraphQLException from "./graphql.js";
 
-export class AuthenticationException extends GraphQLException
-{
-    public readonly forceLogout: boolean;
-
-    public constructor(error: GraphQLError, message?: string, name = "AuthenticationException")
-    {
-        super(error, message, name);
-
-        const { force_logout } = error.extensions;
-        this.forceLogout = force_logout as boolean ?? false;
-    }
-}
 export class AuthorizationException extends GraphQLException
 {
     public readonly gotoLogin: boolean;
@@ -25,6 +13,19 @@ export class AuthorizationException extends GraphQLException
         this.gotoLogin = goto_login as boolean ?? false;
     }
 }
+export class AuthenticationException extends AuthorizationException
+{
+    public readonly forceLogout: boolean;
+
+    public constructor(error: GraphQLError, message?: string, name = "AuthenticationException")
+    {
+        super(error, message, name);
+
+        const { force_logout } = error.extensions;
+        this.forceLogout = force_logout as boolean ?? false;
+    }
+}
+
 export class TooManyRequestsException extends GraphQLException
 {
     public readonly waitingTime: number;
@@ -37,6 +38,7 @@ export class TooManyRequestsException extends GraphQLException
         this.waitingTime = waiting_time as number ?? false;
     }
 }
+
 export class ValidationException extends GraphQLException
 {
     public readonly fields: Record<string, string>;

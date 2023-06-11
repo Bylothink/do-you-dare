@@ -54,6 +54,7 @@
     import AppButton from "@/components/ui/AppButton.vue";
 
     const $route = useRoute();
+
     const user = useUserStore();
 
     const isValidating = ref(true);

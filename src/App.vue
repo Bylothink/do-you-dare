@@ -10,14 +10,12 @@
 
 <script lang="ts" setup>
     import { onMounted } from "vue";
-
-    import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
-
-    import useUserStore from "./stores/user/index.js";
 
     import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
+
+    import useUserStore from "./stores/user/index.js";
 
     const $vuert = useVuert();
 

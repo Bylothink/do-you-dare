@@ -39,6 +39,7 @@
     const REQUEST_DELAY = 60;
 
     const $vuert = useVuert();
+
     const user = useUserStore();
 
     const countdown = new Countdown(REQUEST_DELAY);

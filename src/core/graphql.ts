@@ -4,12 +4,13 @@ import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
-import { AlertInterrupt } from "@byloth/vuert";
+import { HandledException, NetworkException } from "@byloth/exceptions";
 
 import config from "@/config.js";
 
 import GraphQLException from "./exceptions/graphql.js";
 import * as GraphQLExceptions from "./exceptions/index.js";
+import { useVuert } from "@byloth/vuert";
 
 export interface GraphQLConfigs
 {
@@ -63,13 +64,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             const axiosError = error as AxiosError<GraphQLResponse>;
             if (!axiosError.response)
             {
-                return new AlertInterrupt(axiosError, {
-                    type: "error",
-                    icon: "link-slash",
-                    title: "Network error!",
-                    message: `Unable to establish a connection to the server. Please, try again later.`,
-                    dismissible: true
-                });
+                return new NetworkException("Unable to establish a connection to the server.", axiosError);
             }
 
             error = axiosError.response.data;
