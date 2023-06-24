@@ -47,7 +47,7 @@
 
     import { ValueException } from "@byloth/exceptions";
 
-    import useUserStore from "@/stores/user/index.js";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import SuspenseLayout from "@/layouts/SuspenseLayout.vue";

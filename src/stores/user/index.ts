@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 
-import { jsonLocalStorage } from "@/core/utils/index.js";
-import type { UserData } from "@/models/user.js";
+import type { UserData } from "@/models/user";
+import { jsonLocalStorage } from "@/utils";
 
-import * as Mutations from "./mutations/index.js";
-import type { RegisterData } from "./mutations/register.js";
+import * as Mutations from "./mutations";
+import type { RegisterData } from "./mutations/register";
 
-import type UserState from "./types.js";
-import type { CookieAcknowledgement } from "./types.js";
+import type UserState from "./types";
+import type { CookieAcknowledgement } from "./types";
 
 const COOKIE_VERSION = 1;
 

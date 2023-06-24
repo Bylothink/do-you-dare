@@ -43,7 +43,7 @@
 <script lang="ts" setup>
     import { useVuert } from "@byloth/vuert";
 
-    // import config from "@/config.js";
+    // import config from "@/config";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
 

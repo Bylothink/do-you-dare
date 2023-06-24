@@ -14,9 +14,9 @@
 
     import { handle } from "@byloth/exceptions";
 
-    import type { Card } from "@/models/index.js";
+    import type { Card } from "@/models";
 
-    import useGameStore from "@/stores/game/index.js";
+    import useGameStore from "@/stores/game";
 
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";

@@ -15,7 +15,7 @@
     import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertsHandler from "./components/handlers/AlertsHandler.vue";
 
-    import useUserStore from "./stores/user/index.js";
+    import useUserStore from "./stores/user";
 
     const $vuert = useVuert();
 

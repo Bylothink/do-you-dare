@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "composite": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "lib": [
       "ESNext",
       "DOM",
@@ -12,7 +11,6 @@
     ],
     "strict": true,
     "jsx": "preserve",
-    "jsxImportSource": "vue",
     "noEmit": true,
     "noImplicitThis": true,
     "skipLibCheck": true,
@@ -21,10 +19,16 @@
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
     "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
     "types": ["vite/client"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

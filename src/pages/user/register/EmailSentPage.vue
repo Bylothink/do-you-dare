@@ -35,9 +35,9 @@
 <script lang="ts" setup>
     import { onMounted } from "vue";
 
-    import useUserStore from "@/stores/user/index.js";
+    import useUserStore from "@/stores/user";
 
-    import Countdown from "@/core/utils/countdown.js";
+    import Countdown from "@/utils/countdown";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 

@@ -3,9 +3,8 @@ import type { App, ComponentPublicInstance, Plugin } from "vue";
 import { HandledException, HandlerBuilder, NetworkException } from "@byloth/exceptions";
 import type { DismissibleAlert } from "@byloth/vuert";
 
-import * as GraphQLExceptions from "../core/exceptions/index.js";
-
-import useUserStore from "../stores/user/index.js";
+import * as GraphQLExceptions from "@/services/graphql/exceptions";
+import useUserStore from "@/stores/user";
 
 const ERROR_ALERT: DismissibleAlert = {
     type: "error",

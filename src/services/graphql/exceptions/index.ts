@@ -1,5 +1,6 @@
 import type { GraphQLError } from "graphql";
-import GraphQLException from "./graphql.js";
+
+import GraphQLException from "./core";
 
 export class AuthorizationException extends GraphQLException
 {
@@ -35,7 +36,7 @@ export class TooManyRequestsException extends GraphQLException
         super(error, message, name);
 
         const { waiting_time } = error.extensions;
-        this.waitingTime = waiting_time as number ?? false;
+        this.waitingTime = waiting_time as number ?? 0;
     }
 }
 

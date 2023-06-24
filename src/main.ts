@@ -2,11 +2,11 @@ import { createApp } from "vue";
 
 import App from "./App.vue";
 
-import router from "./router.js";
-import pinia from "./pinia.js";
-import vuert from "./vuert.js";
+import router from "./router";
+import pinia from "./pinia";
+import vuert from "./vuert";
 
-import errorsHandler from "./plugins/errors-handler.js";
+import errorsHandler from "./plugins/errors-handler";
 
 const app = createApp(App);
 

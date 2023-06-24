@@ -30,11 +30,11 @@
 
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user/index.js";
+    import useUserStore from "@/stores/user";
 
-    import Countdown from "@/core/utils/countdown.js";
-    import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import Countdown from "@/utils/countdown";
 
     const REQUEST_DELAY = 60;
 

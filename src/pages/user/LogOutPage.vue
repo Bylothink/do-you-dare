@@ -8,7 +8,7 @@
     import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user/index.js";
+    import useUserStore from "@/stores/user";
 
     const $router = useRouter();
     const $vuert = useVuert();

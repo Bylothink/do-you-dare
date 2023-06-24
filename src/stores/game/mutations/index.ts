@@ -1,3 +1,3 @@
-import CardDrawn from "./card-drawn.js";
+import CardDrawn from "./card-drawn";
 
 export { CardDrawn };

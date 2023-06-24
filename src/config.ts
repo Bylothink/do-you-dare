@@ -43,8 +43,9 @@ class Config implements ConfigOptions
   public get backendUrl(): string { return this._options.backendUrl; }
   public get title(): string { return this._options.title; }
   public get author(): string { return this._options.author; }
-  public get pages(): PageCollection { return this._pages; }
   public get version(): string { return this._options.version; }
+
+  public get pages(): PageCollection { return this._pages; }
 
   constructor(options: ConfigOptions)
   {

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import config from "./config.js";
-import useUserStore from "./stores/user/index.js";
+import config from "./config";
+import useUserStore from "./stores/user";
 
 const router = createRouter({
     history: createWebHistory(),

@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-import { GraphQLRequest } from "@/core/index.js";
+import { GraphQLRequest } from "@/services";
 
 export interface VerifyEmailData
 {

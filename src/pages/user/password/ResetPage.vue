@@ -35,7 +35,7 @@
     import { ValueException } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user/index.js";
+    import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";

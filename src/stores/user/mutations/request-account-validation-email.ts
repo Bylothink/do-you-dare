@@ -1,6 +1,6 @@
 import { gql } from "graphql-tag";
 
-import { GraphQLRequest } from "@/core/index.js";
+import { GraphQLRequest } from "@/services";
 
 export default class RequestAccountValidationEmail extends GraphQLRequest<void, Record<string, never>>
 {

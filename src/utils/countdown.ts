@@ -1,7 +1,7 @@
 import { onScopeDispose, ref } from "vue";
 import type { Ref } from "vue";
 
-import DeferredPromise from "./deferred-promise.js";
+import DeferredPromise from "./deferred-promise";
 
 const MULTIPLIER = 1000;
 

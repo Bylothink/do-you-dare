@@ -11,6 +11,4 @@ export default interface UserState
 
     username?: string;
     email?: string;
-
-// eslint-disable-next-line semi
 }
