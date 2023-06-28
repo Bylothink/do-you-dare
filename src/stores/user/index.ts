@@ -51,6 +51,12 @@ export default defineStore("user", {
             jsonLocalStorage.set("user:token", this.token);
         },
 
+        clear(): void
+        {
+            this._setInfo();
+            this._setToken();
+        },
+
         acceptCookies(): void { this._setCookieAck(true); },
         declineCookies(): void { this._setCookieAck(false); },
 
@@ -110,8 +116,7 @@ export default defineStore("user", {
         {
             const request = new Mutations.Disconnect(this.token!);
 
-            this._setToken();
-            this._setInfo();
+            this.clear();
 
             return request.execute();
         }

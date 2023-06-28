@@ -36,8 +36,7 @@ const errorsHandler: Plugin = {
         {
             const user = useUserStore();
 
-            user._setToken();
-            user._setInfo();
+            user.clear();
         };
 
         const _handler = new HandlerBuilder()

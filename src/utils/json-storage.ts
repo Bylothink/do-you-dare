@@ -24,7 +24,7 @@ export default class JsonStorage
                     // eslint-disable-next-line no-console
                     console.warn(
                         `The "${propertyValue}" value for "${propertyName}"` +
-                        " property cannot be parsed. Cleaning the storage...");
+                        " property cannot be parsed. Clearing the storage...");
                 }
 
                 this._storage.removeItem(propertyName);
