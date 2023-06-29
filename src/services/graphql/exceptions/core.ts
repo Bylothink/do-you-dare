@@ -28,7 +28,7 @@ export default class GraphQLException extends Exception
 
         super(message, undefined, name);
 
-        const { error_id, error_code, error_type } = error.extensions;
+        const { error_id, error_code, error_type } = error.extensions ?? { };
         this.id = error_id as string ?? "0x00000000";
         this.code = error_code as string ?? "UNKNOWN_SERVER_ERROR";
         this.type = error_type as string ?? "ERROR";
