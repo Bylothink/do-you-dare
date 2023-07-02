@@ -12,14 +12,13 @@
 
     const $router = useRouter();
     const $vuert = useVuert();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const executeLogout = () =>
     {
-        if (user.isLogged)
+        if ($user.isLogged)
         {
-            user.logOut()
+            $user.logOut()
                 .then(() => $vuert.emit({
                     type: "success",
                     icon: "circle-check",

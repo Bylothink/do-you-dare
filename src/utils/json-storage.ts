@@ -7,6 +7,8 @@ export default class JsonStorage
         this._storage = storage;
     }
 
+    public get<T>(propertyName: string): T | undefined;
+    public get<T>(propertyName: string, defaultValue: T): T;
     public get<T>(propertyName: string, defaultValue?: T): T | undefined
     {
         const propertyValue = this._storage.getItem(propertyName) || undefined;

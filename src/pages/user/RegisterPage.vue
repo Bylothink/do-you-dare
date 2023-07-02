@@ -62,8 +62,7 @@
 
     const $router = useRouter();
     const $vuert = useVuert();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const username = ref("");
     const password = ref("");
@@ -83,20 +82,19 @@
             });
         }
 
-        await user.register({
+        await $user.register({
             username: username.value,
             password: password.value,
             email: email.value
         });
 
+        $router.replace({ name: "user-register-email_sent" });
         $vuert.emit({
             type: "success",
             icon: "circle-check",
-            message: `Account "${user.username}" created successfully!`,
+            message: `Account "${$user.username}" created successfully!`,
             timeout: 2500
         });
-
-        $router.replace({ name: "user-register-email_sent" });
     };
 </script>
 

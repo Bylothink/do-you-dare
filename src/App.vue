@@ -18,12 +18,11 @@
     import useUserStore from "./stores/user";
 
     const $vuert = useVuert();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const initialize = async () =>
     {
-        if (user.hasAcceptedCookies === undefined)
+        if ($user.hasAcceptedCookies === undefined)
         {
             const result = await $vuert.emit({
                 type: "info",
@@ -46,18 +45,15 @@
 
             if (result)
             {
-                user.acceptCookies();
+                $user.acceptCookies();
             }
             else
             {
-                user.declineCookies();
+                $user.declineCookies();
             }
         }
 
-        if (user.isLogged)
-        {
-            user.renewToken();
-        }
+        if ($user.isLogged) { $user.renewToken(); }
     };
 
     onMounted(initialize);

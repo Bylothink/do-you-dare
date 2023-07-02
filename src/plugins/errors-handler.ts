@@ -28,15 +28,15 @@ const errorsHandler: Plugin = {
             const route = $router.currentRoute.value;
 
             return $router.replace({
-                name: route.name!,
+                name: "user-log_in",
                 query: { next: route.path }
             });
         };
         const _logOut = () =>
         {
-            const user = useUserStore();
+            const $user = useUserStore();
 
-            user.clear();
+            $user.clear();
         };
 
         const _handler = new HandlerBuilder()
@@ -56,7 +56,7 @@ const errorsHandler: Plugin = {
             {
                 let messageAppendix: string;
 
-                // if (exc.forceLogout) { _logOut(); }
+                if (exc.forceLogout) { _logOut(); }
                 if (exc.gotoLogin)
                 {
                     _gotoLogin();

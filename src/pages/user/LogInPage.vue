@@ -56,8 +56,7 @@
 
     const $router = useRouter();
     const $vuert = useVuert();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const username = ref("");
     const password = ref("");
@@ -67,16 +66,15 @@
         const route = $router.currentRoute.value;
         const nextPath = route.query.next as string || "/";
 
-        await user.logIn(username.value, password.value);
+        await $user.logIn(username.value, password.value);
 
+        $router.replace({ path: nextPath });
         $vuert.emit({
             type: "success",
             icon: "circle-check",
-            message: `Authentication with user "${user.username}" successfully!`,
+            message: `Authentication with user "${$user.username}" successfully!`,
             timeout: 2500
         });
-
-        $router.replace({ path: nextPath });
     };
 </script>
 

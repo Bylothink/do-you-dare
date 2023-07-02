@@ -8,18 +8,19 @@
                 &lt;!-- Add here a decent description for this page. --&gt;
             </p>
             <hr />
-            <div class="input-group">
-                <input v-model="email"
-                       class="form-control"
-                       type="email"
-                       autocomplete="email"
-                       required />
-                <AppButton :disabled="isRunning" @click="onClick">
-                    Reset
-                </AppButton>
-            </div>
-            <div v-if="isRunning" class="feedback">
-                Potrai riprovare da {{ remainingTime }} secondi.
+            <TextBox id="email"
+                     v-model:value="email"
+                     class="mb-3"
+                     label="Email address"
+                     type="email"
+                     autocomplete="email"
+                     :readonly="countdown.isRunning.value"
+                     required />
+            <AppButton :disabled="countdown.isRunning.value" @click="onClick">
+                Reset
+            </AppButton>
+            <div v-if="countdown.isRunning.value" class="feedback">
+                You can try again in {{ countdown.remainingTime.value }} seconds.
             </div>
         </div>
     </CenteredLayout>
@@ -30,38 +31,51 @@
 
     import { useVuert } from "@byloth/vuert";
 
+    import useCacheStore from "@/stores/cache";
     import useUserStore from "@/stores/user";
 
     import AppButton from "@/components/ui/AppButton.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import Countdown from "@/utils/countdown";
+    import TextBox from "@/components/ui/TextBox.vue";
+
+    interface RequestEmailValues
+    {
+        emailAddress: string;
+        expiringAt: number;
+    }
 
     const REQUEST_DELAY = 60;
 
     const $vuert = useVuert();
-
-    const user = useUserStore();
-
-    const countdown = new Countdown(REQUEST_DELAY);
-    const isRunning = countdown.isRunning;
-    const remainingTime = countdown.remainingTime;
-
-    console.log(countdown);
+    const $cache = useCacheStore();
+    const $user = useUserStore();
 
     const email = ref("");
+    const countdown = new Countdown(REQUEST_DELAY);
 
+    const initialize = () =>
+    {
+        const values = $cache.get<RequestEmailValues>("requestEmail");
+        if (!values) { return; }
+
+        const remainingTime = Math.ceil((values.expiringAt - Date.now()) / 1000);
+
+        email.value = values.emailAddress;
+        countdown.start(remainingTime);
+    };
     const onClick = async () =>
     {
+        const delayMs = REQUEST_DELAY * 1000;
+        const values: RequestEmailValues = {
+            emailAddress: email.value,
+            expiringAt: Date.now() + delayMs
+        };
+
+        $cache.set("requestEmail", values, delayMs);
         countdown.start();
 
-        try
-        {
-            await user.requestPasswordResetEmail(email.value);
-        }
-        finally
-        {
-            countdown.stop();
-        }
+        await $user.requestPasswordResetEmail(email.value);
 
         $vuert.emit({
             type: "success",
@@ -70,6 +84,8 @@
             timeout: 2500
         });
     };
+
+    initialize();
 </script>
 
 <style lang="scss" scoped>

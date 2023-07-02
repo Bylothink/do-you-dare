@@ -54,8 +54,7 @@
     import AppButton from "@/components/ui/AppButton.vue";
 
     const $route = useRoute();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const isValidating = ref(true);
     const hasFailed = ref(true);
@@ -70,7 +69,7 @@
 
         try
         {
-            await user.verifyEmail(token);
+            await $user.verifyEmail(token);
 
             // TODO: Differenziare la gestione della verifica dell'utente.
             //

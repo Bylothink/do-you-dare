@@ -19,14 +19,14 @@
             <hr />
             <div class="input-group">
                 <input class="form-control is-valid"
-                       :value="user.email"
+                       :value="$user.email"
                        readonly />
-                <AppButton :disabled="countdown.isRunning" @click="onClick">
+                <AppButton :disabled="countdown.isRunning.value" @click="onClick">
                     Send a new email
                 </AppButton>
             </div>
-            <div v-if="countdown.isRunning" class="feedback">
-                Potrai riprovare da {{ countdown.remainingTime }} secondi.
+            <div v-if="countdown.isRunning.value" class="feedback">
+                You can try again in {{ countdown.remainingTime.value }} seconds.
             </div>
         </div>
     </CenteredLayout>
@@ -43,7 +43,7 @@
 
     const REQUEST_DELAY = 60;
 
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const countdown = new Countdown(REQUEST_DELAY);
 
@@ -51,7 +51,7 @@
     {
         countdown.start();
 
-        user.requestNewValidationEmail();
+        $user.requestNewValidationEmail();
     };
 
     onMounted(() => countdown.start());

@@ -24,12 +24,12 @@ export default class Countdown
         this.remainingTime = ref(0);
         this.isRunning = ref(false);
 
-        onScopeDispose(this.stop);
+        onScopeDispose(() => this.stop());
     }
 
-    public start(): Promise<void>
+    public start(remainingTime?: number): Promise<void>
     {
-        this.remainingTime.value = this.duration;
+        this.remainingTime.value = remainingTime ?? this.duration;
         this.isRunning.value = true;
 
         this._deferrer = new DeferredPromise<void>((resolve, reject) =>

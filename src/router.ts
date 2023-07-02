@@ -11,12 +11,10 @@ const router = createRouter({
 router.beforeEach((to, from) =>
 {
     const nextPage = config.pages.getByRoute(to);
-
     if (nextPage?.meta?.requiresAuth)
     {
-        const user = useUserStore();
-
-        if (!user.isLogged)
+        const $user = useUserStore();
+        if (!$user.isLogged)
         {
             router.push({ name: "user-log_in", query: { next: to.path } });
         }

@@ -43,8 +43,7 @@
 
     const $router = useRouter();
     const $vuert = useVuert();
-
-    const user = useUserStore();
+    const $user = useUserStore();
 
     const password = ref("");
     const checkPassword = ref("");
@@ -75,16 +74,15 @@
             });
         }
 
-        await user.changePassword(token, password.value);
+        await $user.changePassword(token, password.value);
 
+        $router.replace({ name: "user-log_in" });
         $vuert.emit({
             type: "success",
             icon: "circle-check",
             message: `Password changed successfully!`,
             timeout: 2500
         });
-
-        $router.replace({ name: "user-log_in" });
     };
 
     checkToken();
