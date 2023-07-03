@@ -32,7 +32,7 @@ export default class Countdown
         this.remainingTime.value = remainingTime ?? this.duration;
         this.isRunning.value = true;
 
-        this._deferrer = new DeferredPromise<void>((resolve, reject) =>
+        this._deferrer = new DeferredPromise<void>(() =>
         {
             this._intervalId = setInterval(() =>
             {

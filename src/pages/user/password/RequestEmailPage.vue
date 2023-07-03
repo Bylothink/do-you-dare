@@ -34,6 +34,8 @@
     import useCacheStore from "@/stores/cache";
     import useUserStore from "@/stores/user";
 
+    import Expire, { TimeUnit } from "@/utils/expire";
+
     import AppButton from "@/components/ui/AppButton.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import Countdown from "@/utils/countdown";
@@ -41,8 +43,8 @@
 
     interface RequestEmailValues
     {
-        emailAddress: string;
-        expiringAt: number;
+        email: string;
+        expiration: number;
     }
 
     const REQUEST_DELAY = 60;
@@ -59,20 +61,20 @@
         const values = $cache.get<RequestEmailValues>("requestEmail");
         if (!values) { return; }
 
-        const remainingTime = Math.ceil((values.expiringAt - Date.now()) / 1000);
+        const remainingTime = Expire.On(values.expiration, TimeUnit.Seconds);
 
-        email.value = values.emailAddress;
+        email.value = values.email;
         countdown.start(remainingTime);
     };
     const onClick = async () =>
     {
-        const delayMs = REQUEST_DELAY * 1000;
+        const expiration = Expire.In({ seconds: REQUEST_DELAY });
         const values: RequestEmailValues = {
-            emailAddress: email.value,
-            expiringAt: Date.now() + delayMs
+            email: email.value,
+            expiration: expiration
         };
 
-        $cache.set("requestEmail", values, delayMs);
+        $cache.set("requestEmail", values, expiration);
         countdown.start();
 
         await $user.requestPasswordResetEmail(email.value);
