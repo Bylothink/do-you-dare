@@ -5,14 +5,18 @@
             <template #loader>
                 <h3>Validating your account...</h3>
                 <hr />
+                <p>
+                    We're currently validating your account...<br />
+                    Please, hang tight.
+                </p>
                 <span class="fa-solid fa-spinner fa-spin fa-5x"></span>
             </template>
             <template #default>
                 <h3>Validation successful</h3>
                 <hr />
                 <p>
-                    Your account has been correctly validated.<br />
-                    You're good to go!
+                    Congratulations, your account has been correctly validated!<br />
+                    You're good to go.
                 </p>
                 <hr />
                 <RouterLink v-slot="{ href, navigate }"
@@ -29,12 +33,14 @@
                 <h3>Validation failed</h3>
                 <hr />
                 <p>
-                    We're sorry but something went wrong while validating of your account.<br />
-                    Please, try again.
+                    We're sorry, but we were unable to validate your account.<br />
+                    This could be due to various and multiple reasons... Please, try again.
                 </p>
                 <p>
-                    If the problem persists, please contact us.
-                    <!-- TODO: Creare il form di contatto per l'assistenza. -->
+                    If you're still having trouble validating your account,<br />
+                    please reach out to our support team using our
+                    <a href="#">Contact form</a>.<br />
+                    We're always here to help you.
                 </p>
             </template>
         </SuspenseLayout>
@@ -61,14 +67,14 @@
 
     const validate = async () =>
     {
-        const token = $route.query.token as string;
-        if (!token)
-        {
-            throw new ValueException("The `token` URL query parameters is missing.");
-        }
-
         try
         {
+            const token = $route.query.token as string;
+            if (!token)
+            {
+                throw new ValueException("The `token` URL query parameters is missing.");
+            }
+
             await $user.verifyEmail(token);
 
             // TODO: Differenziare la gestione della verifica dell'utente.

@@ -64,6 +64,6 @@ export default class Expire
             remainingTime = expiration - Date.now();
         }
 
-        return remainingTime / unit;
+        return Math.round(remainingTime / unit);
     }
 }

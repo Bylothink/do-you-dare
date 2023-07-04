@@ -126,11 +126,6 @@
         & > label
         {
             color: var(--bs-body-color);
-
-            &::after
-            {
-                content: none;
-            }
         }
 
         & > .form-control-plaintext
@@ -140,6 +135,31 @@
             & ~ label
             {
                 color: inherit;
+            }
+        }
+
+        .input-group > &
+        {
+            & > label
+            {
+                z-index: 4;
+            }
+
+            & > .form-control
+            {
+                position: relative;
+                z-index: 3;
+
+                &:not(:first-child)
+                {
+                    border-top-left-radius: 0;
+                    border-bottom-left-radius: 0;
+                }
+                &:not(:last-child)
+                {
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
             }
         }
     }

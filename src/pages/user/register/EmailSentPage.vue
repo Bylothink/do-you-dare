@@ -1,14 +1,15 @@
 <template>
     <CenteredLayout id="email-sent">
         <h1>Do you Dare?</h1>
-        <h3>Validate your email address</h3>
+        <h3>Registration Successful!</h3>
         <div>
             <hr />
             <p>
-                To complete the registration process, you need to validate your email address.
+                Thank you for joining the other players!<br />
+                Your registration was successful, and you're almost ready to start playing.
             </p>
             <p>
-                An email has just been sent to the address you provided.<br />
+                We have just sent you an email to the address you provided.<br />
                 Please, check your inbox and simply click on the link
                 contained in the message to validate your email address.
             </p>

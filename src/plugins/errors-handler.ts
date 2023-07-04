@@ -13,7 +13,7 @@ const ERROR_ALERT: DismissibleAlert = {
     message: "A mysterious error of an unknown nature just interrupted" +
         " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +
         "As you may have already guessed, whatever you were doing" +
-        " may have stopped working as intended; reload the page.",
+        " may have stopped working as intended; please, reload the page.",
 
     dismissible: true
 };

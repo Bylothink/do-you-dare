@@ -1,24 +1,33 @@
 <template>
     <CenteredLayout id="reset-password">
         <h1>Do you Dare?</h1>
-        <h3>Reset your forgotten password</h3>
+        <h3>Forgot your password? No problem.</h3>
         <div>
             <hr />
             <p>
-                &lt;!-- Add here a decent description for this page. --&gt;
+                It happens to the best of us.<br />
+                We understand that remembering numerous passwords for different accounts can be a hassle.<br />
+                That's why we're here to help.
+            </p>
+            <p>
+                Just enter your email address associated with this account in the<br />
+                field below, and we'll send you instructions to reset your password.
             </p>
             <hr />
-            <TextBox id="email"
-                     v-model:value="email"
-                     class="mb-3"
-                     label="Email address"
-                     type="email"
-                     autocomplete="email"
-                     :readonly="countdown.isRunning.value"
-                     required />
-            <AppButton :disabled="countdown.isRunning.value" @click="onClick">
-                Reset
-            </AppButton>
+            <form class="mx-3" @submit.prevent="onSubmit">
+                <div class="input-group mb-3">
+                    <TextBox id="email"
+                             v-model:value="email"
+                             label="Email address"
+                             type="email"
+                             autocomplete="email"
+                             :readonly="countdown.isRunning.value"
+                             required />
+                    <AppButton :disabled="countdown.isRunning.value" type="submit">
+                        Reset
+                    </AppButton>
+                </div>
+            </form>
             <div v-if="countdown.isRunning.value" class="feedback">
                 You can try again in {{ countdown.remainingTime.value }} seconds.
             </div>
@@ -66,12 +75,12 @@
         email.value = values.email;
         countdown.start(remainingTime);
     };
-    const onClick = async () =>
+    const onSubmit = async () =>
     {
-        const expiration = Expire.In({ seconds: REQUEST_DELAY });
+        const expiration = { seconds: REQUEST_DELAY };
         const values: RequestEmailValues = {
             email: email.value,
-            expiration: expiration
+            expiration: Expire.In(expiration)
         };
 
         $cache.set("requestEmail", values, expiration);

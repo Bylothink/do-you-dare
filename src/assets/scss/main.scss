@@ -24,15 +24,6 @@ hr:not([size])
     opacity: 1;
 }
 
-label
-{
-    &:after
-    {
-        content: ":";
-        margin-right: 0.5em;
-    }
-}
-
 .btn
 {
     border-radius: 10px;

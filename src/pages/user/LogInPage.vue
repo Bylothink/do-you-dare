@@ -2,7 +2,7 @@
     <CenteredLayout id="log-in">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Log in
+            Welcome Back!
         </h3>
         <form class="mx-3" @submit.prevent="onSubmit">
             <TextBox id="username"
@@ -19,19 +19,20 @@
                      type="password"
                      autocomplete="current-password"
                      required />
-            <input type="checkbox" />
-            Ricordami su questo dispositivo
+            <CheckBox id="remember-me" title="Check this box if you want to stay logged in on this device">
+                Remember me
+            </CheckBox>
             <hr />
             <span style="display: block;">
-                Non hai ancora un account?
+                Don't have an account yet?
                 <RouterLink :to="{ name: 'user-register' }">
-                    Registrati
+                    Register
                 </RouterLink>
             </span>
             <span style="display: block;">
-                Hai dimenticato la password?
+                Forgot your password?
                 <RouterLink :to="{ name: 'user-password-request_email' }">
-                    Ripristinala
+                    Reset it
                 </RouterLink>
             </span>
             <AppButton class="form-control form-control-lg mt-3" type="submit">
@@ -52,6 +53,7 @@
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+    import CheckBox from "@/components/ui/CheckBox.vue";
     import TextBox from "@/components/ui/TextBox.vue";
 
     const $router = useRouter();
