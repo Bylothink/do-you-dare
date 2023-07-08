@@ -1,8 +1,7 @@
 <template>
-    <div class="card" :class="classes">
-        <div class="spacer"></div>
+    <div class="game-card" :class="classes">
         <div class="face back">
-            <img alt="Vue logo" src="@/assets/images/logo.png" />
+            <GameLogo />
         </div>
         <div class="face front">
             <slot></slot>
@@ -12,6 +11,8 @@
 
 <script lang="ts" setup>
     import { computed } from "vue";
+
+    import GameLogo from "./GameLogo.vue";
 
     const props = defineProps({
         facedown: {
@@ -26,8 +27,9 @@
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";
 
-    .card
+    .game-card
     {
+        aspect-ratio: 5 / 7;
         background-color: variables.$not-quite-black;
         border: 1px solid rgba(0, 0, 0, 0.5);
         border-radius: 1em;
@@ -36,10 +38,6 @@
         transform-style: preserve-3d;
         user-select: none;
 
-        & > .spacer
-        {
-            padding: 70% 0px;
-        }
         & > .face
         {
             align-items: center;

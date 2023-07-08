@@ -13,7 +13,7 @@
     import { computed, reactive, ref } from "vue";
     import { useEventListener } from "@vueuse/core";
 
-    import { syncWithFrame } from "@/utils";
+    import { withFrame } from "@/utils";
     import type { DragEvent, Point } from "@/types";
 
     const props = defineProps({
@@ -112,7 +112,7 @@
         _onEventDrag(touch);
     };
 
-    const _onEventMove = syncWithFrame((evt: Point) =>
+    const _onEventMove = withFrame((evt: Point) =>
     {
         if (isMoving.value)
         {

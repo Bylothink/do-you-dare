@@ -67,63 +67,77 @@ a
     {
         &.alert-#{$color}
         {
-            .alert-link,
-            .btn-link
+            $alert-background: shade-color($value, 80%);
+            $alert-border: shade-color($value, 40%);
+            $alert-color: tint-color($value, 40%);
+
+            hr
             {
-                $alert-background: shift-color($value, $alert-bg-scale);
-                $alert-border: shift-color($value, $alert-border-scale);
-                $alert-color: shift-color($value, $alert-color-scale);
-
-                @if (contrast-ratio($alert-background, $alert-color) < $min-contrast-ratio)
-                {
-                    $alert-color: mix($value, color-contrast($alert-background), abs($alert-color-scale));
-                }
-
-                $link-color: shade-color($alert-color, 20%);
-
-                color: $link-color;
-
-                &:hover
-                {
-                    color: shift-color($link-color, -$link-shade-percentage);
-                }
+                background-color: rgba($alert-color, 0.5);
             }
 
+            .alert-link,
             .btn-close,
             .btn-link
             {
-                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+                box-shadow: 0px 0px 0px 0px rgba($value, 0);
+                color: $alert-color;
 
-                &:focus
+                &:focus-visible
                 {
+                    background-color: unset;
+                    background-image: unset;
                     box-shadow: 0px 0px 0px 0.25rem rgba($value, 0.25);
                 }
             }
-
-            $button-color: tint-color($value, 25%);
+            .alert-link,
+            .btn-link
+            {
+                &:hover
+                {
+                    color: shift-color($alert-color, $link-shade-percentage);
+                }
+                &:active
+                {
+                    color: shift-color($alert-color, -$link-shade-percentage);
+                }
+            }
+            .btn-close
+            {
+                transition: opacity variables.$transition-duration variables.$transition-timing;
+            }
 
             .btn-primary
             {
-                @include button-variant($button-color, $button-color);
+                @include button-variant($value, $value);
             }
             .btn-secondary
             {
-                $button-color: mix($neutral, $button-color);
-                $button-color: tint-color($button-color, 25%);
+                $outline-color: tint-color($value, 25%);
 
-                @include button-variant($button-color, $button-color);
+                @include button-outline-variant($outline-color);
+
+                background-color: rgba($outline-color, 0);
+
+                &:hover,
+                &:active
+                {
+                    background-color: $outline-color;
+                    color: #000000;
+                }
+                &:focus-visible
+                {
+                    color: $outline-color;
+                }
             }
         }
     }
 }
 
-.btn
+.btn:disabled
 {
-    &:disabled
-    {
-        cursor: not-allowed;
-        pointer-events: auto;
-    }
+    cursor: not-allowed;
+    pointer-events: auto;
 }
 .btn-link
 {

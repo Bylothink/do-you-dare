@@ -1,18 +1,34 @@
+/* eslint-disable no-trailing-spaces */
+
+import { ValueException } from "@byloth/exceptions";
+
+/**
+ * A wrapper around the `Storage` API to store and retrieve JSON values.
+ *
+ * It allows to handle either the `sessionStorage` or the `localStorage`
+ * storage at the same time, depending on the required use case.
+ */
 export default class JsonStorage
 {
-    protected _storage: Storage;
+    protected _preferPersistence: boolean;
 
-    public constructor(storage: Storage)
+    protected _volatile: Storage;
+    protected _persistent: Storage;
+
+    public constructor(preferPersistence = true)
     {
-        this._storage = storage;
+        this._preferPersistence = preferPersistence;
+
+        this._volatile = window.sessionStorage;
+        this._persistent = window.localStorage;
     }
 
-    public get<T>(propertyName: string): T | undefined;
-    public get<T>(propertyName: string, defaultValue: T): T;
-    public get<T>(propertyName: string, defaultValue?: T): T | undefined
+    protected _get<T>(storage: Storage, propertyName: string): T | undefined;
+    protected _get<T>(storage: Storage, propertyName: string, defaultValue: T): T;
+    protected _get<T>(storage: Storage, propertyName: string, defaultValue?: T): T | undefined;
+    protected _get<T>(storage: Storage, propertyName: string, defaultValue?: T): T | undefined
     {
-        const propertyValue = this._storage.getItem(propertyName) || undefined;
-
+        const propertyValue = storage.getItem(propertyName);
         if (propertyValue)
         {
             try
@@ -29,28 +45,217 @@ export default class JsonStorage
                         " property cannot be parsed. Clearing the storage...");
                 }
 
-                this._storage.removeItem(propertyName);
+                storage.removeItem(propertyName);
             }
         }
 
         return defaultValue;
     }
-    public set<T>(propertyName: string, newValue?: T): void
+    protected _set<T>(storage: Storage, propertyName: string, newValue?: T): void
     {
-        const encodedValue = JSON.stringify(newValue);
+        let encodedValue: string;
+
+        try
+        {
+            encodedValue = JSON.stringify(newValue);
+        }
+        catch (error)
+        {
+            if (import.meta.env.DEV)
+            {
+                throw new ValueException("Unable to convert the provided value into a valid JSON string.", error);
+            }
+
+            return;
+        }
 
         if (encodedValue)
         {
-            this._storage.setItem(propertyName, encodedValue);
+            storage.setItem(propertyName, encodedValue);
         }
         else
         {
-            this.remove(propertyName);
+            storage.removeItem(propertyName);
         }
     }
 
-    public remove(propertyName: string): void
+    /**
+     * Retrieves the value with the specified name from the corresponding storage.
+     *
+     * @param propertyName The name of the property to retrieve.
+     * @param defaultValue The default value to return if the property does not exist.
+     * @param persistent Whether to use the persistent `localStorage` or the volatile `sessionStorage`.
+     *
+     * @returns The value of the property or the default value if the property does not exist.
+     */
+    public get<T>(propertyName: string, defaultValue: undefined, persistent?: boolean): T | undefined;
+    public get<T>(propertyName: string, defaultValue: T, persistent?: boolean): T ;
+    public get<T>(propertyName: string, defaultValue?: T, persistent?: boolean): T | undefined;
+    public get<T>(propertyName: string, defaultValue?: T, persistent = this._preferPersistence): T | undefined
     {
-        this._storage.removeItem(propertyName);
+        const storage = persistent ? this._persistent : this._volatile;
+
+        return this._get<T>(storage, propertyName, defaultValue);
+    }
+    /**
+     * Retrieves the value with the specified name from the volatile `sessionStorage`.
+     *
+     * @param propertyName The name of the property to retrieve.
+     * @param defaultValue The default value to return if the property does not exist.
+     *
+     * @returns The value of the property or the default value if the property does not exist.
+     */
+    public recall<T>(propertyName: string): T | undefined;
+    public recall<T>(propertyName: string, defaultValue: T): T;
+    public recall<T>(propertyName: string, defaultValue?: T): T | undefined;
+    public recall<T>(propertyName: string, defaultValue?: T): T | undefined
+    {
+        return this._get<T>(this._volatile, propertyName, defaultValue);
+    }
+    /**
+     * Retrieves the value with the specified name looking first in the
+     * volatile `sessionStorage` and then in the persistent `localStorage`.
+     *
+     * @param propertyName The name of the property to retrieve.
+     * @param defaultValue The default value to return if the property does not exist.
+     *
+     * @returns The value of the property or the default value if the property does not exist.
+     */
+    public retrieve<T>(propertyName: string): T | undefined;
+    public retrieve<T>(propertyName: string, defaultValue: T): T;
+    public retrieve<T>(propertyName: string, defaultValue?: T): T | undefined;
+    public retrieve<T>(propertyName: string, defaultValue?: T): T | undefined
+    {
+        return this.recall<T>(propertyName) ?? this.read<T>(propertyName, defaultValue);
+    }
+    /**
+     * Retrieves the value with the specified name from the persistent `localStorage`.
+     *
+     * @param propertyName The name of the property to retrieve.
+     * @param defaultValue The default value to return if the property does not exist.
+     *
+     * @returns The value of the property or the default value if the property does not exist.
+     */
+    public read<T>(propertyName: string): T | undefined;
+    public read<T>(propertyName: string, defaultValue: T): T;
+    public read<T>(propertyName: string, defaultValue?: T): T | undefined;
+    public read<T>(propertyName: string, defaultValue?: T): T | undefined
+    {
+        return this._get<T>(this._persistent, propertyName, defaultValue);
+    }
+
+    /**
+     * Checks whether the property with the specified name exists in the corresponding storage.
+     *
+     * @param propertyName The name of the property to check.
+     * @param persistent Whether to use the persistent `localStorage` or the volatile `sessionStorage`.
+     *
+     * @returns `true` if the property exists, `false` otherwise.
+     */
+    public has(propertyName: string, persistent?: boolean): boolean
+    {
+        const storage = persistent ? this._persistent : this._volatile;
+
+        return storage.getItem(propertyName) !== null;
+    }
+    /**
+     * Checks whether the property with the specified name exists in the volatile `sessionStorage`.
+     *
+     * @param propertyName The name of the property to check.
+     *
+     * @returns `true` if the property exists, `false` otherwise.
+     */
+    public knows(propertyName: string): boolean
+    {
+        return this._volatile.getItem(propertyName) !== null;
+    }
+    /**
+     * Checks whether the property with the specified name exists looking first in the
+     * volatile `sessionStorage` and then in the persistent `localStorage`.
+     *
+     * @param propertyName The name of the property to check.
+     *
+     * @returns `true` if the property exists, `false` otherwise.
+     */
+    public find(propertyName: string): boolean
+    {
+        return this.knows(propertyName) ?? this.exists(propertyName);
+    }
+    /**
+     * Checks whether the property with the specified name exists in the persistent `localStorage`.
+     *
+     * @param propertyName The name of the property to check.
+     *
+     * @returns `true` if the property exists, `false` otherwise.
+     */
+    public exists(propertyName: string): boolean
+    {
+        return this._persistent.getItem(propertyName) !== null;
+    }
+
+    /**
+     * Sets the value with the specified name in the corresponding storage.  
+     * If the value is `undefined`, the property is removed from the storage.
+     *
+     * @param propertyName The name of the property to set.
+     * @param newValue The new value to set.
+     * @param persistent Whether to use the persistent `localStorage` or the volatile `sessionStorage`.
+     */
+    public set<T>(propertyName: string, newValue?: T, persistent = this._preferPersistence): void
+    {
+        const storage = persistent ? this._persistent : this._volatile;
+
+        this._set<T>(storage, propertyName, newValue);
+    }
+    /**
+     * Sets the value with the specified name in the volatile `sessionStorage`.  
+     * If the value is `undefined`, the property is removed from the storage.
+     *
+     * @param propertyName The name of the property to set.
+     * @param newValue The new value to set.
+     */
+    public remember<T>(propertyName: string, newValue?: T): void
+    {
+        this._set<T>(this._volatile, propertyName, newValue);
+    }
+    /**
+     * Sets the value with the specified name in the persistent `localStorage`.  
+     * If the value is `undefined`, the property is removed from the storage.
+     *
+     * @param propertyName The name of the property to set.
+     * @param newValue The new value to set.
+     */
+    public write<T>(propertyName: string, newValue?: T): void
+    {
+        this._set<T>(this._persistent, propertyName, newValue);
+    }
+
+    /**
+     * Removes the value with the specified name from the volatile `sessionStorage`.
+     *
+     * @param propertyName The name of the property to remove.
+     */
+    public forget(propertyName: string): void
+    {
+        this._volatile.removeItem(propertyName);
+    }
+    /**
+     * Removes the value with the specified name from the persistent `localStorage`.
+     *
+     * @param propertyName The name of the property to remove.
+     */
+    public erase(propertyName: string): void
+    {
+        this._persistent.removeItem(propertyName);
+    }
+    /**
+     * Removes the value with the specified name from all the storages.
+     *
+     * @param propertyName The name of the property to remove.
+     */
+    public clear(propertyName: string): void
+    {
+        this._volatile.removeItem(propertyName);
+        this._persistent.removeItem(propertyName);
     }
 }

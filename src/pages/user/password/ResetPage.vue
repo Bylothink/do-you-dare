@@ -20,10 +20,12 @@
                      autocomplete="new-password"
                      required />
             <hr />
-            <AppButton class="form-control form-control-lg mt-3" type="submit">
-                <span class="fa-solid fa-key"></span>
-                Change
-            </AppButton>
+            <div class="d-grid mt-3">
+                <AppButton large type="submit">
+                    <span class="fa-solid fa-key"></span>
+                    Change
+                </AppButton>
+            </div>
         </form>
     </CenteredLayout>
 </template>

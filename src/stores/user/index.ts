@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 import type { UserData } from "@/models/user";
-import { jsonLocalStorage } from "@/utils";
+import { jsonStorage } from "@/utils";
 
 import * as Mutations from "./mutations";
 import type { RegisterData } from "./mutations/register";
@@ -13,8 +13,8 @@ const COOKIE_VERSION = 1;
 
 export default defineStore("user", {
     state: (): UserState => ({
-        cookieAck: jsonLocalStorage.get<CookieAcknowledgement>("user:cookieAck"),
-        token: jsonLocalStorage.get<string>("user:token"),
+        cookieAck: jsonStorage.read<CookieAcknowledgement>("user:cookieAck"),
+        token: jsonStorage.read<string>("user:token"),
 
         username: undefined,
         email: undefined
@@ -37,7 +37,7 @@ export default defineStore("user", {
         {
             this.cookieAck = { value: value, version: COOKIE_VERSION };
 
-            jsonLocalStorage.set("user:cookieAck", this.cookieAck);
+            jsonStorage.write("user:cookieAck", this.cookieAck);
         },
         _setInfo(user?: Partial<UserData>): void
         {
@@ -48,7 +48,7 @@ export default defineStore("user", {
         {
             this.token = token;
 
-            jsonLocalStorage.set("user:token", this.token);
+            jsonStorage.write("user:token", this.token);
         },
 
         clear(): void
@@ -81,9 +81,9 @@ export default defineStore("user", {
             return request.execute();
         },
 
-        async register(args: RegisterData): Promise<void>
+        async register(data: RegisterData): Promise<void>
         {
-            const request = new Mutations.Register(args);
+            const request = new Mutations.Register(data);
             const response = await request.execute();
 
             this._setToken(response.token);

@@ -2,8 +2,7 @@ import { onScopeDispose } from "vue";
 
 import JsonStorage from "./json-storage";
 
-export const jsonLocalStorage = new JsonStorage(window.localStorage);
-export const jsonSessionStorage = new JsonStorage(window.sessionStorage);
+export const jsonStorage = new JsonStorage();
 
 export function nextFrame(): Promise<void>
 {
@@ -11,8 +10,7 @@ export function nextFrame(): Promise<void>
     // @ts-ignore
     return new Promise<void>((resolve, reject) => requestAnimationFrame(resolve));
 }
-
-export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void
+export function withFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void
 {
     let _args: T;
     let _requestId: number | null = null;
@@ -43,4 +41,9 @@ export function syncWithFrame<T extends Array<unknown>>(callback: (...args: T) =
             _requestId = requestAnimationFrame(_requestCallback);
         }
     };
+}
+
+export function sleep(timeout: number): Promise<void>
+{
+    return new Promise<void>((resolve, reject) => setTimeout(resolve, timeout));
 }

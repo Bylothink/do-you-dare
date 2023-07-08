@@ -19,7 +19,7 @@
                     <div class="alert-actions">
                         <AppButton v-for="action in alert.actions"
                                    :key="action.id"
-                                   :theme="action.type"
+                                   :theme="getTheme(action.type)"
                                    small
                                    @click="resolve(action)">
                             {{ action.label }}
@@ -37,7 +37,13 @@
     import AlertBox from "@/components/ui/AlertBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
-    const getTheme = (type: string) => (type != "error") ? type : "danger";
+    const getTheme = (type: string) =>
+    {
+        if (type === "error") { return "danger"; }
+        if (type === "alternative") { return "link"; }
+
+        return type;
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -50,6 +56,7 @@
         text-align: initial;
         pointer-events: none;
         top: 1em;
+        z-index: 5;
 
         & > .alert
         {

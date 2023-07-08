@@ -20,6 +20,8 @@
                 aria-label="Close"
                 type="button"
                 @click="$emit('dismiss', $event)">
+            <span class="fa-solid fa-times">
+            </span>
         </button>
     </ThemedElement>
 </template>
@@ -61,6 +63,16 @@
         & > .alert-heading > .fa-solid
         {
             margin-right: 0.25em;
+        }
+        & > .btn-close
+        {
+            align-items: center;
+            background-image: unset;
+            display: flex;
+            filter: none;
+            font-size: 1.5rem;
+            justify-content: center;
+            padding: 1rem;
         }
         & > .fa-solid
         {

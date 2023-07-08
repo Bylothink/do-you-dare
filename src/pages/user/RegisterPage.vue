@@ -40,10 +40,12 @@
                     Accedi
                 </RouterLink>
             </span>
-            <AppButton class="form-control form-control-lg mt-3" type="submit">
-                <span class="fa-solid fa-id-card"></span>
-                Register
-            </AppButton>
+            <div class="d-grid mt-3">
+                <AppButton large type="submit">
+                    <span class="fa-solid fa-id-card"></span>
+                    Register
+                </AppButton>
+            </div>
         </form>
     </CenteredLayout>
 </template>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { jsonLocalStorage } from "@/utils";
+import { jsonStorage } from "@/utils";
 import Expire from "@/utils/expire";
 import type { ExpireTimeout } from "@/utils/expire";
 
@@ -17,7 +17,7 @@ export default defineStore("cache", {
 
         get<T>(key: string, defaultValue?: T): T | undefined
         {
-            const cache = jsonLocalStorage.get<CachedValue<T>>(`cache:${key}`);
+            const cache = jsonStorage.recall<CachedValue<T>>(`cache:${key}`);
             if (cache?.version === CACHE_VERSION)
             {
                 if (cache.expiration > Date.now())
@@ -26,14 +26,14 @@ export default defineStore("cache", {
                 }
             }
 
-            jsonLocalStorage.remove(`cache:${key}`);
+            jsonStorage.forget(`cache:${key}`);
 
             return defaultValue;
         },
         // has<T = unknown>(key: string): boolean { /* ... */ },
         set<T>(key: string, value: T, timeout: number | ExpireTimeout): void
         {
-            jsonLocalStorage.set(`cache:${key}`, {
+            jsonStorage.remember(`cache:${key}`, {
                 value: value,
                 expiration: Expire.In(timeout),
                 version: CACHE_VERSION

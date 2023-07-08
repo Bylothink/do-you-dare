@@ -3,47 +3,55 @@
 
 <template>
     <div class="game-logo">
-        <span class="card-1"></span>
-        <span class="card-2"></span>
+        <span class="piece piece--bottom"></span>
+        <span class="piece piece--top"></span>
     </div>
 </template>
 
 <style lang="scss" scoped>
     .game-logo
     {
+        align-items: center;
+        display: flex;
         isolation: isolate;
-    }
+        justify-content: center;
+        position: relative;
 
-    .card-1
-    {
-        background-color: aqua;
+        & > .piece
+        {
+            aspect-ratio: 5 / 7;
+            border-radius: 0.5em;
+            margin: auto;
 
-        position: absolute;
-        top: 45%;
-        left: 45.5%;
+            // mix-blend-mode: multiply;
+            mix-blend-mode: screen;     // *
 
-        aspect-ratio: 2.5 / 3.5;
-        width: 100px;
+            pointer-events: all;
+            position: absolute;
+            width: 100px;
 
-        // mix-blend-mode: multiply;
-        mix-blend-mode: screen;     // *
-        // mix-blend-mode: difference;
-        // mix-blend-mode: exclusion;
-    }
-    .card-2
-    {
-        background-color: darkviolet;
+            &.piece--bottom
+            {
+                background-color: #00FFFF;
+                background-image: linear-gradient(-5deg, rgba(0, 0, 255, 0.5),
+                                                         rgba(0, 255, 255, 0),
+                                                         rgba(0, 255, 0, 0.5));
 
-        position: absolute;
-        bottom: 45%;
-        right: 45.5%;
+                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+                transform: rotate(5deg) translateX(0.5em) translateY(-0.5em);
+                z-index: -1;
+            }
+            &.piece--top
+            {
+                background-color: #FF00FF;
+                background-image: linear-gradient(185deg, rgba(0, 0, 255, 0.5),
+                                                          rgba(255, 0, 255, 0),
+                                                          rgba(255, 0, 0, 0.5));
 
-        aspect-ratio: 2.5 / 3.5;
-        width: 100px;
-
-        // mix-blend-mode: multiply;
-        mix-blend-mode: screen;     // *
-        // mix-blend-mode: difference;
-        // mix-blend-mode: exclusion;
+                box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+                transform: rotate(-5deg) translateX(-0.5em) translateY(0.5em);
+                z-index: 1;
+            }
+        }
     }
 </style>

@@ -21,10 +21,9 @@
 
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
-    import { promiseTimeout } from "@vueuse/core";
 
     import { Card } from "@/models";
-    import { nextFrame } from "@/utils";
+    import { nextFrame, sleep } from "@/utils";
     import type { DragEvent } from "@/types";
 
     import GameCard from "./GameCard.vue";
@@ -139,7 +138,7 @@
             cardPosition.x = x * 3;
             cardPosition.y = y * 3;
 
-            promiseTimeout(200)
+            sleep(200)
                 .then(reset);
         }
         else
@@ -160,7 +159,7 @@
         perspective: 1024px;
         position: relative;
 
-        & > .card
+        & > .game-card
         {
             width: variables.$card-width;
             &.interactive
