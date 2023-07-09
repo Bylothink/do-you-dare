@@ -4,6 +4,23 @@ import JsonStorage from "./json-storage";
 
 export const jsonStorage = new JsonStorage();
 
+export function loadScript(url: string): Promise<void>
+{
+    return new Promise<void>((resolve, reject) =>
+    {
+        const script = document.createElement("script");
+
+        script.async = true;
+        script.defer = true;
+        script.src = url;
+
+        script.onload = () => resolve();
+        script.onerror = () => reject();
+
+        document.body.appendChild(script);
+    });
+}
+
 export function nextFrame(): Promise<void>
 {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -33,6 +33,7 @@
                      type="password"
                      autocomplete="new-password"
                      required />
+            <hCaptchaBox v-model:value="token" :sitekey="sitekey" />
             <hr />
             <span>
                 Possiedi già un account?
@@ -60,16 +61,20 @@
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
+    import hCaptchaBox from "@/components/ui/hCaptchaBox.vue";
     import TextBox from "@/components/ui/TextBox.vue";
 
     const $router = useRouter();
     const $vuert = useVuert();
     const $user = useUserStore();
 
+    const sitekey = import.meta.env.VITE_HCAPTCHA_SITEKEY;
+
     const username = ref("");
     const password = ref("");
     const checkPassword = ref("");
     const email = ref("");
+    const token = ref("");
 
     const onSubmit = async () =>
     {
@@ -87,7 +92,8 @@
         await $user.register({
             username: username.value,
             password: password.value,
-            email: email.value
+            email: email.value,
+            token: token.value
         });
 
         $router.replace({ name: "user-register-email_sent" });
