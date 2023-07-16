@@ -7,9 +7,9 @@ interface RenderOptions
     "callback"?: (token: string) => void;
     "expired-callback"?: () => void;
     "chalexpired-callback"?: (...args: unknown[]) => void;
-    "error-callback"?: (...args: unknown[]) => void;
     "open-callback"?: (...args: unknown[]) => void;
     "close-callback"?: (...args: unknown[]) => void;
+    "error-callback"?: (...args: unknown[]) => void;
 }
 interface hCaptcha
 {

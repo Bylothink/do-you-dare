@@ -38,9 +38,9 @@
             "expired-callback": () => emit("update:value", ""),
 
             "chalexpired-callback": (...args: unknown[]) => console.log("chalexpired-callback", args),
-            "error-callback": (...args: unknown[]) => console.log("error-callback", args),
             "open-callback": (...args: unknown[]) => console.log("open-callback", args),
-            "close-callback": (...args: unknown[]) => console.log("close-callback", args)
+            "close-callback": (...args: unknown[]) => console.log("close-callback", args),
+            "error-callback": (...args: unknown[]) => console.log("error-callback", args)
         });
 
         const hCaptcha = $element.value!.children[0] as HTMLIFrameElement;
