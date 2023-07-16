@@ -36,10 +36,10 @@
   resolved "https://registry.yarnpkg.com/@byloth/exceptions/-/exceptions-2.0.3.tgz#965dd9e51d692dfde5d50a24604fdb16a57e9dee"
   integrity sha512-8sfyfHwmKXIbc3MioJJqhlL+JtA8HXpr5sbzWfkMF/JKA5j0Xyc07kLkyHgrAeE7IycwVTd9cjCsdOfzxtZ/2g==
 
-"@byloth/vuert@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@byloth/vuert/-/vuert-1.0.5.tgz#f7b739dcfafb28482065fc41399cb14e07c0c5d8"
-  integrity sha512-h75AGiXc2yBIxziDCaGgP2Gjx/qA+YWIUDe4lg2wD8h7CKXMxDJIMHFjqX7vadS7aWh1f7a1VWjaU2ClmWnpcQ==
+"@byloth/vuert@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@byloth/vuert/-/vuert-1.1.0.tgz#43835d1bb4e1f79d32572275e886e7593e25f56d"
+  integrity sha512-bQM1UdU6g/LlyQeWNLqFO8ajAAnKcIHz22txSUFG9nZupcFMjmjtdG7kgAl90slLrWn1p8qTXY7bZ0QRb0kU3g==
   dependencies:
     "@byloth/exceptions" "^2.0.3"
     vue "^3.3.4"

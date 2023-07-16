@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@byloth/exceptions": "^2.0.3",
-    "@byloth/vuert": "^1.0.5",
+    "@byloth/vuert": "^1.1.0",
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@vueuse/core": "^10.2.1",
     "axios": "^1.4.0",
