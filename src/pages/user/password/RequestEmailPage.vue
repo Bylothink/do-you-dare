@@ -1,17 +1,18 @@
 <template>
     <CenteredLayout id="reset-password">
         <h1>Do you Dare?</h1>
-        <h3>Forgot your password? No problem.</h3>
+        <h3 class="mb-4">
+            Forgot your password? No problem.
+        </h3>
         <div>
-            <hr />
             <p>
                 It happens to the best of us.<br />
                 We understand that remembering numerous passwords for different accounts can be a hassle.<br />
                 That's why we're here to help.
             </p>
             <p>
-                Just enter your email address associated with this account in the<br />
-                field below, and we'll send you instructions to reset your password.
+                Just enter your email address associated with this account in the field below<br />
+                and we'll send you instructions to reset your password.
             </p>
             <hr />
             <form class="mx-3" @submit.prevent="onSubmit">

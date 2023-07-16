@@ -3,8 +3,9 @@
         <h1>Do you Dare?</h1>
         <SuspenseLayout :loading="isValidating" :failed="hasFailed">
             <template #loader>
-                <h3>Validating your account...</h3>
-                <hr />
+                <h3 class="mb-4">
+                    Validating your account...
+                </h3>
                 <p>
                     We're currently validating your account...<br />
                     Please, hang tight.
@@ -12,8 +13,9 @@
                 <span class="fa-solid fa-spinner fa-spin fa-5x"></span>
             </template>
             <template #default>
-                <h3>Validation successful</h3>
-                <hr />
+                <h3 class="mb-4">
+                    Validation successful
+                </h3>
                 <p>
                     Congratulations, your account has been correctly validated!<br />
                     You're good to go.
@@ -30,8 +32,9 @@
                 </RouterLink>
             </template>
             <template #error>
-                <h3>Validation failed</h3>
-                <hr />
+                <h3 class="mb-4">
+                    Validation failed
+                </h3>
                 <p>
                     We're sorry, but we were unable to validate your account.<br />
                     This could be due to various and multiple reasons... Please, try again.

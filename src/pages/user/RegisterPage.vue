@@ -4,50 +4,52 @@
         <h3 class="mb-4">
             Register
         </h3>
-        <form class="mx-3 form-table" @submit.prevent="onSubmit">
-            <TextBox id="username"
-                     v-model:value="username"
-                     class="mb-3"
-                     label="Username"
-                     type="text"
-                     autocomplete="username"
-                     required />
-            <TextBox id="email"
-                     v-model:value="email"
-                     class="mb-3"
-                     label="Email address"
-                     type="email"
-                     autocomplete="email"
-                     required />
-            <TextBox id="password"
-                     v-model:value="password"
-                     class="mb-3"
-                     label="Password"
-                     type="password"
-                     autocomplete="new-password"
-                     required />
-            <TextBox id="check-password"
-                     v-model:value="checkPassword"
-                     class="mb-3"
-                     label="Confirm password"
-                     type="password"
-                     autocomplete="new-password"
-                     required />
-            <hCaptchaBox v-model:value="token" :sitekey="sitekey" />
-            <hr />
-            <span>
-                Possiedi già un account?
-                <RouterLink :to="{ name: 'user-log_in' }">
-                    Accedi
-                </RouterLink>
-            </span>
-            <div class="d-grid mt-3">
-                <AppButton large type="submit">
-                    <span class="fa-solid fa-id-card"></span>
-                    Register
-                </AppButton>
-            </div>
-        </form>
+        <div>
+            <form class="mx-3 form-table" @submit.prevent="onSubmit">
+                <TextBox id="username"
+                         v-model:value="username"
+                         class="mb-3"
+                         label="Username"
+                         type="text"
+                         autocomplete="username"
+                         required />
+                <TextBox id="email"
+                         v-model:value="email"
+                         class="mb-3"
+                         label="Email address"
+                         type="email"
+                         autocomplete="email"
+                         required />
+                <TextBox id="password"
+                         v-model:value="password"
+                         class="mb-3"
+                         label="Password"
+                         type="password"
+                         autocomplete="new-password"
+                         required />
+                <TextBox id="check-password"
+                         v-model:value="checkPassword"
+                         class="mb-3"
+                         label="Confirm password"
+                         type="password"
+                         autocomplete="new-password"
+                         required />
+                <hCaptchaBox v-model:value="token" :sitekey="sitekey" />
+                <hr />
+                <span>
+                    Possiedi già un account?
+                    <RouterLink :to="{ name: 'user-log_in' }">
+                        Accedi
+                    </RouterLink>
+                </span>
+                <div class="d-grid mt-3">
+                    <AppButton large type="submit">
+                        <span class="fa-solid fa-id-card"></span>
+                        Register
+                    </AppButton>
+                </div>
+            </form>
+        </div>
     </CenteredLayout>
 </template>
 

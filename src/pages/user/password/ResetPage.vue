@@ -2,31 +2,38 @@
     <CenteredLayout id="change-password">
         <h1>Do you Dare?</h1>
         <h3 class="mb-4">
-            Change forgotten password
+            Reset your password
         </h3>
-        <form class="mx-3" @submit.prevent="onSubmit">
-            <TextBox id="password"
-                     v-model:value="password"
-                     class="mb-3"
-                     label="Password"
-                     type="password"
-                     autocomplete="new-password"
-                     required />
-            <TextBox id="check-password"
-                     v-model:value="checkPassword"
-                     class="mb-3"
-                     label="Confirm password"
-                     type="password"
-                     autocomplete="new-password"
-                     required />
+        <div>
+            <p>
+                You're one step away from accessing your account.<br />
+                All you need to do is set a new password. Easy, right?
+            </p>
             <hr />
-            <div class="d-grid mt-3">
-                <AppButton large type="submit">
-                    <span class="fa-solid fa-key"></span>
-                    Change
-                </AppButton>
-            </div>
-        </form>
+            <form class="mx-3" @submit.prevent="onSubmit">
+                <TextBox id="password"
+                         v-model:value="password"
+                         class="mb-3"
+                         label="Password"
+                         type="password"
+                         autocomplete="new-password"
+                         required />
+                <TextBox id="check-password"
+                         v-model:value="checkPassword"
+                         class="mb-3"
+                         label="Confirm password"
+                         type="password"
+                         autocomplete="new-password"
+                         required />
+                <hr />
+                <div class="d-grid mt-3">
+                    <AppButton large type="submit">
+                        <span class="fa-solid fa-key"></span>
+                        Change
+                    </AppButton>
+                </div>
+            </form>
+        </div>
     </CenteredLayout>
 </template>
 

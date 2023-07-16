@@ -1,9 +1,10 @@
 <template>
     <CenteredLayout id="email-sent">
         <h1>Do you Dare?</h1>
-        <h3>Registration Successful!</h3>
+        <h3 class="mb-4">
+            Registration Successful!
+        </h3>
         <div>
-            <hr />
             <p>
                 Thank you for joining the other players!<br />
                 Your registration was successful, and you're almost ready to start playing.
