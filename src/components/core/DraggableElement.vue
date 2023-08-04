@@ -11,6 +11,8 @@
 
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
+    import type { Component, PropType } from "vue";
+
     import { useEventListener } from "@vueuse/core";
 
     import { withFrame } from "@/utils";
@@ -19,7 +21,7 @@
     const props = defineProps({
         is: {
             default: "div",
-            type: [String, Object]
+            type: [String, Object] as PropType<string | Component>
         },
 
         x: {

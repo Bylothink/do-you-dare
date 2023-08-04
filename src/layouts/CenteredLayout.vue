@@ -5,10 +5,12 @@
 </template>
 
 <script lang="ts" setup>
+    import type { Component, PropType } from "vue";
+
     defineProps({
         is: {
             default: "main",
-            type: [String, Object]
+            type: [String, Object] as PropType<string | Component>
         }
     });
 </script>

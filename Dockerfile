@@ -1,4 +1,4 @@
-FROM node:20.3-alpine as builder
+FROM node:20.5-alpine as builder
 
 WORKDIR "/opt/do-you-dare"
 COPY . ./
