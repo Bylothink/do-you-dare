@@ -1,8 +1,7 @@
 <template>
     <RouterView v-slot="context">
         <Transition name="fade" mode="out-in">
-            <Component :is="context.Component"
-                       :key="context.route.meta.usePathKey ? context.route.path : undefined" />
+            <Component :is="context.Component" :key="context.route.path" />
         </Transition>
     </RouterView>
     <AlertsHandler />
@@ -74,7 +73,7 @@
         & > .fade-enter-active,
         & > .fade-leave-active
         {
-            transition: opacity 250ms;
+            transition: opacity 250ms linear;
         }
         & > .fade-enter-to,
         & > .fade-leave-from
