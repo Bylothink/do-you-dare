@@ -80,21 +80,21 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
             const graphQlError = response.errors[0];
             if (graphQlError.extensions)
             {
-                const { error_type } = graphQlError.extensions;
+                const { error_type: errorType } = graphQlError.extensions;
 
-                if (error_type === "AUTHENTICATION_ERROR")
+                if (errorType === "AUTHENTICATION_ERROR")
                 {
                     return new GraphQLExceptions.AuthenticationException(graphQlError);
                 }
-                if (error_type === "AUTHORIZATION_ERROR")
+                if (errorType === "AUTHORIZATION_ERROR")
                 {
                     return new GraphQLExceptions.AuthorizationException(graphQlError);
                 }
-                if (error_type === "TOO_MANY_REQUESTS_ERROR")
+                if (errorType === "TOO_MANY_REQUESTS_ERROR")
                 {
                     return new GraphQLExceptions.TooManyRequestsException(graphQlError);
                 }
-                if (error_type === "VALIDATION_ERROR")
+                if (errorType === "VALIDATION_ERROR")
                 {
                     return new GraphQLExceptions.ValidationException(graphQlError);
                 }

@@ -1,4 +1,4 @@
-FROM node:20.5-alpine as builder
+FROM node:20.6-alpine as builder
 
 WORKDIR "/opt/do-you-dare"
 COPY . ./
@@ -14,14 +14,17 @@ FROM nginx:1.25-alpine
 COPY --from=builder /opt/do-you-dare/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-ARG NAME="Do you Dare? - Frontend"
-ARG AUTHOR="Bilotta Matteo"
-ARG COMMIT_REF
+ARG VERSION
 ARG COMMIT_SHA
 ARG CREATE_DATE
 
-LABEL "net.byloth.doyoudare.frontend.image.name"="${NAME}"
-LABEL "net.byloth.doyoudare.frontend.image.author"="${AUTHOR}"
-LABEL "net.byloth.doyoudare.frontend.image.commit.ref"="${COMMIT_REF}"
-LABEL "net.byloth.doyoudare.frontend.image.commit.sha"="${COMMIT_SHA}"
-LABEL "net.byloth.doyoudare.frontend.image.create-date"="${CREATE_DATE}"
+LABEL org.opencontainers.image.title="Do you Dare? - Frontend"
+LABEL org.opencontainers.image.description="A web-game based on the original game of \"Truth or Dare?\" with different game modes."
+LABEL org.opencontainers.image.licenses="CC BY-NC-ND 4.0"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.revision="${COMMIT_SHA}"
+LABEL org.opencontainers.image.source="https://github.com/Bylothink/do-you-dare"
+LABEL org.opencontainers.image.url="https://github.com/Bylothink/do-you-dare"
+LABEL org.opencontainers.image.authors="Matteo Bilotta <me@byloth.net>"
+LABEL org.opencontainers.image.vendor="Bylothink"
+LABEL org.opencontainers.image.created="${CREATE_DATE}"

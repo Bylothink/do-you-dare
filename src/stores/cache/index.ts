@@ -38,7 +38,7 @@ export default defineStore("cache", {
                 expiration: Expire.In(timeout),
                 version: CACHE_VERSION
             });
-        },
+        }
 
         // touch(): void { /* ... */ }
     }

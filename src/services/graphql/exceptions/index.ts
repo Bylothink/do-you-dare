@@ -10,8 +10,8 @@ export class AuthorizationException extends GraphQLException
     {
         super(error, message, name);
 
-        const { goto_login } = error.extensions;
-        this.gotoLogin = goto_login as boolean ?? false;
+        const { goto_login: gotoLogin } = error.extensions;
+        this.gotoLogin = gotoLogin as boolean ?? false;
     }
 }
 export class AuthenticationException extends AuthorizationException
@@ -22,8 +22,8 @@ export class AuthenticationException extends AuthorizationException
     {
         super(error, message, name);
 
-        const { force_logout } = error.extensions;
-        this.forceLogout = force_logout as boolean ?? false;
+        const { forceLogout } = error.extensions;
+        this.forceLogout = forceLogout as boolean ?? false;
     }
 }
 
@@ -35,8 +35,8 @@ export class TooManyRequestsException extends GraphQLException
     {
         super(error, message, name);
 
-        const { waiting_time } = error.extensions;
-        this.waitingTime = waiting_time as number ?? 0;
+        const { waitingTime } = error.extensions;
+        this.waitingTime = waitingTime as number ?? 0;
     }
 }
 

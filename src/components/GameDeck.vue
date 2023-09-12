@@ -55,7 +55,7 @@
 
             if (isCardBeingDragged.value)
             {
-                let filter = `brightness(${(cardPosition.y / 12.5) + 100}%)`;
+                const filter = `brightness(${(cardPosition.y / 12.5) + 100}%)`;
 
                 transform += `rotateX(${cardPosition.y / 25}deg) ` +
                     `rotateY(${-cardPosition.x / 25}deg)` +
