@@ -85,26 +85,4 @@
 </script>
 
 <style lang="scss" scoped>
-    @use "@/assets/scss/variables";
-
-    #log-in > .form-table > .form-row > .form-cell
-    {
-        & > span
-        {
-            display: block;
-        }
-
-        & > .btn
-        {
-            margin-top: 1em;
-        }
-
-        @media (max-width: variables.$max-mobile-size)
-        {
-            & > hr
-            {
-                margin-top: 2em;
-            }
-        }
-    }
 </style>

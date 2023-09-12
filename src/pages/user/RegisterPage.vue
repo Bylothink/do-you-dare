@@ -5,7 +5,7 @@
             Register
         </h3>
         <div>
-            <form class="mx-3 form-table" @submit.prevent="onSubmit">
+            <form class="mx-3" @submit.prevent="onSubmit">
                 <TextBox id="username"
                          v-model:value="username"
                          class="mb-3"
@@ -37,9 +37,9 @@
                 <hCaptchaBox v-model:value="token" :sitekey="sitekey" />
                 <hr />
                 <span>
-                    Possiedi già un account?
+                    Already have an account?
                     <RouterLink :to="{ name: 'user-log_in' }">
-                        Accedi
+                        Log in
                     </RouterLink>
                 </span>
                 <div class="d-grid mt-3">
@@ -109,26 +109,4 @@
 </script>
 
 <style lang="scss" scoped>
-    @use "@/assets/scss/variables";
-
-    #register > .form-table > .form-row > .form-cell
-    {
-        & > span
-        {
-            display: block;
-        }
-
-        & > .btn
-        {
-            margin-top: 1em;
-        }
-
-        @media (max-width: variables.$max-mobile-size)
-        {
-            & > hr
-            {
-                margin-top: 2em;
-            }
-        }
-    }
 </style>

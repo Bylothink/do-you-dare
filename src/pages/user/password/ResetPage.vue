@@ -89,7 +89,7 @@
         $vuert.emit({
             type: "success",
             icon: "circle-check",
-            message: `Password changed successfully!`,
+            message: "Password changed successfully!",
             timeout: 2500
         });
     };
@@ -98,28 +98,4 @@
 </script>
 
 <style lang="scss" scoped>
-    @use "@/assets/scss/variables";
-
-    #change-password > .form-table > .form-row > .form-cell
-    {
-        // TODO: Servono ancora, queste regole?
-        //
-        & > span
-        {
-            display: block;
-        }
-
-        & > .btn
-        {
-            margin-top: 1em;
-        }
-
-        @media (max-width: variables.$max-mobile-size)
-        {
-            & > hr
-            {
-                margin-top: 2em;
-            }
-        }
-    }
 </style>

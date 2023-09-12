@@ -44,12 +44,12 @@
     import useCacheStore from "@/stores/cache";
     import useUserStore from "@/stores/user";
 
-    import Expire, { TimeUnit } from "@/utils/expire";
-
-    import AppButton from "@/components/ui/AppButton.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
-    import Countdown from "@/utils/countdown";
+    import AppButton from "@/components/ui/AppButton.vue";
     import TextBox from "@/components/ui/TextBox.vue";
+
+    import Countdown from "@/utils/countdown";
+    import Expire, { TimeUnit } from "@/utils/expire";
 
     interface RequestEmailValues
     {
@@ -57,6 +57,7 @@
         expiration: number;
     }
 
+    const CACHE_KEY = "user-password-request_email:countdown";
     const REQUEST_DELAY = 60;
 
     const $vuert = useVuert();
@@ -68,7 +69,7 @@
 
     const initialize = () =>
     {
-        const values = $cache.get<RequestEmailValues>("requestEmail");
+        const values = $cache.get<RequestEmailValues>(CACHE_KEY);
         if (!values) { return; }
 
         const remainingTime = Expire.On(values.expiration, TimeUnit.Seconds);
@@ -84,7 +85,7 @@
             expiration: Expire.In(expiration)
         };
 
-        $cache.set("requestEmail", values, expiration);
+        $cache.set(CACHE_KEY, values, expiration);
         countdown.start();
 
         await $user.requestPasswordResetEmail(email.value);

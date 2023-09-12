@@ -18,7 +18,7 @@
                 </h3>
                 <p>
                     Congratulations, your account has been correctly validated!<br />
-                    You're good to go.
+                    If you're not automatically redirected, click here to return to the home page.
                 </p>
                 <hr />
                 <RouterLink v-slot="{ href, navigate }"
@@ -52,9 +52,10 @@
 
 <script lang="ts" setup>
     import { ref } from "vue";
-    import { useRoute } from "vue-router";
+    import { useRouter } from "vue-router";
 
     import { ValueException } from "@byloth/exceptions";
+    import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user";
 
@@ -62,8 +63,9 @@
     import SuspenseLayout from "@/layouts/SuspenseLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
 
-    const $route = useRoute();
+    const $router = useRouter();
     const $user = useUserStore();
+    const $vuert = useVuert();
 
     const isValidating = ref(true);
     const hasFailed = ref(true);
@@ -72,6 +74,8 @@
     {
         try
         {
+            const $route = $router.currentRoute.value;
+
             const token = $route.query.token as string;
             if (!token)
             {
@@ -79,17 +83,21 @@
             }
 
             await $user.verifyEmail(token);
+            if ($user.isLogged)
+            {
+                $router.replace({ name: "home" });
+            }
+            else
+            {
+                $router.push({ name: "user-log_in" });
+            }
 
-            // TODO: Differenziare la gestione della verifica dell'utente.
-            //
-            //       L'utente potrà, a questo punto, essere sia loggato che non;
-            //        tutto dipende da come è avvenuto il flow di verifica dell'account.
-            //       Se l'utente sarà già loggato, rimandarlo alla home visualizzando un
-            //        messaggio di conferma di avvenuta verifica dell'account.
-            //       Viceversa, se l'utente non risulterà essere loggato, rimandarlo alla
-            //        pagina di login visualizzando, in ogni caso, il messaggio
-            //        di conferma di avvenuta verifica dell'account.
-            //
+            $vuert.emit({
+                type: "success",
+                icon: "circle-check",
+                message: "Your account has been successfully validated: you're good to go!",
+                timeout: 2500
+            });
 
             hasFailed.value = false;
         }
