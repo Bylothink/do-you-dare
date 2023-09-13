@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+import { NotImplementedException } from "@byloth/exceptions";
+
 import { jsonStorage } from "@/utils";
 import Expire from "@/utils/expire";
 import type { ExpireTimeout } from "@/utils/expire";
@@ -13,7 +15,7 @@ export default defineStore("cache", {
 
     getters: { },
     actions: {
-        // clear(): void { /* ... */ },
+        clear(): void { throw new NotImplementedException(); },
 
         get<T>(key: string, defaultValue?: T): T | undefined
         {
@@ -30,7 +32,7 @@ export default defineStore("cache", {
 
             return defaultValue;
         },
-        // has<T = unknown>(key: string): boolean { /* ... */ },
+        has(key: string): boolean { throw new NotImplementedException(); },
         set<T>(key: string, value: T, timeout: number | ExpireTimeout): void
         {
             jsonStorage.remember(`cache:${key}`, {
@@ -38,8 +40,8 @@ export default defineStore("cache", {
                 expiration: Expire.In(timeout),
                 version: CACHE_VERSION
             });
-        }
+        },
 
-        // touch(): void { /* ... */ }
+        touch(): void { throw new NotImplementedException(); }
     }
 });

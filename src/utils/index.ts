@@ -23,9 +23,7 @@ export function loadScript(url: string): Promise<void>
 
 export function nextFrame(): Promise<void>
 {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return new Promise<void>((resolve, reject) => requestAnimationFrame(resolve));
+    return new Promise<void>((resolve, reject) => requestAnimationFrame(() => resolve()));
 }
 export function withFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void
 {

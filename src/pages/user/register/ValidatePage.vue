@@ -1,7 +1,7 @@
 <template>
     <CenteredLayout id="validate">
         <h1>Do you Dare?</h1>
-        <SuspenseLayout :loading="isValidating" :failed="hasFailed">
+        <SuspenseLayout :loading="isLoading" :failed="hasFailed">
             <template #loader>
                 <h3 class="mb-4">
                     Validating your account...
@@ -67,7 +67,7 @@
     const $user = useUserStore();
     const $vuert = useVuert();
 
-    const isValidating = ref(true);
+    const isLoading = ref(true);
     const hasFailed = ref(true);
 
     const validate = async () =>
@@ -103,7 +103,7 @@
         }
         finally
         {
-            isValidating.value = false;
+            isLoading.value = false;
         }
     };
 
