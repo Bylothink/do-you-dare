@@ -13,6 +13,8 @@ export type PageOptions = RouteRecordRaw &
 export interface ConfigOptions
 {
     backendUrl: string;
+    hCaptchaSiteKey: string;
+
     title: string;
     author: string;
     pages: PageOptions[];
@@ -41,6 +43,8 @@ class Config implements ConfigOptions
   protected _pages: PageCollection;
 
   public get backendUrl(): string { return this._options.backendUrl; }
+  public get hCaptchaSiteKey(): string { return this._options.hCaptchaSiteKey; }
+
   public get title(): string { return this._options.title; }
   public get author(): string { return this._options.author; }
   public get version(): string { return this._options.version; }
@@ -55,7 +59,8 @@ class Config implements ConfigOptions
 }
 
 export default new Config({
-  backendUrl: import.meta.env.VITE_BACKEND_URL,
+  backendUrl: import.meta.env["VITE_BACKEND_URL"],
+  hCaptchaSiteKey: import.meta.env["VITE_HCAPTCHA_SITE_KEY"],
 
   title: "Do you Dare?",
   author: "Matteo Bilotta",

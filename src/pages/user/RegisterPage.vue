@@ -34,7 +34,7 @@
                          type="password"
                          autocomplete="new-password"
                          required />
-                <hCaptchaBox v-model:value="token" :sitekey="sitekey" />
+                <hCaptchaBox v-model:value="token" :site-key="config.hCaptchaSiteKey" />
                 <hr />
                 <span>
                     Already have an account?
@@ -59,18 +59,18 @@
 
     import { useVuert } from "@byloth/vuert";
 
-    import useUserStore from "@/stores/user";
+    import config from "@/config";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
     import AppButton from "@/components/ui/AppButton.vue";
     import hCaptchaBox from "@/components/ui/hCaptchaBox.vue";
     import TextBox from "@/components/ui/TextBox.vue";
 
+    import useUserStore from "@/stores/user";
+
     const $router = useRouter();
     const $vuert = useVuert();
     const $user = useUserStore();
-
-    const sitekey = import.meta.env.VITE_HCAPTCHA_SITEKEY;
 
     const username = ref("");
     const password = ref("");

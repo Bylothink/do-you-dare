@@ -33,7 +33,8 @@ build:
       --cache-from "${BUILDER_IMAGE_TAG}"
       --tag "${BUILDER_IMAGE_REF}"
       --tag "${BUILDER_IMAGE_TAG}"
-      --build-arg VITE_BACKEND_URL="${APPLICATION_URL}"
+      --build-arg BACKEND_URL="${APPLICATION_URL}"
+      --build-arg HCAPTCHA_SITE_KEY="${HCAPTCHA_SITE_KEY}"
       .
 
     - docker push "${BUILDER_IMAGE_REF}"
@@ -51,7 +52,8 @@ build:
         --cache-from "${DOCKER_IMAGE_TAG}"
         --tag "${DOCKER_IMAGE_REF}"
         --tag "${DOCKER_IMAGE_TAG}"
-        --build-arg VITE_BACKEND_URL="${APPLICATION_URL}"
+        --build-arg BACKEND_URL="${APPLICATION_URL}"
+        --build-arg HCAPTCHA_SITE_KEY="${HCAPTCHA_SITE_KEY}"
         --build-arg AUTHOR="${GITLAB_USER_NAME}"
         --build-arg COMMIT_REF="${CI_COMMIT_REF}"
         --build-arg COMMIT_SHA="${CI_COMMIT_SHA}"

@@ -8,7 +8,7 @@
     import { loadScript } from "@/utils";
 
     const props = defineProps({
-        sitekey: {
+        siteKey: {
             required: true,
             type: String
         },
@@ -31,7 +31,7 @@
         }
 
         window.hcaptcha.render($element.value!, {
-            "sitekey": props.sitekey,
+            "sitekey": props.siteKey,
             // "theme": "dark",
 
             "callback": (token: string) => emit("update:value", token),

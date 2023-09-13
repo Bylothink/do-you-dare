@@ -3,8 +3,11 @@ FROM node:20.6-alpine as builder
 WORKDIR "/opt/do-you-dare"
 COPY . ./
 
-ARG VITE_BACKEND_URL
-RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" > .env \
+ARG BACKEND_URL
+ARG HCAPTCHA_SITE_KEY
+RUN touch .env \
+ && echo "VITE_BACKEND_URL=${BACKEND_URL}" >> .env \
+ && echo "VITE_HCAPTCHA_SITE_KEY=${HCAPTCHA_SITE_KEY}" >> .env \
  \
  && yarn ci \
  && yarn build
