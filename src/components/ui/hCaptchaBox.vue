@@ -4,8 +4,7 @@
 
 <script lang="ts" setup>
     import { onMounted, ref } from "vue";
-
-    import { loadScript } from "@/utils";
+    import { loadScript } from "@byloth/core";
 
     const props = defineProps({
         siteKey: {

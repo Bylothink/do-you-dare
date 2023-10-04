@@ -19,7 +19,7 @@
     const $vuert = useVuert();
     const $user = useUserStore();
 
-    const initialize = async () =>
+    onMounted(async () =>
     {
         if ($user.hasAcceptedCookies === undefined)
         {
@@ -53,9 +53,7 @@
         }
 
         if ($user.isLogged) { $user.renewToken(); }
-    };
-
-    onMounted(initialize);
+    });
 </script>
 
 <style lang="scss">

@@ -21,9 +21,9 @@
 
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
+    import { delay, nextAnimationFrame } from "@byloth/core";
 
     import { Card } from "@/models";
-    import { nextFrame, sleep } from "@/utils";
     import type { DragEvent } from "@/types";
 
     import GameCard from "./GameCard.vue";
@@ -76,7 +76,7 @@
 
         isCardInanimate.value = true;
 
-        await nextFrame();
+        await nextAnimationFrame();
 
         hasCardBeenDrawn.value = false;
         isCardDraggable.value = false;
@@ -85,7 +85,7 @@
         cardPosition.x = 0;
         cardPosition.y = 0;
 
-        await nextFrame();
+        await nextAnimationFrame();
 
         isCardInanimate.value = false;
     };
@@ -138,7 +138,7 @@
             cardPosition.x = x * 3;
             cardPosition.y = y * 3;
 
-            sleep(200)
+            delay(200)
                 .then(reset);
         }
         else

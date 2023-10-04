@@ -1,30 +1,8 @@
 import { onScopeDispose } from "vue";
-
-import JsonStorage from "./json-storage";
+import { JsonStorage } from "@byloth/core";
 
 export const jsonStorage = new JsonStorage();
 
-export function loadScript(url: string): Promise<void>
-{
-    return new Promise<void>((resolve, reject) =>
-    {
-        const script = document.createElement("script");
-
-        script.async = true;
-        script.defer = true;
-        script.src = url;
-
-        script.onload = () => resolve();
-        script.onerror = () => reject();
-
-        document.body.appendChild(script);
-    });
-}
-
-export function nextFrame(): Promise<void>
-{
-    return new Promise<void>((resolve, reject) => requestAnimationFrame(() => resolve()));
-}
 export function withFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void
 {
     let _args: T;
@@ -56,9 +34,4 @@ export function withFrame<T extends Array<unknown>>(callback: (...args: T) => vo
             _requestId = requestAnimationFrame(_requestCallback);
         }
     };
-}
-
-export function sleep(timeout: number): Promise<void>
-{
-    return new Promise<void>((resolve, reject) => setTimeout(resolve, timeout));
 }

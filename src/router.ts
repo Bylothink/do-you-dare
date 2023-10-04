@@ -10,8 +10,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) =>
 {
-    const nextPage = config.pages.getByRoute(to);
-    if (nextPage?.meta?.requiresAuth)
+    if (to.meta.requiresAuth)
     {
         const $user = useUserStore();
         if (!$user.isLogged)

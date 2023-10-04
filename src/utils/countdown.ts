@@ -1,7 +1,7 @@
 import { onScopeDispose, ref } from "vue";
 import type { Ref } from "vue";
 
-import DeferredPromise from "./deferred-promise";
+import { DeferredPromise } from "@byloth/core";
 
 const MULTIPLIER = 1000;
 
@@ -32,7 +32,7 @@ export default class Countdown
         this.remainingTime.value = remainingTime ?? this.duration;
         this.isRunning.value = true;
 
-        this._deferrer = new DeferredPromise<void>(() =>
+        this._deferrer = new DeferredPromise(() =>
         {
             this._intervalId = setInterval(() =>
             {
@@ -45,7 +45,7 @@ export default class Countdown
             }, this.step * MULTIPLIER);
         });
 
-        return this._deferrer.promise;
+        return this._deferrer;
     }
     public stop(reason?: unknown): void
     {
