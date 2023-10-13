@@ -12,14 +12,12 @@
 <script lang="ts" setup>
     import { ref, onMounted } from "vue";
 
-    import { handle } from "@byloth/exceptions";
-
-    import type { Card } from "@/models";
-
     import useGameStore from "@/stores/game";
 
     import GameDeck from "@/components/GameDeck.vue";
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
+
+    import type { Card } from "@/models";
 
     const $game = useGameStore();
 
@@ -38,12 +36,11 @@
             card.value = newCard;
         }
     };
-    const createNewDraw = () =>
+    const createNewDraw = async () =>
     {
         if (card.value)
         {
-            $game.cardDrawn(card.value.id)
-                .catch(handle);
+            await $game.cardDrawn(card.value.id);
         }
     };
 

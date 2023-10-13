@@ -1,19 +1,8 @@
 import { createApp } from "vue";
 
 import App from "./App.vue";
+import plugins from "./plugins";
 
-import router from "./router";
-import pinia from "./pinia";
-import vuert from "./vuert";
-
-import errorsHandler from "./plugins/errors-handler";
-
-const app = createApp(App);
-
-app.use(pinia);
-app.use(router);
-app.use(vuert);
-
-app.use(errorsHandler);
+const app = createApp(App).use(plugins);
 
 export default app.mount("#app");

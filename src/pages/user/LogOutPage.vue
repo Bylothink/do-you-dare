@@ -4,8 +4,6 @@
 
 <script lang="ts" setup>
     import { useRouter } from "vue-router";
-
-    import { handle } from "@byloth/exceptions";
     import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user";
@@ -14,18 +12,18 @@
     const $vuert = useVuert();
     const $user = useUserStore();
 
-    const executeLogout = () =>
+    const executeLogout = async () =>
     {
         if ($user.isLogged)
         {
-            $user.logOut()
-                .then(() => $vuert.emit({
-                    type: "success",
-                    icon: "circle-check",
-                    message: "Successfully logged out!",
-                    timeout: 2500
-                }))
-                .catch(handle);
+            await $user.logOut();
+
+            $vuert.emit({
+                type: "success",
+                icon: "circle-check",
+                message: "Successfully logged out!",
+                timeout: 2500
+            });
         }
 
         $router.replace({ name: "home" });

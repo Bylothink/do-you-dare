@@ -9,7 +9,7 @@ import useUserStore from "@/stores/user";
 const ERROR_ALERT: DismissibleAlert = {
     type: "error",
     icon: "circle-xmark",
-    title: "On, no! 😱",
+    title: "Oh, no! 😱",
     message: "A mysterious error of an unknown nature just interrupted" +
         " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +
         "As you may have already guessed, whatever you were doing" +

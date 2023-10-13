@@ -6,119 +6,140 @@ import { jsonStorage } from "@/utils";
 import * as Mutations from "./mutations";
 import type { RegisterData } from "./mutations/register";
 
-import type UserState from "./types";
 import type { CookieAcknowledgement } from "./types";
+import { ref } from "vue";
+import { computed } from "vue";
 
 const COOKIE_VERSION = 1;
 
-export default defineStore("user", {
-    state: (): UserState => ({
-        cookieAck: jsonStorage.read<CookieAcknowledgement>("user:cookieAck"),
-        token: jsonStorage.read<string>("user:token"),
+export default defineStore("user", () =>
+{
+    const clear = (): void =>
+    {
+        _setInfo();
+        _setToken();
+    };
 
-        username: undefined,
-        email: undefined
-    }),
+    const _cookieAck = ref(jsonStorage.read<CookieAcknowledgement>("user:cookieAck"));
+    const _setCookieAck = (value: boolean): void =>
+    {
+        _cookieAck.value = { value: value, version: COOKIE_VERSION };
 
-    getters: {
-        hasAcceptedCookies(): boolean | undefined
+        jsonStorage.write("user:cookieAck", _cookieAck.value);
+    };
+
+    const hasAcceptedCookies = computed((): boolean | undefined =>
+    {
+        if (_cookieAck.value?.version === COOKIE_VERSION)
         {
-            if (this.cookieAck?.version === COOKIE_VERSION)
-            {
-                return this.cookieAck.value;
-            }
-
-            return undefined;
-        },
-        isLogged(): boolean { return !!(this.token); }
-    },
-    actions: {
-        _setCookieAck(value: boolean): void
-        {
-            this.cookieAck = { value: value, version: COOKIE_VERSION };
-
-            jsonStorage.write("user:cookieAck", this.cookieAck);
-        },
-        _setInfo(user?: Partial<UserData>): void
-        {
-            this.username = user?.username;
-            this.email = user?.email;
-        },
-        _setToken(token?: string): void
-        {
-            this.token = token;
-
-            jsonStorage.write("user:token", this.token);
-        },
-
-        clear(): void
-        {
-            this._setInfo();
-            this._setToken();
-        },
-
-        acceptCookies(): void { this._setCookieAck(true); },
-        declineCookies(): void { this._setCookieAck(false); },
-
-        async logIn(username: string, password: string): Promise<void>
-        {
-            const request = new Mutations.Authenticate({ username, password });
-            const response = await request.execute();
-
-            this._setToken(response.token);
-            this._setInfo(response.user);
-        },
-        changePassword(token: string, newPassword: string): Promise<void>
-        {
-            const request = new Mutations.ChangePassword({ token, newPassword });
-
-            return request.execute();
-        },
-        requestPasswordResetEmail(email: string): Promise<void>
-        {
-            const request = new Mutations.RequestPasswordResetEmail({ email });
-
-            return request.execute();
-        },
-
-        async register(data: RegisterData): Promise<void>
-        {
-            const request = new Mutations.Register(data);
-            const response = await request.execute();
-
-            this._setToken(response.token);
-            this._setInfo(response.user);
-        },
-
-        verifyEmail(token: string): Promise<void>
-        {
-            const request = new Mutations.VerifyEmail({ token });
-
-            return request.execute();
-        },
-        async renewToken(): Promise<void>
-        {
-            const request = new Mutations.RenewSession(this.token!);
-            const response = await request.execute();
-
-            this._setToken(response.token);
-            this._setInfo(response.user);
-        },
-
-        requestNewValidationEmail(): Promise<void>
-        {
-            const request = new Mutations.RequestAccountValidationEmail(this.token!);
-
-            return request.execute();
-        },
-
-        logOut(): Promise<void>
-        {
-            const request = new Mutations.Disconnect(this.token!);
-
-            this.clear();
-
-            return request.execute();
+            return _cookieAck.value.value;
         }
+
+        return undefined;
+    });
+
+    const acceptCookies = (): void => { _setCookieAck(true); };
+    const declineCookies = (): void => { _setCookieAck(false); };
+
+    const _token = ref(jsonStorage.read<string>("user:token"));
+    const token = computed((): string | undefined => _token.value);
+
+    const _setToken = (value?: string): void =>
+    {
+        _token.value = value;
+
+        jsonStorage.write("user:token", _token.value);
+    };
+
+    const isLogged = computed((): boolean => !!(_token.value));
+
+    const username = ref<string>();
+    const email = ref<string>();
+
+    const _setInfo = (user?: Partial<UserData>): void =>
+    {
+        username.value = user?.username;
+        email.value = user?.email;
+    };
+
+    async function logIn(username: string, password: string): Promise<void>
+    {
+        const request = new Mutations.Authenticate({ username, password });
+        const response = await request.execute();
+
+        _setToken(response.token);
+        _setInfo(response.user);
     }
+    async function logOut(): Promise<void>
+    {
+        const request = new Mutations.Disconnect(_token.value!);
+
+        clear();
+
+        await request.execute();
+    }
+
+    async function renewToken(): Promise<void>
+    {
+        const request = new Mutations.RenewSession(_token.value!);
+        const response = await request.execute();
+
+        _setToken(response.token);
+        _setInfo(response.user);
+    }
+
+    async function requestPasswordResetEmail(email: string): Promise<void>
+    {
+        const request = new Mutations.RequestPasswordResetEmail({ email });
+        await request.execute();
+    }
+    async function changePassword(token: string, newPassword: string): Promise<void>
+    {
+        const request = new Mutations.ChangePassword({ token, newPassword });
+        await request.execute();
+    }
+
+    async function register(data: RegisterData): Promise<void>
+    {
+        const request = new Mutations.Register(data);
+        const response = await request.execute();
+
+        _setToken(response.token);
+        _setInfo(response.user);
+    }
+    async function requestNewValidationEmail(): Promise<void>
+    {
+        const request = new Mutations.RequestAccountValidationEmail(_token.value!);
+        await request.execute();
+    }
+    async function verifyEmail(token: string): Promise<void>
+    {
+        const request = new Mutations.VerifyEmail({ token });
+        await request.execute();
+    }
+
+    return {
+        clear,
+
+        hasAcceptedCookies,
+        acceptCookies,
+        declineCookies,
+
+        token,
+        isLogged,
+
+        username,
+        email,
+
+        logIn,
+        logOut,
+        renewToken,
+
+        requestPasswordResetEmail,
+        changePassword,
+
+        register,
+        requestNewValidationEmail,
+        verifyEmail
+    };
 });

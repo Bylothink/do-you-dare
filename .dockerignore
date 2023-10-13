@@ -16,11 +16,10 @@ Desktop.ini
 
 # Generated & compiled files
 #
-/.nuxt/
 /dist/
 
 /*.tgz
-/static/sw.js
+/tsconfig.tsbuildinfo
 
 # Environmental files
 #

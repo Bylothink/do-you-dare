@@ -12,6 +12,7 @@
     "strict": true,
     "jsx": "preserve",
     "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
