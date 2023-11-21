@@ -1,48 +1,52 @@
 # Files created by OS
 #
-.DS_Store
-Desktop.ini
+**/.DS_Store
+**/Desktop.ini
 
 # Files created by IDE
 #
-/.idea/
-/.vscode/
+.idea/
+.vscode/
 
-/*.code-workspace
+*.code-workspace
 
 # Downloadable & installable modules & components
 #
-/node_modules/
+node_modules/
 
 # Generated & compiled files
 #
-/dist/
+dist/
 
-/*.tgz
-/tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
 
 # Environmental files
 #
-.env
+**/.env
 
 # Log files
 #
-/yarn-error.log
+yarn-error.log
 
 # GIT files
 #
-/.git/
+.git/
 
-.gitignore
+**/.gitignore
 
 # Docker & build files
 #
-/.dockerignore
-/Dockerfile
-/docker-compose.yml
+.dockerignore
+docker-compose.yml
+Dockerfile
 
 # Other project files
 #
-/.editorconfig
-/LICENSE
-/README.md
+.editorconfig
+.eslintrc.cjs
+.gitlab-ci.yml
+
+ansible.yml
+
+LICENSE
+README.md
