@@ -1,3 +1,5 @@
+import { ref } from "vue";
+import { computed } from "vue";
 import { defineStore } from "pinia";
 
 import type { UserData } from "@/models/user";
@@ -7,8 +9,6 @@ import * as Mutations from "./mutations";
 import type { RegisterData } from "./mutations/register";
 
 import type { CookieAcknowledgement } from "./types";
-import { ref } from "vue";
-import { computed } from "vue";
 
 const COOKIE_VERSION = 1;
 
@@ -62,9 +62,13 @@ export default defineStore("user", () =>
         email.value = user?.email;
     };
 
-    async function logIn(username: string, password: string): Promise<void>
+    async function logIn(_username: string, _password: string): Promise<void>
     {
-        const request = new Mutations.Authenticate({ username, password });
+        const request = new Mutations.Authenticate({
+            username: _username,
+            password: _password
+        });
+
         const response = await request.execute();
 
         _setToken(response.token);
@@ -88,14 +92,18 @@ export default defineStore("user", () =>
         _setInfo(response.user);
     }
 
-    async function requestPasswordResetEmail(email: string): Promise<void>
+    async function requestPasswordResetEmail(_email: string): Promise<void>
     {
-        const request = new Mutations.RequestPasswordResetEmail({ email });
+        const request = new Mutations.RequestPasswordResetEmail({ email: _email });
         await request.execute();
     }
-    async function changePassword(token: string, newPassword: string): Promise<void>
+    async function changePassword(_changePasswordToken: string, _newPassword: string): Promise<void>
     {
-        const request = new Mutations.ChangePassword({ token, newPassword });
+        const request = new Mutations.ChangePassword({
+            token: _changePasswordToken,
+            newPassword: _newPassword
+        });
+
         await request.execute();
     }
 
@@ -112,9 +120,9 @@ export default defineStore("user", () =>
         const request = new Mutations.RequestAccountValidationEmail(_token.value!);
         await request.execute();
     }
-    async function verifyEmail(token: string): Promise<void>
+    async function verifyEmail(_verifyEmailToken: string): Promise<void>
     {
-        const request = new Mutations.VerifyEmail({ token });
+        const request = new Mutations.VerifyEmail({ token: _verifyEmailToken });
         await request.execute();
     }
 

@@ -2,23 +2,23 @@ import type { RouteLocationNormalized, RouteRecordRaw } from "vue-router";
 
 export type PageOptions = RouteRecordRaw &
 {
-    id: number;
-    title: string;
-    icon?: string;
-    meta?: {
-        requiresAuth?: boolean;
-        topLevel?: boolean;
-    }
+  id: number;
+  title: string;
+  icon?: string;
+  meta?: {
+    requiresAuth?: boolean;
+    topLevel?: boolean;
+  }
 };
 export interface ConfigOptions
 {
-    backendUrl: string;
-    hCaptchaSiteKey: string;
+  backendUrl: string;
+  hCaptchaSiteKey: string;
 
-    title: string;
-    author: string;
-    pages: PageOptions[];
-    version: string;
+  title: string;
+  author: string;
+  pages: PageOptions[];
+  version: string;
 }
 
 class PageCollection extends Array<PageOptions>

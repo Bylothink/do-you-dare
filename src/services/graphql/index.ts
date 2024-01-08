@@ -26,7 +26,7 @@ export interface GraphQLResponse<T = unknown>
     errors?: GraphQLError[];
 }
 
-export default abstract class GraphQLRequest<R = unknown, A = unknown>
+export default abstract class GraphQLRequest<T = unknown, V = unknown>
 {
     private readonly _endpoint: string;
 
@@ -47,7 +47,7 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         return configs;
     }
 
-    private _handleResponse<R = unknown>({ data }: AxiosResponse<GraphQLResponse<R>>): R
+    private _handleResponse({ data }: AxiosResponse<GraphQLResponse<T>>): T
     {
         if ((data.errors) || (!data.data))
         {
@@ -106,11 +106,11 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         return error;
     }
 
-    private async _execute<R = unknown, D = unknown>(data: D, configs: AxiosRequestConfig<D>): Promise<R>
+    private async _execute<D = unknown>(data: D, configs: AxiosRequestConfig<D>): Promise<T>
     {
         try
         {
-            const response = await axios.post<GraphQLResponse<R>>(this._endpoint, data, configs);
+            const response = await axios.post<GraphQLResponse<T>>(this._endpoint, data, configs);
 
             return this._handleResponse(response);
         }
@@ -120,14 +120,14 @@ export default abstract class GraphQLRequest<R = unknown, A = unknown>
         }
     }
 
-    protected async _query(query: DocumentNode, options?: GraphQLOptions): Promise<R>
+    protected async _query(query: DocumentNode, options?: GraphQLOptions): Promise<T>
     {
         const data = { query: print(query) };
         const configs = this._composeConfigs(options);
 
         return this._execute(data, configs);
     }
-    protected async _mutation(query: DocumentNode, variables: A, options?: GraphQLOptions) : Promise<R>
+    protected async _mutation(query: DocumentNode, variables: V, options?: GraphQLOptions): Promise<T>
     {
         const data = { query: print(query), variables: variables };
         const configs = this._composeConfigs(options);

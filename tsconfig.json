@@ -23,6 +23,7 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
