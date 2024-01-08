@@ -28,7 +28,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check:types": "vue-tsc",
+    "check:types": "vue-tsc --build --force",
     "lint": "eslint --ext .cjs,.js,.json,.ts,.vue --ignore-path .gitignore .",
     "lint:prod": "export NODE_ENV=\"production\" && yarn lint",
     "ci": "yarn install --frozen-lockfile"
@@ -53,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
     "@vitejs/plugin-vue": "^5.0.2",
+    "@types/node": "^20.10.7",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.19.2",
     "sass": "^1.69.7",
