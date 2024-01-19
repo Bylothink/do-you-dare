@@ -2,6 +2,7 @@
 
 import { gql } from "graphql-tag";
 
+import type { UserData } from "@/models/user";
 import { GraphQLRequest } from "@/services";
 
 export interface RegisterData
@@ -17,12 +18,7 @@ export interface RegisterData
 export interface RegisterResponse
 {
     token: string;
-    user: {
-        id: number;
-        isActive: boolean;
-        username: string;
-        email: string;
-    };
+    user: UserData;
 }
 export default class Register
     extends GraphQLRequest<{ register: RegisterResponse }, RegisterData>
@@ -35,7 +31,11 @@ export default class Register
                 id,
                 isActive,
                 username,
-                email
+                email,
+                firstName,
+                lastName,
+                dateJoined,
+                lastLogin
             }
         }
     }`;

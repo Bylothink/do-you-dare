@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { computed } from "vue";
 import { defineStore } from "pinia";
 
-import type { UserData } from "@/models/user";
+import { User } from "@/models";
 import { jsonStorage } from "@/utils";
 
 import * as Mutations from "./mutations";
@@ -14,11 +14,9 @@ const COOKIE_VERSION = 1;
 
 export default defineStore("user", () =>
 {
-    const clear = (): void =>
-    {
-        _setInfo();
-        _setToken();
-    };
+    /*
+     * Cookie acknowledgement
+     */
 
     const _cookieAck = ref(jsonStorage.read<CookieAcknowledgement>("user:cookieAck"));
     const _setCookieAck = (value: boolean): void =>
@@ -38,41 +36,37 @@ export default defineStore("user", () =>
         return undefined;
     });
 
-    const acceptCookies = (): void => { _setCookieAck(true); };
-    const declineCookies = (): void => { _setCookieAck(false); };
+    const acceptCookies = (): void => _setCookieAck(true);
+    const declineCookies = (): void => _setCookieAck(false);
 
+    /*
+     * User information
+     */
+    const value = ref<User>();
+
+    /*
+     * User authentication
+     */
     const _token = ref(jsonStorage.read<string>("user:token"));
     const token = computed((): string | undefined => _token.value);
 
-    const _setToken = (value?: string): void =>
+    const _setToken = (_value?: string): void =>
     {
-        _token.value = value;
+        _token.value = _value;
 
         jsonStorage.write("user:token", _token.value);
     };
 
     const isLogged = computed((): boolean => !!(_token.value));
 
-    const username = ref<string>();
-    const email = ref<string>();
-
-    const _setInfo = (user?: Partial<UserData>): void =>
+    async function logIn(username: string, password: string): Promise<void>
     {
-        username.value = user?.username;
-        email.value = user?.email;
-    };
-
-    async function logIn(_username: string, _password: string): Promise<void>
-    {
-        const request = new Mutations.Authenticate({
-            username: _username,
-            password: _password
-        });
-
+        const request = new Mutations.Authenticate({ username, password });
         const response = await request.execute();
 
         _setToken(response.token);
-        _setInfo(response.user);
+
+        value.value = new User(response.user);
     }
     async function logOut(): Promise<void>
     {
@@ -89,7 +83,8 @@ export default defineStore("user", () =>
         const response = await request.execute();
 
         _setToken(response.token);
-        _setInfo(response.user);
+
+        value.value = new User(response.user);
     }
 
     async function requestPasswordResetEmail(_email: string): Promise<void>
@@ -113,7 +108,8 @@ export default defineStore("user", () =>
         const response = await request.execute();
 
         _setToken(response.token);
-        _setInfo(response.user);
+
+        value.value = new User(response.user);
     }
     async function requestNewValidationEmail(): Promise<void>
     {
@@ -126,19 +122,23 @@ export default defineStore("user", () =>
         await request.execute();
     }
 
-    return {
-        clear,
+    /*
+     * Utilities
+     */
+    const clear = (): void =>
+    {
+        _setToken();
 
+        value.value = undefined;
+    };
+
+    return {
         hasAcceptedCookies,
         acceptCookies,
         declineCookies,
 
         token,
         isLogged,
-
-        username,
-        email,
-
         logIn,
         logOut,
         renewToken,
@@ -148,6 +148,9 @@ export default defineStore("user", () =>
 
         register,
         requestNewValidationEmail,
-        verifyEmail
+        verifyEmail,
+
+        value,
+        clear
     };
 });

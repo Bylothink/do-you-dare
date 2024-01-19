@@ -28,7 +28,7 @@ export function withFrame<T extends Array<unknown>>(callback: (...args: T) => vo
 
     return (...args: T) =>
     {
-        if (!_requestId)
+        if (!(_requestId))
         {
             _args = args;
             _requestId = requestAnimationFrame(_requestCallback);

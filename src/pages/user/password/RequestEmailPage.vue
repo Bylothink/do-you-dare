@@ -70,7 +70,7 @@
     const initialize = () =>
     {
         const values = $cache.get<RequestEmailValues>(CACHE_KEY);
-        if (!values) { return; }
+        if (!(values)) { return; }
 
         const remainingTime = Expire.On(values.expiration, TimeUnit.Seconds);
 

@@ -49,7 +49,7 @@ export default abstract class GraphQLRequest<T = unknown, V = unknown>
 
     private _handleResponse({ data }: AxiosResponse<GraphQLResponse<T>>): T
     {
-        if ((data.errors) || (!data.data))
+        if ((data.errors) || !(data.data))
         {
             throw data;
         }
@@ -61,7 +61,7 @@ export default abstract class GraphQLRequest<T = unknown, V = unknown>
         if (isAxiosError(error))
         {
             const axiosError = error as AxiosError<GraphQLResponse>;
-            if (!axiosError.response)
+            if (!(axiosError.response))
             {
                 return new NetworkException("Unable to establish a connection to the server.", axiosError);
             }

@@ -13,7 +13,7 @@ router.beforeEach((to, from) =>
     if (to.meta.requiresAuth)
     {
         const $user = useUserStore();
-        if (!$user.isLogged)
+        if (!($user.isLogged))
         {
             router.push({ name: "user-log_in", query: { next: to.path } });
         }

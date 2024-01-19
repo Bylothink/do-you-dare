@@ -7,7 +7,7 @@ export default class GraphQLException extends Exception
 {
     public static PrintError({ message }: GraphQLError): string
     {
-        if (!PUNCTUATION_REGEX.test(message))
+        if (!(PUNCTUATION_REGEX.test(message)))
         {
             message += ".";
         }

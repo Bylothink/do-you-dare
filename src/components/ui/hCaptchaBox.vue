@@ -24,7 +24,7 @@
 
     onMounted(async () =>
     {
-        if (!window.hcaptcha)
+        if (!(window.hcaptcha))
         {
             await loadScript("https://js.hcaptcha.com/1/api.js");
         }

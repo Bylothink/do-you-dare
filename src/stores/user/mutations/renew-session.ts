@@ -1,16 +1,12 @@
 import { gql } from "graphql-tag";
 
+import type { UserData } from "@/models/user";
 import { GraphQLRequest } from "@/services";
 
 export interface RenewSessionResponse
 {
     token: string;
-    user: {
-        id: number;
-        isActive: boolean;
-        username: string;
-        email: string;
-    };
+    user: UserData;
 }
 export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSessionResponse }, Record<string, never>>
 {
@@ -21,7 +17,11 @@ export default class RenewSession extends GraphQLRequest<{ renewSession: RenewSe
                 id,
                 isActive,
                 username,
-                email
+                email,
+                firstName,
+                lastName,
+                dateJoined,
+                lastLogin
             }
         }
     }`;

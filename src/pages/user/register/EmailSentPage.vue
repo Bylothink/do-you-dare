@@ -21,7 +21,7 @@
             <hr />
             <div class="input-group">
                 <input class="form-control is-valid"
-                       :value="$user.email"
+                       :value="$user.value!.email"
                        readonly />
                 <AppButton :disabled="countdown.isRunning.value" @click="onClick">
                     Send a new email
@@ -63,13 +63,13 @@
     };
     const initialize = () =>
     {
-        if (!$user.isLogged)
+        if (!($user.isLogged))
         {
             return $router.replace({ name: "user-log_in" });
         }
 
         const expiration = $cache.get<number>(CACHE_KEY);
-        if (!expiration)
+        if (!(expiration))
         {
             return _startCountdown();
         }

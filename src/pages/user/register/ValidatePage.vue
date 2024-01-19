@@ -77,7 +77,7 @@
             const $route = $router.currentRoute.value;
 
             const token = $route.query.token as string;
-            if (!token)
+            if (!(token))
             {
                 throw new ValueException("The `token` URL query parameters is missing.");
             }

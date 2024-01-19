@@ -1,5 +1,6 @@
 import { gql } from "graphql-tag";
 
+import type { UserData } from "@/models/user";
 import { GraphQLRequest } from "@/services";
 
 export interface AuthenticateData
@@ -10,12 +11,7 @@ export interface AuthenticateData
 export interface AuthenticateResponse
 {
     token: string;
-    user: {
-        id: number;
-        isActive: boolean;
-        username: string;
-        email: string;
-    };
+    user: UserData;
 }
 export default class Authenticate
     extends GraphQLRequest<{ authenticate: AuthenticateResponse }, AuthenticateData>
@@ -28,7 +24,11 @@ export default class Authenticate
                 id,
                 isActive,
                 username,
-                email
+                email,
+                firstName,
+                lastName,
+                dateJoined,
+                lastLogin
             }
         }
     }`;

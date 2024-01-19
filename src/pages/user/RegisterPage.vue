@@ -102,7 +102,7 @@
         $vuert.emit({
             type: "success",
             icon: "circle-check",
-            message: `Account "${$user.username}" created successfully!`,
+            message: `Account "${$user.value!.username}" created successfully!`,
             timeout: 2500
         });
     };

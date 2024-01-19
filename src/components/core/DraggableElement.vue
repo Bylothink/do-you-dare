@@ -86,7 +86,7 @@
 
     const _onEventDrag = (evt: Point) =>
     {
-        if (!props.disabled)
+        if (!(props.disabled))
         {
             const dragEvt: DragEvent = {
                 mouse: { x: evt.x, y: evt.y },

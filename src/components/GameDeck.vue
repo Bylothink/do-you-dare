@@ -49,7 +49,7 @@
     const classes = computed((): Record<string, boolean> => ({ "inanimate": isCardInanimate.value }));
     const styles = computed((): Record<string, string> =>
     {
-        if (!isCardFacedown.value)
+        if (!(isCardFacedown.value))
         {
             let transform = `scale(1.25)`;
 
@@ -92,7 +92,7 @@
 
     const onClickInside = (evt: MouseEvent) =>
     {
-        if (!hasCardBeenDrawn.value)
+        if (!(hasCardBeenDrawn.value))
         {
             hasCardBeenDrawn.value = true;
         }

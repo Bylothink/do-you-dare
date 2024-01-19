@@ -1,22 +1,9 @@
 import type { App, ComponentPublicInstance, Plugin } from "vue";
 
 import { HandledException, HandlerBuilder, NetworkException } from "@byloth/exceptions";
-import type { DismissibleAlert } from "@byloth/vuert";
 
 import * as GraphQLExceptions from "@/services/graphql/exceptions";
 import useUserStore from "@/stores/user";
-
-const ERROR_ALERT: DismissibleAlert = {
-    type: "error",
-    icon: "circle-xmark",
-    title: "Oh, no! 😱",
-    message: "A mysterious error of an unknown nature just interrupted" +
-        " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +
-        "As you may have already guessed, whatever you were doing" +
-        " may have stopped working as intended; please, reload the page.",
-
-    dismissible: true
-};
 
 const errorsHandler: Plugin = {
     install(app: App, ...options: undefined[]): void
@@ -40,18 +27,6 @@ const errorsHandler: Plugin = {
         };
 
         const _handler = new HandlerBuilder()
-            .on(NetworkException, (exc) =>
-            {
-                $vuert.emit({
-                    type: "error",
-                    icon: "link-slash",
-                    title: "Network error!",
-                    message: `${exc.message} Please, try again later.`,
-                    dismissible: true
-                });
-
-                return new HandledException(exc);
-            })
             .on(GraphQLExceptions.AuthenticationException, (exc) =>
             {
                 let messageAppendix: string;
@@ -104,12 +79,34 @@ const errorsHandler: Plugin = {
 
                 return new HandledException(exc);
             })
+            .on(NetworkException, (exc) =>
+            {
+                $vuert.emit({
+                    type: "error",
+                    icon: "link-slash",
+                    title: "Network error!",
+                    message: `${exc.message} Please, try again later.`,
+                    dismissible: true
+                });
+
+                return new HandledException(exc);
+            })
             .default((exc) =>
             {
                 // eslint-disable-next-line no-console
                 console.error(exc);
 
-                $vuert.emit(ERROR_ALERT);
+                $vuert.emit({
+                    type: "error",
+                    icon: "circle-xmark",
+                    title: "Oh, no! 😱",
+                    message: "A mysterious error of an unknown nature just interrupted" +
+                        " the Ancient Ritual of Executing the Holy JavaScript Code.\n" +
+                        "As you may have already guessed, whatever you were doing" +
+                        " may have stopped working as intended; please, reload the page.",
+
+                    dismissible: true
+                });
             });
 
         app.config.errorHandler = (error: unknown, instance: ComponentPublicInstance | null, info: string) =>

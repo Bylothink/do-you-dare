@@ -78,7 +78,7 @@
         $vuert.emit({
             type: "success",
             icon: "circle-check",
-            message: `Authentication with user "${$user.username}" successfully!`,
+            message: `Authentication with user "${$user.value!.username}" successfully!`,
             timeout: 2500
         });
     };
