@@ -1,20 +1,3 @@
-<template>
-    <DraggableElement :is="GameCard"
-                      class="interactive"
-                      :class="classes"
-                      :x="x"
-                      :y="y"
-                      :disabled="!draggable"
-                      @click.passive="onClick"
-                      @drag="$emit('drag', $event)"
-                      @drop="$emit('drop', $event)"
-                      @mousedown.stop
-                      @update:x="$emit('update:x', $event)"
-                      @update:y="$emit('update:y', $event)">
-        <slot></slot>
-    </DraggableElement>
-</template>
-
 <script lang="ts" setup>
     import { computed } from "vue";
     import { useEventListener } from "@vueuse/core";
@@ -81,6 +64,23 @@
     useEventListener(window, "mousedown", onMouseDown, { passive: true });
     useEventListener(window, "mouseup", onMouseUp, { passive: true });
 </script>
+
+<template>
+    <DraggableElement :is="GameCard"
+                      class="interactive"
+                      :class="classes"
+                      :x="x"
+                      :y="y"
+                      :disabled="!draggable"
+                      @click.passive="onClick"
+                      @drag="$emit('drag', $event)"
+                      @drop="$emit('drop', $event)"
+                      @mousedown.stop
+                      @update:x="$emit('update:x', $event)"
+                      @update:y="$emit('update:y', $event)">
+        <slot></slot>
+    </DraggableElement>
+</template>
 
 <style lang="scss" scoped>
     .interactive

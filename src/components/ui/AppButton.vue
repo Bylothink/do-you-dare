@@ -1,13 +1,3 @@
-<template>
-    <ThemedElement :is="tag"
-                   class="btn"
-                   name="btn"
-                   :class="classes"
-                   v-bind="properties">
-        <slot></slot>
-    </ThemedElement>
-</template>
-
 <script lang="ts" setup>
     import { computed } from "vue";
 
@@ -37,3 +27,15 @@
         "btn-lg": props.large
     }));
 </script>
+
+<template>
+    <ThemedElement :is="tag"
+                   class="btn"
+                   name="btn"
+                   :class="classes"
+                   v-bind="properties">
+        <slot></slot>
+    </ThemedElement>
+</template>
+
+<style lang="scss" scoped></style>

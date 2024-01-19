@@ -1,9 +1,3 @@
-<template>
-    <Component :is="is" class="centered">
-        <slot></slot>
-    </Component>
-</template>
-
 <script lang="ts" setup>
     import type { Component, PropType } from "vue";
 
@@ -14,6 +8,12 @@
         }
     });
 </script>
+
+<template>
+    <Component :is="is" class="centered">
+        <slot></slot>
+    </Component>
+</template>
 
 <style lang="scss" scoped>
     .centered

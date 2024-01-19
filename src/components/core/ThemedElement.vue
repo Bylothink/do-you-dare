@@ -1,9 +1,3 @@
-<template>
-    <Component :is="is" :class="classes">
-        <slot></slot>
-    </Component>
-</template>
-
 <script lang="ts" setup>
     import { computed } from "vue";
     import type { Component, PropType } from "vue";
@@ -34,3 +28,11 @@
         return [`${props.theme}`];
     });
 </script>
+
+<template>
+    <Component :is="is" :class="classes">
+        <slot></slot>
+    </Component>
+</template>
+
+<style lang="scss" scoped></style>

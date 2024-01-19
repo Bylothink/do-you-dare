@@ -1,3 +1,40 @@
+<script lang="ts" setup>
+    import { ref } from "vue";
+    import { useRouter } from "vue-router";
+
+    import { useVuert } from "@byloth/vuert";
+
+    import useUserStore from "@/stores/user";
+
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import AppButton from "@/components/ui/AppButton.vue";
+    import CheckBox from "@/components/ui/CheckBox.vue";
+    import TextBox from "@/components/ui/TextBox.vue";
+
+    const $router = useRouter();
+    const $vuert = useVuert();
+    const $user = useUserStore();
+
+    const username = ref("");
+    const password = ref("");
+
+    const onSubmit = async () =>
+    {
+        const route = $router.currentRoute.value;
+        const nextPath = route.query.next as string || "/";
+
+        await $user.logIn(username.value, password.value);
+
+        $router.replace({ path: nextPath });
+        $vuert.emit({
+            type: "success",
+            icon: "circle-check",
+            message: `Authentication with user "${$user.value!.username}" successfully!`,
+            timeout: 2500
+        });
+    };
+</script>
+
 <template>
     <CenteredLayout id="log-in">
         <h1>Do you Dare?</h1>
@@ -47,42 +84,4 @@
     </CenteredLayout>
 </template>
 
-<script lang="ts" setup>
-    import { ref } from "vue";
-    import { useRouter } from "vue-router";
-
-    import { useVuert } from "@byloth/vuert";
-
-    import useUserStore from "@/stores/user";
-
-    import CenteredLayout from "@/layouts/CenteredLayout.vue";
-    import AppButton from "@/components/ui/AppButton.vue";
-    import CheckBox from "@/components/ui/CheckBox.vue";
-    import TextBox from "@/components/ui/TextBox.vue";
-
-    const $router = useRouter();
-    const $vuert = useVuert();
-    const $user = useUserStore();
-
-    const username = ref("");
-    const password = ref("");
-
-    const onSubmit = async () =>
-    {
-        const route = $router.currentRoute.value;
-        const nextPath = route.query.next as string || "/";
-
-        await $user.logIn(username.value, password.value);
-
-        $router.replace({ path: nextPath });
-        $vuert.emit({
-            type: "success",
-            icon: "circle-check",
-            message: `Authentication with user "${$user.value!.username}" successfully!`,
-            timeout: 2500
-        });
-    };
-</script>
-
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

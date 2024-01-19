@@ -1,3 +1,18 @@
+<script lang="ts" setup>
+    import { AlertHandler as BaseHandler } from "@byloth/vuert";
+
+    import AlertBox from "@/components/ui/AlertBox.vue";
+    import AppButton from "@/components/ui/AppButton.vue";
+
+    const getTheme = (type: string) =>
+    {
+        if (type === "error") { return "danger"; }
+        if (type === "alternative") { return "link"; }
+
+        return type;
+    };
+</script>
+
 <template>
     <BaseHandler v-slot="{ alert, isOpen, resolve }" class="alerts-handler container">
         <Transition appear
@@ -30,21 +45,6 @@
         </Transition>
     </BaseHandler>
 </template>
-
-<script lang="ts" setup>
-    import { AlertHandler as BaseHandler } from "@byloth/vuert";
-
-    import AlertBox from "@/components/ui/AlertBox.vue";
-    import AppButton from "@/components/ui/AppButton.vue";
-
-    const getTheme = (type: string) =>
-    {
-        if (type === "error") { return "danger"; }
-        if (type === "alternative") { return "link"; }
-
-        return type;
-    };
-</script>
 
 <style lang="scss" scoped>
     .alerts-handler

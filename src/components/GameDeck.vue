@@ -1,24 +1,3 @@
-<template>
-    <div class="deck">
-        <GameCard facedown />
-        <InteractiveCard v-model:x="cardPosition.x"
-                         v-model:y="cardPosition.y"
-                         :class="classes"
-                         :draggable="isCardDraggable"
-                         :drawn="hasCardBeenDrawn"
-                         :facedown="isCardFacedown"
-                         :style="styles"
-                         @click:inside="onClickInside"
-                         @click:outside="onClickOutside"
-                         @drag="onDrag"
-                         @drop="onDrop">
-            <div class="content">
-                <p>{{ card.text }}</p>
-            </div>
-        </InteractiveCard>
-    </div>
-</template>
-
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
     import { delay, nextAnimationFrame } from "@byloth/core";
@@ -150,6 +129,27 @@
         isCardBeingDragged.value = false;
     };
 </script>
+
+<template>
+    <div class="deck">
+        <GameCard facedown />
+        <InteractiveCard v-model:x="cardPosition.x"
+                         v-model:y="cardPosition.y"
+                         :class="classes"
+                         :draggable="isCardDraggable"
+                         :drawn="hasCardBeenDrawn"
+                         :facedown="isCardFacedown"
+                         :style="styles"
+                         @click:inside="onClickInside"
+                         @click:outside="onClickOutside"
+                         @drag="onDrag"
+                         @drop="onDrop">
+            <div class="content">
+                <p>{{ card.text }}</p>
+            </div>
+        </InteractiveCard>
+    </div>
+</template>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";

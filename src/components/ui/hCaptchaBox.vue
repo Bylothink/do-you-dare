@@ -1,7 +1,3 @@
-<template>
-    <div ref="$element" class="h-captcha-box"></div>
-</template>
-
 <script lang="ts" setup>
     import { onMounted, ref } from "vue";
     import { loadScript } from "@byloth/core";
@@ -43,6 +39,10 @@
         });
     });
 </script>
+
+<template>
+    <div ref="$element" class="h-captcha-box"></div>
+</template>
 
 <style lang="scss" scoped>
     .h-captcha-box

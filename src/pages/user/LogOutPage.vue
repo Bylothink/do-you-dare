@@ -1,7 +1,3 @@
-<template>
-    <span></span>
-</template>
-
 <script lang="ts" setup>
     import { useRouter } from "vue-router";
     import { useVuert } from "@byloth/vuert";
@@ -31,3 +27,9 @@
 
     executeLogout();
 </script>
+
+<template>
+    <span></span>
+</template>
+
+<style lang="scss" scoped></style>

@@ -1,29 +1,3 @@
-<template>
-    <div class="text-box">
-        <div class="form-floating" :class="validationClasses">
-            <input :id="id"
-                   :class="inputClasses"
-                   :disabled="disabled"
-                   :readonly="readonly"
-                   :required="required"
-                   :autocomplete="autocomplete"
-                   :placeholder="label"
-                   :type="type"
-                   :value="value"
-                   @input="onInput" />
-            <label :for="id">
-                {{ label }}
-            </label>
-        </div>
-        <div v-if="valid" class="valid-feedback">
-            {{ validMessage }}
-        </div>
-        <div v-if="invalid" class="invalid-feedback">
-            {{ invalidMessage }}
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
     import { computed } from "vue";
 
@@ -117,6 +91,32 @@
         emit("update:value", input.value);
     };
 </script>
+
+<template>
+    <div class="text-box">
+        <div class="form-floating" :class="validationClasses">
+            <input :id="id"
+                   :class="inputClasses"
+                   :disabled="disabled"
+                   :readonly="readonly"
+                   :required="required"
+                   :autocomplete="autocomplete"
+                   :placeholder="label"
+                   :type="type"
+                   :value="value"
+                   @input="onInput" />
+            <label :for="id">
+                {{ label }}
+            </label>
+        </div>
+        <div v-if="valid" class="valid-feedback">
+            {{ validMessage }}
+        </div>
+        <div v-if="invalid" class="invalid-feedback">
+            {{ invalidMessage }}
+        </div>
+    </div>
+</template>
 
 <style lang="scss" scoped>
     .text-box > .form-floating

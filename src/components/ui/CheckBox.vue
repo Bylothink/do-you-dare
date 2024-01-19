@@ -1,14 +1,3 @@
-<template>
-    <label :for="id">
-        <input :id="id"
-               :disabled="disabled"
-               :required="required"
-               type="checkbox"
-               @input="onCheck" />
-        <slot></slot>
-    </label>
-</template>
-
 <script lang="ts" setup>
     defineProps({
         id: {
@@ -40,5 +29,15 @@
     };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<template>
+    <label :for="id">
+        <input :id="id"
+               :disabled="disabled"
+               :required="required"
+               type="checkbox"
+               @input="onCheck" />
+        <slot></slot>
+    </label>
+</template>
+
+<style lang="scss" scoped></style>

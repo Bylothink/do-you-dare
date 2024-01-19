@@ -1,14 +1,3 @@
-<template>
-    <CenteredLayout id="game">
-        <GameDeck :card="card"
-                  @draw="createNewDraw"
-                  @fold="getNewCard" />
-        <h1 class="title">
-            Do you Dare?
-        </h1>
-    </CenteredLayout>
-</template>
-
 <script lang="ts" setup>
     import { ref, onMounted } from "vue";
 
@@ -46,6 +35,17 @@
 
     onMounted(getNewCard);
 </script>
+
+<template>
+    <CenteredLayout id="game">
+        <GameDeck :card="card"
+                  @draw="createNewDraw"
+                  @fold="getNewCard" />
+        <h1 class="title">
+            Do you Dare?
+        </h1>
+    </CenteredLayout>
+</template>
 
 <style lang="scss" scoped>
     #game

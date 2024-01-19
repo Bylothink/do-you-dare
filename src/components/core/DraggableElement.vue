@@ -1,14 +1,3 @@
-<template>
-    <Component :is="is"
-               class="draggable"
-               :class="classes"
-               :style="styles"
-               @mousedown.passive="onMouseDown"
-               @touchstart.passive="onTouchStart">
-        <slot></slot>
-    </Component>
-</template>
-
 <script lang="ts" setup>
     import { computed, reactive, ref } from "vue";
     import type { Component, PropType } from "vue";
@@ -178,6 +167,17 @@
     useEventListener(window, "mouseup", onMouseUp, { passive: true });
     useEventListener(window, "touchend", onTouchEnd, { passive: true });
 </script>
+
+<template>
+    <Component :is="is"
+               class="draggable"
+               :class="classes"
+               :style="styles"
+               @mousedown.passive="onMouseDown"
+               @touchstart.passive="onTouchStart">
+        <slot></slot>
+    </Component>
+</template>
 
 <style lang="scss" scoped>
     .draggable

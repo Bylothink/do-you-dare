@@ -1,12 +1,3 @@
-<template>
-    <RouterView v-slot="context">
-        <Transition name="fade" mode="out-in">
-            <Component :is="context.Component" :key="context.route.path" />
-        </Transition>
-    </RouterView>
-    <AlertsHandler />
-</template>
-
 <script lang="ts" setup>
     import { onMounted } from "vue";
     import { useVuert } from "@byloth/vuert";
@@ -55,6 +46,15 @@
         if ($user.isLogged) { $user.renewToken(); }
     });
 </script>
+
+<template>
+    <RouterView v-slot="context">
+        <Transition name="fade" mode="out-in">
+            <Component :is="context.Component" :key="context.route.path" />
+        </Transition>
+    </RouterView>
+    <AlertsHandler />
+</template>
 
 <style lang="scss">
     @import "@/assets/scss/index";

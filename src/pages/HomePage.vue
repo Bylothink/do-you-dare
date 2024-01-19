@@ -1,3 +1,32 @@
+<script lang="ts" setup>
+    import { useVuert } from "@byloth/vuert";
+
+    // import config from "@/config";
+
+    import CenteredLayout from "@/layouts/CenteredLayout.vue";
+
+    import AppButton from "@/components/ui/AppButton.vue";
+    import RoundButton from "@/components/ui/RoundButton.vue";
+    import GameCard from "@/components/GameCard.vue";
+
+    // const pages = config.pages.filter((page) => page.name !== "home");
+
+    const $vuert = useVuert();
+    const underConstruction = () =>
+    {
+        $vuert.emit({
+            type: "info",
+            icon: "screwdriver-wrench",
+            title: "We still working on it!",
+            message: "We're so sorry but, at the moment, this feature is not implemented yet.\n" +
+                "Please, come back and try again later.\n\n" +
+                "--\n" +
+                `The "Do you Dare?" team. ❤`,
+            dismissible: true
+        });
+    };
+</script>
+
 <template>
     <CenteredLayout id="home">
         <GameCard id="background-card" facedown />
@@ -39,35 +68,6 @@
         </RouterLink>
     </CenteredLayout>
 </template>
-
-<script lang="ts" setup>
-    import { useVuert } from "@byloth/vuert";
-
-    // import config from "@/config";
-
-    import CenteredLayout from "@/layouts/CenteredLayout.vue";
-
-    import AppButton from "@/components/ui/AppButton.vue";
-    import RoundButton from "@/components/ui/RoundButton.vue";
-    import GameCard from "@/components/GameCard.vue";
-
-    // const pages = config.pages.filter((page) => page.name !== "home");
-
-    const $vuert = useVuert();
-    const underConstruction = () =>
-    {
-        $vuert.emit({
-            type: "info",
-            icon: "screwdriver-wrench",
-            title: "We still working on it!",
-            message: "We're so sorry but, at the moment, this feature is not implemented yet.\n" +
-                "Please, come back and try again later.\n\n" +
-                "--\n" +
-                `The "Do you Dare?" team. ❤`,
-            dismissible: true
-        });
-    };
-</script>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";

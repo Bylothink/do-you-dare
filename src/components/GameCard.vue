@@ -1,14 +1,3 @@
-<template>
-    <div class="game-card" :class="classes">
-        <div class="face back">
-            <GameLogo />
-        </div>
-        <div class="face front">
-            <slot></slot>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
     import { computed } from "vue";
 
@@ -23,6 +12,17 @@
 
     const classes = computed((): Record<string, boolean> => ({ "facedown": props.facedown }));
 </script>
+
+<template>
+    <div class="game-card" :class="classes">
+        <div class="face back">
+            <GameLogo />
+        </div>
+        <div class="face front">
+            <slot></slot>
+        </div>
+    </div>
+</template>
 
 <style lang="scss" scoped>
     @use "@/assets/scss/variables";

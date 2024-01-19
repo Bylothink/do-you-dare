@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+    import AppButton from "./AppButton.vue";
+</script>
+
 <template>
     <AppButton class="round">
         <span class="spacer"></span>
@@ -6,10 +10,6 @@
         </div>
     </AppButton>
 </template>
-
-<script lang="ts" setup>
-    import AppButton from "./AppButton.vue";
-</script>
 
 <style lang="scss" scoped>
     .round
