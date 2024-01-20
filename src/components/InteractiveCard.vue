@@ -71,7 +71,7 @@
                       :class="classes"
                       :x="x"
                       :y="y"
-                      :disabled="!draggable"
+                      :disabled="!(draggable)"
                       @click.passive="onClick"
                       @drag="$emit('drag', $event)"
                       @drop="$emit('drop', $event)"

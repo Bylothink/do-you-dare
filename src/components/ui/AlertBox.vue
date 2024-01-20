@@ -22,8 +22,8 @@
 
     const classes = computed((): Record<string, boolean> => ({
         "alert-dismissible": props.dismissible,
-        "flex-horizontal": !props.title,
-        "flex-vertical": !!props.title
+        "flex-horizontal": !(props.title),
+        "flex-vertical": !!(props.title)
     }));
 </script>
 

@@ -75,7 +75,7 @@
         "is-invalid": props.invalid
     }));
     const inputClasses = computed((): Record<string, boolean> => ({
-        "form-control": !props.plaintext,
+        "form-control": !(props.plaintext),
         "form-control-plaintext": props.plaintext,
 
         "form-control-sm": props.small,
