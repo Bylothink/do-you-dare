@@ -57,9 +57,9 @@
                          type="password"
                          autocomplete="current-password"
                          required />
-                <CheckBox id="remember-me" title="Check this box if you want to stay logged in on this device">
-                    Remember me
-                </CheckBox>
+                <CheckBox id="remember-me"
+                          label="Remember me"
+                          title="Check this box if you want to stay logged in on this device" />
                 <hr />
                 <span style="display: block;">
                     Don't have an account yet?
