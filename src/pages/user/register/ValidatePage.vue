@@ -81,15 +81,9 @@
                     If you're not automatically redirected, click here to return to the home page.
                 </p>
                 <hr />
-                <RouterLink v-slot="{ href, navigate }"
-                            custom
-                            :to="{ name: 'home' }">
-                    <AppButton :href="href"
-                               title="Start playing!"
-                               @click="navigate">
-                        Start playing!
-                    </AppButton>
-                </RouterLink>
+                <AppButton title="Start playing!" :to="{ name: 'home' }">
+                    Start playing!
+                </AppButton>
             </template>
             <template #error>
                 <h3 class="mb-4">

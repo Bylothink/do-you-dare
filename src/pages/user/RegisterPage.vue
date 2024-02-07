@@ -7,9 +7,9 @@
     import config from "@/config";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import hCaptchaBox from "@/components/forms/hCaptchaBox.vue";
+    import TextBox from "@/components/forms/TextBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
-    import hCaptchaBox from "@/components/ui/hCaptchaBox.vue";
-    import TextBox from "@/components/ui/TextBox.vue";
 
     import useUserStore from "@/stores/user";
 

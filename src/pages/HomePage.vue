@@ -33,17 +33,12 @@
         <h1 class="title">
             Do you Dare?
         </h1>
-        <RouterLink v-slot="{ href, navigate }"
-                    custom
-                    :to="{ name: 'game' }">
-            <AppButton id="play-now-btn"
-                       large
-                       title="Start a new game"
-                       :href="href"
-                       @click="navigate">
-                Play now!
-            </AppButton>
-        </RouterLink>
+        <AppButton id="play-now-btn"
+                   large
+                   title="Start a new game"
+                   :to="{ name: 'game' }">
+            Play now!
+        </AppButton>
         <AppButton id="game-modes-btn"
                    large
                    theme="secondary"
@@ -55,17 +50,12 @@
                      @click="underConstruction">
             <span class="fa-solid fa-cogs"></span>
         </RoundButton>
-        <RouterLink v-slot="{ href, navigate }"
-                    custom
-                    :to="{ name: 'user-profile' }">
-            <RoundButton id="user-btn"
-                         large
-                         title="Go to your profile"
-                         :href="href"
-                         @click="navigate">
-                <span class="fa-solid fa-user"></span>
-            </RoundButton>
-        </RouterLink>
+        <RoundButton id="user-btn"
+                     large
+                     title="Go to your profile"
+                     :to="{ name: 'user-profile' }">
+            <span class="fa-solid fa-user"></span>
+        </RoundButton>
     </CenteredLayout>
 </template>
 

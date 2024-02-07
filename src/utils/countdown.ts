@@ -2,12 +2,13 @@ import { onScopeDispose, ref } from "vue";
 import type { Ref } from "vue";
 
 import { DeferredPromise } from "@byloth/core";
+import type { Interval } from "@byloth/core";
 
 const MULTIPLIER = 1000;
 
 export default class Countdown
 {
-    protected _intervalId?: number;
+    protected _intervalId?: Interval;
     protected _deferrer?: DeferredPromise<void>;
 
     public readonly duration: number;

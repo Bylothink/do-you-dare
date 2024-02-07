@@ -22,7 +22,7 @@
         & > .spacer
         {
             display: block;
-            padding: 50% 0px;
+            padding: 50% 0px; // TODO: Use `aspect-ratio` property.
         }
         & > .content
         {

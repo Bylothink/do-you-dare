@@ -16,7 +16,7 @@
 
     const emit = defineEmits(["update:value"]);
 
-    const $element = ref<HTMLDivElement>();
+    const $el = ref<HTMLDivElement>();
 
     onMounted(async () =>
     {
@@ -25,7 +25,7 @@
             await loadScript("https://js.hcaptcha.com/1/api.js");
         }
 
-        window.hcaptcha.render($element.value!, {
+        window.hcaptcha.render($el.value!, {
             "sitekey": props.siteKey,
             // "theme": "dark",
 
@@ -41,7 +41,7 @@
 </script>
 
 <template>
-    <div ref="$element" class="h-captcha-box"></div>
+    <div ref="$el" class="h-captcha-box"></div>
 </template>
 
 <style lang="scss" scoped>

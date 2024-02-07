@@ -7,9 +7,9 @@
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import CheckBox from "@/components/forms/CheckBox.vue";
+    import TextBox from "@/components/forms/TextBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
-    import CheckBox from "@/components/ui/CheckBox.vue";
-    import TextBox from "@/components/ui/TextBox.vue";
 
     const $router = useRouter();
     const $vuert = useVuert();

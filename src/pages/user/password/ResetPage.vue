@@ -8,8 +8,8 @@
     import useUserStore from "@/stores/user";
 
     import CenteredLayout from "@/layouts/CenteredLayout.vue";
+    import TextBox from "@/components/forms/TextBox.vue";
     import AppButton from "@/components/ui/AppButton.vue";
-    import TextBox from "@/components/ui/TextBox.vue";
 
     const $router = useRouter();
     const $vuert = useVuert();
