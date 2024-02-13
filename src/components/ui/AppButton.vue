@@ -31,6 +31,11 @@
         large: {
             default: false,
             type: Boolean
+        },
+
+        type: {
+            default: "button",
+            type: String
         }
     });
 
@@ -47,6 +52,7 @@
 
         if (props.to) { _props["to"] = props.to; }
         else if (props.href) { _props["href"] = props.href; }
+        else { _props["type"] = props.type; }
 
         if (props.outline) { _props["theme"] = `outline-${props.theme}`; }
         else { _props["theme"] = props.theme; }

@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
 import { computed } from "vue";
 import { defineStore } from "pinia";
 
@@ -18,7 +18,7 @@ export default defineStore("user", () =>
      * Cookie acknowledgement
      */
 
-    const _cookieAck = ref(jsonStorage.read<CookieAcknowledgement>("user:cookieAck"));
+    const _cookieAck = shallowRef(jsonStorage.read<CookieAcknowledgement>("user:cookieAck"));
     const _setCookieAck = (value: boolean): void =>
     {
         _cookieAck.value = { value: value, version: COOKIE_VERSION };
@@ -42,7 +42,7 @@ export default defineStore("user", () =>
     /*
      * User information
      */
-    const value = ref<User>();
+    const value = shallowRef<User>();
 
     /*
      * User authentication

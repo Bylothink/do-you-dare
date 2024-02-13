@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { ref, onMounted } from "vue";
+    import { shallowRef, onMounted } from "vue";
 
     import useGameStore from "@/stores/game";
 
@@ -10,7 +10,7 @@
 
     const $game = useGameStore();
 
-    const card = ref<Card>();
+    const card = shallowRef<Card>();
 
     const getNewCard = async () =>
     {

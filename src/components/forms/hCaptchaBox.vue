@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-    import { onMounted, ref } from "vue";
+    import { onMounted, shallowRef } from "vue";
     import { loadScript } from "@byloth/core";
 
     const props = defineProps({
@@ -16,7 +16,7 @@
 
     const emit = defineEmits(["update:value"]);
 
-    const $el = ref<HTMLDivElement>();
+    const $el = shallowRef<HTMLDivElement>();
 
     onMounted(async () =>
     {
