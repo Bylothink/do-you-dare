@@ -138,6 +138,16 @@ a
 {
     cursor: not-allowed;
     pointer-events: auto;
+
+    &:active
+    {
+        background-color: var(--bs-btn-disabled-bg);
+        background-image: none;
+        box-shadow: none;
+        border-color: var(--bs-btn-disabled-border-color);
+        color: var(--bs-btn-disabled-color);
+        opacity: var(--bs-btn-disabled-opacity);
+    }
 }
 .btn-link
 {

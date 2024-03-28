@@ -3,7 +3,7 @@
     import { useVuert } from "@byloth/vuert";
 
     import CookieAlert from "./components/alerts/CookieAlert.vue";
-    import AlertsHandler from "./components/handlers/AlertsHandler.vue";
+    import AlertHandler from "./components/handlers/AlertHandler.vue";
 
     import useUserStore from "./stores/user";
 
@@ -33,14 +33,8 @@
                 ]
             });
 
-            if (result)
-            {
-                $user.acceptCookies();
-            }
-            else
-            {
-                $user.declineCookies();
-            }
+            if (result) { $user.acceptCookies(); }
+            else { $user.declineCookies(); }
         }
 
         if ($user.isLogged) { $user.renewToken(); }
@@ -53,7 +47,7 @@
             <Component :is="context.Component" :key="context.route.path" />
         </Transition>
     </RouterView>
-    <AlertsHandler />
+    <AlertHandler />
 </template>
 
 <style lang="scss">

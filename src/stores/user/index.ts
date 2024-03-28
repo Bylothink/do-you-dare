@@ -1,6 +1,7 @@
-import { ref, shallowRef } from "vue";
-import { computed } from "vue";
+import { computed, ref, shallowRef } from "vue";
 import { defineStore } from "pinia";
+
+import { DeferredPromise } from "@byloth/core";
 
 import { User } from "@/models";
 import { jsonStorage } from "@/utils";
@@ -59,14 +60,19 @@ export default defineStore("user", () =>
 
     const isLogged = computed((): boolean => !!(_token.value));
 
-    async function logIn(username: string, password: string): Promise<void>
+    async function logIn(username: string, password: string): Promise<User>
     {
         const request = new Mutations.Authenticate({ username, password });
         const response = await request.execute();
 
         _setToken(response.token);
 
-        value.value = new User(response.user);
+        const user = new User(response.user);
+
+        value.value = user;
+        _auth.resolve(user);
+
+        return user;
     }
     async function logOut(): Promise<void>
     {
@@ -77,14 +83,19 @@ export default defineStore("user", () =>
         await request.execute();
     }
 
-    async function renewToken(): Promise<void>
+    async function renewToken(): Promise<User>
     {
         const request = new Mutations.RenewSession(_token.value!);
         const response = await request.execute();
 
         _setToken(response.token);
 
-        value.value = new User(response.user);
+        const user = new User(response.user);
+
+        value.value = user;
+        _auth.resolve(user);
+
+        return user;
     }
 
     async function requestPasswordResetEmail(_email: string): Promise<void>
@@ -102,14 +113,19 @@ export default defineStore("user", () =>
         await request.execute();
     }
 
-    async function register(data: RegisterData): Promise<void>
+    async function register(data: RegisterData): Promise<User>
     {
         const request = new Mutations.Register(data);
         const response = await request.execute();
 
         _setToken(response.token);
 
-        value.value = new User(response.user);
+        const user = new User(response.user);
+
+        value.value = user;
+        _auth.resolve(user);
+
+        return user;
     }
     async function requestNewValidationEmail(): Promise<void>
     {
@@ -125,12 +141,21 @@ export default defineStore("user", () =>
     /*
      * Utilities
      */
-    const clear = (): void =>
-    {
-        _setToken();
+    let _auth: DeferredPromise<User> = new DeferredPromise();
 
+    function clear(): void
+    {
+        if (_auth.isPending) { _auth.reject(); }
+
+        _auth = new DeferredPromise();
         value.value = undefined;
-    };
+
+        _setToken();
+    }
+    function wait(): Promise<User>
+    {
+        return _auth;
+    }
 
     return {
         hasAcceptedCookies,
@@ -151,6 +176,7 @@ export default defineStore("user", () =>
         verifyEmail,
 
         value,
-        clear
+        clear,
+        wait
     };
 });
