@@ -23,9 +23,22 @@
     const email = ref("");
     const token = ref("");
 
+    const onTokenAcquired = (value: string) => { token.value = value; };
+    const onTokenExpired = () => { token.value = ""; };
+
     const onSubmit = async () =>
     {
-        if (password.value !== checkPassword.value)
+        if (!(token.value))
+        {
+            return $vuert.emit({
+                type: "warning",
+                icon: "robot",
+                title: "Are you a human being?",
+                message: "Please, verify that you're not a robot before proceeding.",
+                dismissible: true
+            });
+        }
+        else if (password.value !== checkPassword.value)
         {
             return $vuert.emit({
                 type: "error",
@@ -62,34 +75,36 @@
         <div>
             <form class="mx-3" @submit.prevent="onSubmit">
                 <TextBox id="username"
-                         v-model:value="username"
+                         v-model="username"
                          class="mb-3"
                          label="Username"
                          type="text"
                          autocomplete="username"
                          required />
                 <TextBox id="email"
-                         v-model:value="email"
+                         v-model="email"
                          class="mb-3"
                          label="Email address"
                          type="email"
                          autocomplete="email"
                          required />
                 <TextBox id="password"
-                         v-model:value="password"
+                         v-model="password"
                          class="mb-3"
                          label="Password"
                          type="password"
                          autocomplete="new-password"
                          required />
                 <TextBox id="check-password"
-                         v-model:value="checkPassword"
+                         v-model="checkPassword"
                          class="mb-3"
                          label="Confirm password"
                          type="password"
                          autocomplete="new-password"
                          required />
-                <hCaptchaBox v-model:value="token" :site-key="config.hCaptchaSiteKey" />
+                <hCaptchaBox :site-key="config.hCaptchaSiteKey"
+                             @token:acquired="onTokenAcquired"
+                             @token:expired="onTokenExpired" />
                 <hr />
                 <span>
                     Already have an account?

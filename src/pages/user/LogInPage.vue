@@ -44,14 +44,14 @@
         <div>
             <form class="mx-3" @submit.prevent="onSubmit">
                 <TextBox id="username"
-                         v-model:value="username"
+                         v-model="username"
                          class="mb-3"
                          label="Username"
                          type="text"
                          autocomplete="username"
                          required />
                 <TextBox id="password"
-                         v-model:value="password"
+                         v-model="password"
                          class="mb-3"
                          label="Password"
                          type="password"

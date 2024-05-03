@@ -83,7 +83,7 @@
             <form class="mx-3" @submit.prevent="onSubmit">
                 <div class="input-group mb-3">
                     <TextBox id="email"
-                             v-model:value="email"
+                             v-model="email"
                              label="Email address"
                              type="email"
                              autocomplete="email"

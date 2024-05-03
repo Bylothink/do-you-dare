@@ -6,15 +6,10 @@
         siteKey: {
             required: true,
             type: String
-        },
-
-        value: {
-            default: "",
-            type: String
         }
     });
 
-    const emit = defineEmits(["update:value"]);
+    const emit = defineEmits(["token:acquired", "token:expired"]);
 
     const $el = shallowRef<HTMLDivElement>();
 
@@ -29,9 +24,9 @@
             "sitekey": props.siteKey,
             // "theme": "dark",
 
-            "callback": (token: string) => emit("update:value", token),
-            "expired-callback": () => emit("update:value", ""),
-            "chalexpired-callback": () => emit("update:value", "")
+            "callback": (token: string) => emit("token:acquired", token),
+            "expired-callback": () => emit("token:expired"),
+            "chalexpired-callback": () => emit("token:expired")
 
             // "open-callback": (...args: unknown[]) => console.log("open-callback", args),
             // "close-callback": (...args: unknown[]) => console.log("close-callback", args),

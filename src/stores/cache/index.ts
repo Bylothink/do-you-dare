@@ -23,10 +23,7 @@ export default defineStore("cache", () =>
         const cache = jsonStorage.recall<CachedValue<T>>(`cache:${key}`);
         if (cache?.version === CACHE_VERSION)
         {
-            if (cache.expiration > Date.now())
-            {
-                return cache.value;
-            }
+            if (cache.expiration > Date.now()) { return cache.value; }
         }
 
         jsonStorage.forget(`cache:${key}`);

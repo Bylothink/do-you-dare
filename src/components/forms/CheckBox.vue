@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-    import { computed } from "vue";
+    import { computed, useAttrs } from "vue";
     import type { PropType } from "vue";
+
+    const $attrs = useAttrs();
 
     const props = defineProps({
         id: {
@@ -12,40 +14,39 @@
             type: String
         },
 
-        value: {
+        modelValue: {
             default: false,
             type: [Boolean, null] as PropType<boolean | null>
-        },
-
-        disabled: {
-            default: false,
-            type: Boolean
-        },
-        required: {
-            default: false,
-            type: Boolean
         }
     });
 
-    const indeterminate = computed((): boolean => (props.value === null));
+    const properties = computed(() =>
+    {
+        const { "class": _c, "style": _s, ...rest } = $attrs;
 
-    const emit = defineEmits(["update:value"]);
+        return rest;
+    });
+
+    const checked = computed((): boolean => (props.modelValue === true));
+    const indeterminate = computed((): boolean => (props.modelValue === null));
+
+    const emit = defineEmits(["update:modelValue"]);
     const onCheck = (evt: Event) =>
     {
         const input = evt.target as HTMLInputElement;
 
-        emit("update:value", input.checked);
+        emit("update:modelValue", input.checked);
     };
 </script>
 
 <template>
     <div class="check-box form-check">
         <input :id="id"
-               :disabled="disabled"
+               :checked="checked"
                :indeterminate="indeterminate"
-               :required="required"
                class="form-check-input"
                type="checkbox"
+               v-bind="properties"
                @input="onCheck" />
         <label class="form-check-label" :for="id">
             {{ label }}

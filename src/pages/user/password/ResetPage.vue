@@ -72,14 +72,14 @@
             <hr />
             <form class="mx-3" @submit.prevent="onSubmit">
                 <TextBox id="password"
-                         v-model:value="password"
+                         v-model="password"
                          class="mb-3"
                          label="Password"
                          type="password"
                          autocomplete="new-password"
                          required />
                 <TextBox id="check-password"
-                         v-model:value="checkPassword"
+                         v-model="checkPassword"
                          class="mb-3"
                          label="Confirm password"
                          type="password"

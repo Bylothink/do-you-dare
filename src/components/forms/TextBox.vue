@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-    import { computed } from "vue";
+    import { computed, useAttrs } from "vue";
+
+    const $attrs = useAttrs();
 
     const props = defineProps({
         id: {
@@ -10,35 +12,10 @@
             required: true,
             type: String
         },
-        autocomplete: {
+
+        modelValue: {
             default: "",
             type: String
-        },
-
-        value: {
-            default: "",
-            type: String
-        },
-        type: {
-            default: "text",
-            type: String
-        },
-
-        disabled: {
-            default: false,
-            type: Boolean
-        },
-        plaintext: {
-            default: false,
-            type: Boolean
-        },
-        readonly: {
-            default: false,
-            type: Boolean
-        },
-        required: {
-            default: false,
-            type: Boolean
         },
 
         small: {
@@ -46,6 +23,10 @@
             type: Boolean
         },
         large: {
+            default: false,
+            type: Boolean
+        },
+        plaintext: {
             default: false,
             type: Boolean
         },
@@ -68,7 +49,14 @@
         }
     });
 
-    const emit = defineEmits(["update:value"]);
+    const emit = defineEmits(["update:modelValue"]);
+
+    const properties = computed(() =>
+    {
+        const { "class": _c, "style": _s, ...rest } = $attrs;
+
+        return rest;
+    });
 
     const validationClasses = computed((): Record<string, boolean> => ({
         "is-valid": props.valid,
@@ -88,7 +76,7 @@
     {
         const input = evt.target as HTMLInputElement;
 
-        emit("update:value", input.value);
+        emit("update:modelValue", input.value);
     };
 </script>
 
@@ -97,22 +85,18 @@
         <div class="form-floating" :class="validationClasses">
             <input :id="id"
                    :class="inputClasses"
-                   :disabled="disabled"
-                   :readonly="readonly"
-                   :required="required"
-                   :autocomplete="autocomplete"
                    :placeholder="label"
-                   :type="type"
-                   :value="value"
+                   :value="modelValue"
+                   v-bind="properties"
                    @input="onInput" />
             <label :for="id">
                 {{ label }}
             </label>
         </div>
-        <div v-if="valid" class="valid-feedback">
+        <div v-if="valid && validMessage" class="valid-feedback">
             {{ validMessage }}
         </div>
-        <div v-if="invalid" class="invalid-feedback">
+        <div v-if="invalid && invalidMessage" class="invalid-feedback">
             {{ invalidMessage }}
         </div>
     </div>
