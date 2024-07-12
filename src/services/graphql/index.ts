@@ -4,7 +4,7 @@ import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import { GraphQLError, print } from "graphql";
 import type { DocumentNode } from "graphql";
 
-import { NetworkException } from "@byloth/exceptions";
+import { NetworkException } from "@byloth/core";
 
 import config from "@/config";
 

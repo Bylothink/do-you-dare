@@ -2,7 +2,7 @@
     import { ref } from "vue";
     import { useRouter } from "vue-router";
 
-    import { ValueException } from "@byloth/exceptions";
+    import { ValueException } from "@byloth/core";
     import { useVuert } from "@byloth/vuert";
 
     import useUserStore from "@/stores/user";

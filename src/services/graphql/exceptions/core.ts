@@ -1,5 +1,6 @@
 import type { GraphQLError } from "graphql";
-import { Exception } from "@byloth/exceptions";
+
+import { Exception } from "@byloth/core";
 
 const PUNCTUATION_REGEX = /[.!?()]$/;
 

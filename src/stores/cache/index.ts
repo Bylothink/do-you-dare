@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-import { NotImplementedException } from "@byloth/exceptions";
+import { NotImplementedException } from "@byloth/core";
 
 import { jsonStorage } from "@/utils";
 import Expire from "@/utils/expire";

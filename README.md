@@ -10,7 +10,7 @@ A web-game based on the original game of "Truth or Dare?" with different game mo
 To install all the dependencies required by this project, you need to run:
 
 ```bash
-$ yarn install
+$ pnpm install
 ```
 
 ### Develop
@@ -18,7 +18,7 @@ $ yarn install
 To run this project in `development` mode with also the auto-refresh feature, you need to run:
 
 ```bash
-$ yarn dev
+$ pnpm dev
 ```
 
 ### Contribute
@@ -26,7 +26,7 @@ $ yarn dev
 To lint this project and check for any syntax or stylistic errors, you need to run:
 
 ```bash
-$ yarn lint
+$ pnpm lint
 ```
 
 ### Publish
@@ -34,7 +34,7 @@ $ yarn lint
 To build this project in `production` mode with also tree-shaking and minifing features, you need to run:
 
 ```bash
-$ yarn build
+$ pnpm build
 ```
 
 After built this project, you'll find all the production-ready files in the `dist/` directory.  

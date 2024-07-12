@@ -1,4 +1,6 @@
-FROM node:20.10-alpine as builder
+FROM node:20.15-alpine AS builder
+
+RUN corepack enable pnpm
 
 WORKDIR "/opt/do-you-dare"
 COPY . ./
@@ -9,10 +11,10 @@ RUN touch .env \
  && echo "VITE_BACKEND_URL=${BACKEND_URL}" >> .env \
  && echo "VITE_HCAPTCHA_SITE_KEY=${HCAPTCHA_SITE_KEY}" >> .env \
  \
- && yarn ci \
- && yarn build
+ && pnpm run ci \
+ && pnpm build
 
-FROM nginx:1.25-alpine
+FROM nginx:1.27-alpine
 
 COPY --from=builder /opt/do-you-dare/dist/ /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf

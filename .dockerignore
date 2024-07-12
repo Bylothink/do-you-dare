@@ -26,7 +26,7 @@ dist/
 
 # Log files
 #
-yarn-error.log
+*.log
 
 # GIT files
 #

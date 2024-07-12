@@ -1,6 +1,7 @@
 import type { App, ComponentPublicInstance, Plugin } from "vue";
 
-import { HandledException, HandlerBuilder, NetworkException } from "@byloth/exceptions";
+import { NetworkException } from "@byloth/core";
+import { HandledException, HandlerBuilder } from "@byloth/exceptions";
 
 import * as GraphQLExceptions from "@/services/graphql/exceptions";
 import useUserStore from "@/stores/user";
