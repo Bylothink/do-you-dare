@@ -3,7 +3,7 @@ import { JsonStorage } from "@byloth/core";
 
 export const jsonStorage = new JsonStorage();
 
-export function withFrame<T extends Array<unknown>>(callback: (...args: T) => void): (...args: T) => void
+export function withFrame<T extends unknown[]>(callback: (...args: T) => void): (...args: T) => void
 {
     let _args: T;
     let _requestId: number | null = null;

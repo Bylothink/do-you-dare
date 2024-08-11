@@ -41,16 +41,14 @@
         </h3>
         <span v-else-if="icon"
               class="fa-solid"
-              :class="`fa-${icon}`">
-        </span>
+              :class="`fa-${icon}`"></span>
         <slot></slot>
         <button v-if="dismissible"
                 class="btn btn-close"
                 aria-label="Close"
                 type="button"
                 @click="$emit('dismiss', $event)">
-            <span class="fa-solid fa-times">
-            </span>
+            <span class="fa-solid fa-times"></span>
         </button>
     </ThemedElement>
 </template>

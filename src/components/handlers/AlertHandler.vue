@@ -14,7 +14,8 @@
 </script>
 
 <template>
-    <BaseHandler v-slot="{ alert, customComponent, isOpen, resolve }" class="alerts-handler container">
+    <BaseHandler v-slot="{ alert, customComponent, isOpen, queue, resolve, reject }"
+                 class="alerts-handler container">
         <Transition appear
                     name="fade"
                     mode="out-in">
@@ -26,7 +27,11 @@
                       :dismissible="alert.dismissible"
                       @dismiss="resolve">
                 <div v-if="customComponent">
-                    <Component :is="customComponent" :close="resolve" />
+                    <Component :is="customComponent"
+                               :alert="alert"
+                               :queue="queue"
+                               :resolve="resolve"
+                               :reject="reject" />
                 </div>
                 <pre v-else>{{ alert.message }}</pre>
                 <template v-if="alert.actions?.length">
@@ -47,15 +52,17 @@
 </template>
 
 <style lang="scss" scoped>
+    @use "@/assets/scss/variables";
+
     .alerts-handler
     {
         bottom: 0px;
         left: 0px;
+        margin-top: 1rem;
+        pointer-events: none;
         position: fixed;
         right: 0px;
-        text-align: initial;
-        pointer-events: none;
-        top: 1em;
+        top: 0px;
         z-index: 5;
 
         & > .alert
@@ -89,7 +96,8 @@
             &.fade-enter-active,
             &.fade-leave-active
             {
-                transition: opacity 250ms ease-in-out, transform 250ms ease-in-out;
+                transition: opacity variables.$transition-duration variables.$transition-timing-function,
+                            transform variables.$transition-duration variables.$transition-timing-function;
             }
             &.fade-enter-to,
             &.fade-leave-from

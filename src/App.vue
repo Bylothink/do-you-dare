@@ -1,6 +1,8 @@
 <script lang="ts" setup>
     import { onMounted } from "vue";
+
     import { useVuert } from "@byloth/vuert";
+    import type { BlockingCustomAlert } from "@byloth/vuert";
 
     import CookieAlert from "./components/alerts/CookieAlert.vue";
     import AlertHandler from "./components/handlers/AlertHandler.vue";
@@ -10,31 +12,36 @@
     const $vuert = useVuert();
     const $user = useUserStore();
 
+    const _cookieAlert: BlockingCustomAlert<boolean> = {
+        id: Symbol("[do-you-dare]: cookie-alert"),
+        type: "info",
+        icon: "cookie-bite",
+        title: "Cookie policy",
+        component: CookieAlert,
+        actions: [
+            {
+                type: "primary",
+                label: "Accept",
+                callback: () => true
+            },
+            {
+                type: "secondary",
+                label: "Decline",
+                callback: () => false
+            }
+        ]
+    };
+
     onMounted(async () =>
     {
         if ($user.hasAcceptedCookies === undefined)
         {
-            const result = await $vuert.emit({
-                type: "info",
-                icon: "cookie-bite",
-                title: "Cookie policy",
-                component: CookieAlert,
-                actions: [
-                    {
-                        type: "primary",
-                        label: "Accept",
-                        callback: () => true
-                    },
-                    {
-                        type: "secondary",
-                        label: "Decline",
-                        callback: () => false
-                    }
-                ]
-            });
-
-            if (result) { $user.acceptCookies(); }
-            else { $user.declineCookies(); }
+            $vuert.emit(_cookieAlert)
+                .then((result) =>
+                {
+                    if (result) { $user.acceptCookies(); }
+                    else { $user.declineCookies(); }
+                });
         }
 
         if ($user.isLogged) { $user.renewToken(); }
