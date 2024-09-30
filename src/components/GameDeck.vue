@@ -36,9 +36,9 @@
             {
                 const filter = `brightness(${(cardPosition.y / 12.5) + 100}%)`;
 
-                transform += `rotateX(${cardPosition.y / 25}deg) ` +
-                    `rotateY(${-cardPosition.x / 25}deg)` +
-                    `rotateZ(${cardPosition.x / 50}deg)`;
+                transform += `perspective(1000px) ` +
+                    `rotateX(${cardPosition.y / 25}deg) ` +
+                    `rotateY(${-cardPosition.x / 25}deg)`;
 
                 return { filter, transform };
             }
