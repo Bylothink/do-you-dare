@@ -96,8 +96,8 @@
             &.fade-enter-active,
             &.fade-leave-active
             {
-                transition: opacity variables.$transition-duration variables.$transition-timing-function,
-                            transform variables.$transition-duration variables.$transition-timing-function;
+                transition: opacity variables.$transition-duration variables.$transition-timing,
+                            transform variables.$transition-duration variables.$transition-timing;
             }
             &.fade-enter-to,
             &.fade-leave-from

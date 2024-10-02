@@ -1,7 +1,7 @@
 import { onScopeDispose } from "vue";
-import { JsonStorage } from "@byloth/core";
+import { JSONStorage } from "@byloth/core";
 
-export const jsonStorage = new JsonStorage();
+export const jsonStorage = new JSONStorage();
 
 export function withFrame<T extends unknown[]>(callback: (...args: T) => void): (...args: T) => void
 {
